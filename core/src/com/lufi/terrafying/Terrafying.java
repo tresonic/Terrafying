@@ -17,7 +17,7 @@ public class Terrafying extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 1, 0, 1);
+		ScreenUtils.clear(0, 0, 1, 1);
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
