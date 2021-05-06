@@ -20,11 +20,9 @@ public class GameScreen implements Screen {
 		name = playerName;
 		ip = serverAddress;
 		client = new TerrafyingClient(world);
-	}
-	
-	public void connect() {
 		client.connect(name, ip, 30000, 30001);
 	}
+	
 	
 	@Override
 	public void show() {
@@ -71,4 +69,7 @@ public class GameScreen implements Screen {
 		return client.connected;
 	}
 
+	public boolean isConnecting() {
+		return client.connecting;
+	}
 }

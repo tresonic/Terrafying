@@ -62,6 +62,11 @@ public class MainMenuScreen implements Screen {
 		
 		HorizontalGroup jGrp = new HorizontalGroup();
 		joinButton = new TextButton("Join", skin);
+		joinButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
+			}
+		});
 		joinIpField = new TextField("127.0.0.1", skin);
 		jGrp.addActor(joinIpField);
 		jGrp.addActor(joinButton);
@@ -71,7 +76,7 @@ public class MainMenuScreen implements Screen {
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				TerrafyingServer.the().start();
-				game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
+				game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
 			}
 		});
 		root.addActor(hostButton);

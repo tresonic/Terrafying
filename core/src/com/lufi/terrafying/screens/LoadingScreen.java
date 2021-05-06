@@ -14,15 +14,14 @@ public class LoadingScreen implements Screen {
 	private Stage stage;
 	private Skin skin;
 	
-	private String name, ip;
+	private boolean connected;
 	private GameScreen gameScreen;
 	
 	private Label loadField;
 	
 	public LoadingScreen(final Game g, String playerName, String serverIp) {
 		game = g;
-		name = playerName;
-		ip = serverIp;
+		connected = false;
 		
 		stage = new Stage();
 		
@@ -37,12 +36,13 @@ public class LoadingScreen implements Screen {
 	
 	@Override
 	public void show() {
-		gameScreen.connect();
 	}
 
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0,0,0,1);
+		if(!gameScreen.isConnected() && !gameScreen.isConnecting())
+			game.setScreen(new MainMenuScreen(game));
 		if(gameScreen.isConnected())
 			game.setScreen(gameScreen);
 		stage.act();
