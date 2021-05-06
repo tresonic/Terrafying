@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.net.TerrafyingServer;
 
 
 
@@ -69,8 +70,8 @@ public class MainMenuScreen implements Screen {
 		hostButton = new TextButton("Host", skin);
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				System.out.println("host game button clicked");
-				game.setScreen(new GameScreen());
+				TerrafyingServer.the().start();
+				game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
 			}
 		});
 		root.addActor(hostButton);

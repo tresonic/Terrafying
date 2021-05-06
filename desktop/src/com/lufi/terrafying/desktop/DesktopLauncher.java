@@ -9,6 +9,9 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1600;
 		config.height = 900;
+		config.title = "Terrafying";
+		// add icon in the future!!!
+		// config.addIcon(path, fileType);
 		new LwjglApplication(new Terrafying(), config);
 	}
 }
