@@ -1,6 +1,7 @@
 package com.lufi.terrafying;
 
 import com.badlogic.gdx.Game;
+import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.*;
 
 
@@ -18,6 +19,5 @@ public class Terrafying extends Game {
 	
 	@Override
 	public void dispose () {
-
 	}
 }

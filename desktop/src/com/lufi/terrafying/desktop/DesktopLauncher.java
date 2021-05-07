@@ -7,11 +7,12 @@ import com.lufi.terrafying.Terrafying;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1600;
-		config.height = 900;
+		config.width = 800;
+		config.height = 600;
 		config.title = "Terrafying";
 		// add icon in the future!!!
 		// config.addIcon(path, fileType);
+		System.out.println("starting the game!!!!!!!!!!!");
 		new LwjglApplication(new Terrafying(), config);
 	}
 }

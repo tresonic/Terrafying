@@ -1,5 +1,7 @@
 package com.lufi.terrafying.screens;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Game;
@@ -56,6 +58,7 @@ public class MainMenuScreen implements Screen {
 		nameLabel = new Label("Enter Player Name:", skin);
 		root.addActor(nameLabel);
 		nameField = new TextField("", skin);
+		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 92)));
 		root.addActor(nameField);
 		spaceLabel = new Label("", skin);
 		root.addActor(spaceLabel);
@@ -64,7 +67,8 @@ public class MainMenuScreen implements Screen {
 		joinButton = new TextButton("Join", skin);
 		joinButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
+				if(!nameField.getText().isEmpty())
+					game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
 			}
 		});
 		joinIpField = new TextField("127.0.0.1", skin);
@@ -75,8 +79,10 @@ public class MainMenuScreen implements Screen {
 		hostButton = new TextButton("Host", skin);
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				TerrafyingServer.the().start();
-				game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
+				if(!nameField.getText().isEmpty()) {
+					TerrafyingServer.the().start();
+					game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
+				}
 			}
 		});
 		root.addActor(hostButton);

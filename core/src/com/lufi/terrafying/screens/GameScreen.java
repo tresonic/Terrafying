@@ -3,6 +3,7 @@ package com.lufi.terrafying.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.world.World;
@@ -13,27 +14,41 @@ public class GameScreen implements Screen {
 	private TerrafyingClient client;
 	private World world;
 	
+	private ShapeRenderer sh;
+	
 	private String name, ip;
+	
+	private float lastTime;
 	
 	public GameScreen(final Game g, String playerName, String serverAddress) {
 		game = g;
 		name = playerName;
 		ip = serverAddress;
+		sh = new ShapeRenderer();
+		world = new World(500, 500);
 		client = new TerrafyingClient(world);
-		client.connect(name, ip, 30000, 30001);
+		client.connect(name, ip);
+		lastTime = 0;
 	}
 	
 	
 	@Override
 	public void show() {
-		
+		Gdx.input.setInputProcessor(world.player);
 	}
 
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0, 0, 0, 1);
+		world.render(delta, sh);
 		
+		lastTime += delta;
+		if(lastTime >= 0.1f) {
+			client.update();
+			lastTime = 0;
+		}
 	}
+	
 
 	@Override
 	public void resize(int width, int height) {
@@ -61,7 +76,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
