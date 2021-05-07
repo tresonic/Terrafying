@@ -42,6 +42,8 @@ public class GameScreen implements Screen {
 		ScreenUtils.clear(0, 0, 0, 1);
 		world.render(delta, sh);
 		
+		//System.out.println(Gdx.graphics.getFramesPerSecond());
+		
 		lastTime += delta;
 		if(lastTime >= 0.1f) {
 			client.update();

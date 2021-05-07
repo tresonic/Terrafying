@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
 public class Player extends Entity implements InputProcessor {
+	private final int spd = 50;
+	
 	public Player() {}
 	
 	public Player(float x, float y, int id) {
@@ -15,16 +17,16 @@ public class Player extends Entity implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		switch(keycode) {
 		case Keys.A:
-			speedx = -10;
+			speedx = -spd;
 			break;
 		case Keys.D:
-			speedx = 10;
+			speedx = spd;
 			break;
 		case Keys.W:
-			speedy = 10;
+			speedy = spd;
 			break;
 		case Keys.S:
-			speedy = -10;
+			speedy = -spd;
 			break;
 		}
 		return true;
