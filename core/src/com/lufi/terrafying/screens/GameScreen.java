@@ -3,6 +3,7 @@ package com.lufi.terrafying.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.net.TerrafyingClient;
@@ -14,6 +15,7 @@ public class GameScreen implements Screen {
 	private TerrafyingClient client;
 	private World world;
 	
+	private SpriteBatch spriteBatch;
 	private ShapeRenderer sh;
 	
 	private String name, ip;
@@ -29,19 +31,23 @@ public class GameScreen implements Screen {
 		client = new TerrafyingClient(world);
 		client.connect(name, ip);
 		lastTime = 0;
+		spriteBatch = new SpriteBatch();
 	}
 	
 	
 	@Override
 	public void show() {
+		if(world.player == null)
+			System.out.println("PLAYER IS NULL");
 		Gdx.input.setInputProcessor(world.player);
 	}
 
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0, 0, 0, 1);
-		world.render(delta, sh);
+		world.render(delta, sh, spriteBatch);
 		
+		//System.out.println(Gdx.input.getInputProcessor());
 		//System.out.println(Gdx.graphics.getFramesPerSecond());
 		
 		lastTime += delta;

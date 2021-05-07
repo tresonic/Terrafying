@@ -14,9 +14,11 @@ public class TerrafyingServer {
 	private Server server;
 	private Map map;
 	private EntityManager entityManager;
+	private int entityCounter;
 	
 	private TerrafyingServer() {
-		entityManager = new EntityManager();		
+		entityManager = new EntityManager();	
+		entityCounter = 0;
 	}
 	
 	public static TerrafyingServer the() {
@@ -62,7 +64,7 @@ public class TerrafyingServer {
 			System.out.println("Connection request from client: " + ((ConnectionRequestPacket)object).name + connection.getRemoteAddressTCP());
 			ConnectionResponsePacket p = new ConnectionResponsePacket();
 			
-			p.id = entityManager.getEntities().size;
+			p.id = entityCounter++;
 			p.entities = entityManager.getEntities();
 			connection.sendTCP(p);
 			

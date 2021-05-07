@@ -50,8 +50,6 @@ public class TerrafyingClient {
 				ConnectionRequestPacket p = new ConnectionRequestPacket();
 				p.name = playerName;
 				client.sendTCP(p);
-				connecting = false;
-				connected = true;
 			}
 			@Override
 			public void disconnected(Connection connection) {
@@ -72,6 +70,8 @@ public class TerrafyingClient {
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
+			connecting = false;
+			connected = true;
 			System.out.println("connected!");
 			world.player = new Player(0, 0, p.id);
 			world.entityManager.addEntity(world.player);

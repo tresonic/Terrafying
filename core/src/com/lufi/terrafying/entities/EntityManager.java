@@ -1,5 +1,7 @@
 package com.lufi.terrafying.entities;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.utils.Array;
 
 public class EntityManager {
@@ -12,6 +14,11 @@ public class EntityManager {
 		
 	}
 	
+	public void interpolateEntites(float delta) {
+		for(int i=0; i<entities.size; i++) {
+			entities.get(i).update(delta);
+		}
+	}
 	
 	public void updateEntity(Entity entity) {
 		for(int i=0; i<entities.size; i++) {

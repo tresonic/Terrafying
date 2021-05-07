@@ -6,8 +6,8 @@ import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 
 public class Network {
-	static public final int port0 = 54555;
-	static public final int port1 = 54556;
+	static public final int port0 = 30000;
+	static public final int port1 = 30001;
 	
 	public static void register(Kryo k) {
 		register(k,

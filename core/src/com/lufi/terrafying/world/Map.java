@@ -9,8 +9,15 @@ public class Map {
 	public Map(int nWidth, int nHeight) {
 		width = nWidth;
 		height = nHeight;
-		blocks = new int[nWidth][nHeight];
-		
+		blocks = new int[nWidth][nHeight];		
+	}
+	
+	public void generate() {
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				blocks[x][y] = Block.AIR.getId();
+			}
+		}
 	}
 	
 	

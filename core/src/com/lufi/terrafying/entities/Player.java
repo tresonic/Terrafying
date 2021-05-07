@@ -15,6 +15,7 @@ public class Player extends Entity implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		//System.out.println("keydown");
 		switch(keycode) {
 		case Keys.A:
 			speedx = -spd;
