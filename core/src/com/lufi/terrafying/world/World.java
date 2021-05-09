@@ -3,6 +3,7 @@ package com.lufi.terrafying.world;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -19,27 +20,30 @@ public class World {
 	public World(int nWidth, int nHeight){
 		map = new Map(nWidth, nHeight);
 		entityManager = new EntityManager();
-		
 	}
 	
-	public void render(float delta, ShapeRenderer sh, SpriteBatch sb) {
+	public void render(float delta, OrthographicCamera cam,ShapeRenderer sh, SpriteBatch sb) {
 		//System.out.println(Gdx.input.getInputProcessor());
-		entityManager.interpolateEntites(delta);
+		cam.translate(player.updateAndGetTranslation(delta));
+		//entityManager.interpolateEntites(delta);
+		
+		map.render(cam, sb);
 		
 		sh.setColor(Color.BLUE);
 		sh.setAutoShapeType(true);
 		
 		for(Entity e : entityManager.getEntities()) {
-			
+			sb.begin();
+			sh.begin();
 			if(e instanceof Player) {
-				sb.begin();
+				
 				sb.draw(Terrafying.assetManager.get("blocks/stone.png", Texture.class), e.posx, e.posy);
-				sb.end();
 			} else {				
-				sh.begin();
 				sh.rect(e.posx, e.posy, 10, 10);
-				sh.end();
+				
 			}
+			sb.end();
+			sh.end();
 		}
 	}
 }

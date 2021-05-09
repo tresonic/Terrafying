@@ -12,7 +12,6 @@ public class DesktopLauncher {
 		config.title = "Terrafying";
 		// add icon in the future!!!
 		// config.addIcon(path, fileType);
-		System.out.println("starting the game!!!!!!!!!!!");
 		new LwjglApplication(new Terrafying(), config);
-	}
+	} 
 }

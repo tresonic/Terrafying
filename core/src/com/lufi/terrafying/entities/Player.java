@@ -2,6 +2,7 @@ package com.lufi.terrafying.entities;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity implements InputProcessor {
 	private final int spd = 50;
@@ -12,6 +13,11 @@ public class Player extends Entity implements InputProcessor {
 		super(x, y, id);
 	}
 
+	public Vector2 updateAndGetTranslation(float delta) {
+		posx += speedx * delta;
+		posy += speedy * delta;
+		return new Vector2(speedx * delta, speedy * delta);
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {

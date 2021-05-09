@@ -3,17 +3,21 @@ package com.lufi.terrafying.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.net.TerrafyingClient;
+import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
+	private final int viewPortWidth = 500 * Block.BLOCK_SIZE;
 	private final Game game;
 	
 	private TerrafyingClient client;
 	private World world;
+	private OrthographicCamera camera;
 	
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer sh;
@@ -32,6 +36,8 @@ public class GameScreen implements Screen {
 		client.connect(name, ip);
 		lastTime = 0;
 		spriteBatch = new SpriteBatch();
+		camera = new OrthographicCamera(viewPortWidth, viewPortWidth * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+		camera.position.set(world.map.spawnpoint.x, world.map.spawnpoint.y, 0);
 	}
 	
 	
@@ -45,13 +51,15 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0, 0, 0, 1);
-		world.render(delta, sh, spriteBatch);
+		camera.update();
+		spriteBatch.setProjectionMatrix(camera.combined);
+		world.render(delta, camera, sh, spriteBatch);
 		
 		//System.out.println(Gdx.input.getInputProcessor());
 		//System.out.println(Gdx.graphics.getFramesPerSecond());
 		
 		lastTime += delta;
-		if(lastTime >= 0.1f) {
+		if(lastTime >= 0.02f) {
 			client.update();
 			lastTime = 0;
 		}

@@ -18,6 +18,8 @@ public class TerrafyingServer {
 	
 	private TerrafyingServer() {
 		entityManager = new EntityManager();	
+		map = new Map(50, 50);
+		map.generate();
 		entityCounter = 0;
 	}
 	
@@ -66,6 +68,8 @@ public class TerrafyingServer {
 			
 			p.id = entityCounter++;
 			p.entities = entityManager.getEntities();
+			p.mapData = map.getMapData();
+			p.spawnpoint = map.spawnpoint;
 			connection.sendTCP(p);
 			
 			Entity e = new Entity(0, 0, p.id);
@@ -78,7 +82,7 @@ public class TerrafyingServer {
 		
 		if(object instanceof EntityUpdatePacket) {
 			//System.out.println("server received EntityUpdate");
-			server.sendToAllExceptTCP(connection.getID(), object);
+			server.sendToAllExceptUDP(connection.getID(), object);
 		}
 	}
 }

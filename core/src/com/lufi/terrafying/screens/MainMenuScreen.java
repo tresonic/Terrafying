@@ -72,6 +72,7 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 		joinIpField = new TextField("127.0.0.1", skin);
+		
 		jGrp.addActor(joinIpField);
 		jGrp.addActor(joinButton);
 		root.addActor(jGrp);

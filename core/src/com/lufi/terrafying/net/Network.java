@@ -1,7 +1,11 @@
 package com.lufi.terrafying.net;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.Serializer;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 
@@ -19,9 +23,13 @@ public class Network {
 				Player.class,
 				Entity.class,
 				
+				Vector2.class,
 				Array.class,
-				Object[].class
+				Object[].class,
+				int[][].class,
+				int[].class
 				);
+		//k.register(int[][].class, new GameMapSerializer());
 	}
 	
 	static public class ConnectionRequestPacket {
@@ -35,6 +43,8 @@ public class Network {
 		
 		public int id;
 		public Array<Entity> entities;
+		public int mapData[][];
+		public Vector2 spawnpoint;
 	}
 
 	static public class EntityAddPacket {
@@ -55,4 +65,31 @@ public class Network {
 			k.register(c);
 		}
 	}
+	
+	public static class GameMapSerializer extends Serializer<int[][]> {
+		   public void write (Kryo kryo, Output output, int[][] map) {
+		      output.writeInt(map.length);
+		      output.writeInt(map[0].length);
+		      for(int x=0; x<map.length; x++) {
+		    	  for(int y=0; y<map[0].length; y++) {
+		    		  output.writeInt(map[x][y]);
+		    	  }
+		      }
+		   }
+
+		   public int[][] read (Kryo kryo, Input input, Class<int[][]> type) {
+			  int width = input.readInt();
+			  int height = input.readInt();
+			  int map[][] = new int[width][height];
+			  
+			  for(int x=0; x<width; x++) {
+				  for(int y=0; y<height; y++) {
+					  map[x][y] = input.readInt();
+				  }
+			  }
+			  
+		      return map;
+		   }
+
+		}
 }

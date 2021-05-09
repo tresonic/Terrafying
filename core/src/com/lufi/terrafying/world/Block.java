@@ -12,7 +12,7 @@ public enum Block {
 	DIRT(3, true, "dirt"),
 	GRASS(4, true, "grass");
 	
-	private static final int BLOCK_SIZE = 16;
+	public static final int BLOCK_SIZE = 16;
 	
 	private int id;
 	private boolean collidable;
@@ -38,6 +38,10 @@ public enum Block {
 	
 	public boolean getCollidable() {
 		return collidable;
+	}
+	
+	public boolean getDrawable() {
+		return drawable;
 	}
 	
 	public String getName() {

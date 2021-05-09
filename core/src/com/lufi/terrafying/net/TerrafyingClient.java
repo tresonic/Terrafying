@@ -64,7 +64,7 @@ public class TerrafyingClient {
 		EntityUpdatePacket p = new EntityUpdatePacket();
 		p.entity = world.player;
 		//System.out.println("sending position..." + client.getRemoteAddressTCP());
-		client.sendTCP(p);
+		client.sendUDP(p);
 	}
 	
 	public void packetReceived(Connection connection, Object object) {
@@ -73,7 +73,10 @@ public class TerrafyingClient {
 			connecting = false;
 			connected = true;
 			System.out.println("connected!");
-			world.player = new Player(0, 0, p.id);
+			
+			world.map.setMapData(p.mapData);
+			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id);
+			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			System.out.println("before " + world.entityManager.getEntities().size);
 			world.entityManager.addEntities(p.entities);
