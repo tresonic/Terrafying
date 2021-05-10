@@ -8,6 +8,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
+import com.lufi.terrafying.world.Chunk;
 
 public class Network {
 	static public final int port0 = 30000;
@@ -22,6 +23,7 @@ public class Network {
 				
 				Player.class,
 				Entity.class,
+				Chunk.class,
 				
 				Vector2.class,
 				Array.class,
@@ -66,30 +68,29 @@ public class Network {
 		}
 	}
 	
-	public static class GameMapSerializer extends Serializer<int[][]> {
-		   public void write (Kryo kryo, Output output, int[][] map) {
-		      output.writeInt(map.length);
-		      output.writeInt(map[0].length);
-		      for(int x=0; x<map.length; x++) {
-		    	  for(int y=0; y<map[0].length; y++) {
-		    		  output.writeInt(map[x][y]);
-		    	  }
-		      }
-		   }
-
-		   public int[][] read (Kryo kryo, Input input, Class<int[][]> type) {
-			  int width = input.readInt();
-			  int height = input.readInt();
-			  int map[][] = new int[width][height];
-			  
-			  for(int x=0; x<width; x++) {
-				  for(int y=0; y<height; y++) {
-					  map[x][y] = input.readInt();
-				  }
-			  }
-			  
-		      return map;
-		   }
-
-		}
+//	public static class GameMapSerializer extends Serializer<int[][]> {
+//	   public void write (Kryo kryo, Output output, int[][] map) {
+//	      output.writeInt(map.length);
+//	      output.writeInt(map[0].length);
+//	      for(int x=0; x<map.length; x++) {
+//	    	  for(int y=0; y<map[0].length; y++) {
+//	    		  output.writeInt(map[x][y]);
+//	    	  }
+//	      }
+//	   }
+//
+//	   public int[][] read (Kryo kryo, Input input, Class<int[][]> type) {
+//		  int width = input.readInt();
+//		  int height = input.readInt();
+//		  int map[][] = new int[width][height];
+//		  
+//		  for(int x=0; x<width; x++) {
+//			  for(int y=0; y<height; y++) {
+//				  map[x][y] = input.readInt();
+//			  }
+//		  }
+//		  
+//	      return map;
+//	   }
+//	}	
 }

@@ -12,7 +12,7 @@ import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
-	private final int viewPortWidth = 500 * Block.BLOCK_SIZE;
+	private final int viewPortWidth = 30 * Block.BLOCK_SIZE;
 	private final Game game;
 	
 	private TerrafyingClient client;
@@ -43,9 +43,9 @@ public class GameScreen implements Screen {
 	
 	@Override
 	public void show() {
-		if(world.player == null)
-			System.out.println("PLAYER IS NULL");
 		Gdx.input.setInputProcessor(world.player);
+		camera.position.x = world.player.posx;
+		camera.position.y = world.player.posy;
 	}
 
 	@Override

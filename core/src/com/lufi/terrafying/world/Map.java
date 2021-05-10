@@ -95,6 +95,5 @@ public class Map {
 		blocks = data;
 		width = data.length;
 		height = data[0].length;
-		System.out.println("got map data: " + data);
 	}
 }
