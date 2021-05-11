@@ -39,4 +39,4 @@ jobs:
         automatic_release_tag: latest
         # Assets to upload to the release
         files: |
-          *.jar
+          desktop/builds/libs/*.jar
