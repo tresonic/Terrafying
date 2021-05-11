@@ -28,7 +28,7 @@ jobs:
       
     - name: Build Jar with Gradle
       run: ./gradlew desktop:dist
-        ls
+
     
     - name: Automatic Releases
       # You may pin to the exact commit or the version.
@@ -40,4 +40,4 @@ jobs:
         automatic_release_tag: latest
         # Assets to upload to the release
         files: |
-          desktop/builds/libs/*.jar
+          ./desktop/build/libs/*.jar
