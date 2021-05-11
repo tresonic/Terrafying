@@ -39,7 +39,8 @@ jobs:
       with:
         # GitHub secret token
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: Terrafying - latest
+        automatic_release_tag: latest
+        title: "Terrafying - Nightly"
         # Assets to upload to the release
         files: |
           ./Terrafying.jar
