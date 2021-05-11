@@ -9,6 +9,9 @@ public class Entity {
 	public float speedy;
 	public int id;
 	
+	public String tex;
+	public String name;
+	
 	protected Vector2i lastMoveDir;
 	
 	public boolean isPlayer;
@@ -18,10 +21,11 @@ public class Entity {
 		lastMoveDir = new Vector2i();
 	}
 	
-	public Entity(float x, float y, int ID) {
+	public Entity(float x, float y, int ID, String nName) {
 		posx = x; posy = y;
 		id = ID;
 		isPlayer = false;
+		name = nName;
 		lastMoveDir = new Vector2i();
 	}
 	
@@ -38,5 +42,9 @@ public class Entity {
 	
 	public int getLastMoveDirX() {
 		return lastMoveDir.x;
+	}
+
+	public boolean isPlayer() {
+		return isPlayer;
 	}
 }

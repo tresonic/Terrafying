@@ -48,6 +48,7 @@ public class Network {
 		public ConnectionResponsePacket() {}
 		
 		public int id;
+		public String name;
 		public Array<Entity> entities;
 		public Vector2i startChunkId;
 		public Chunk startChunk;
@@ -66,6 +67,12 @@ public class Network {
 		public Vector2i chunkId;
 		public Chunk chunk;
 	}
+	
+//	static public class PlayerAddPacket {
+//		public PlayerAddPacket() {}
+//		
+//		public Player player;
+//	}
 
 	static public class EntityAddPacket {
 		public EntityAddPacket() {}

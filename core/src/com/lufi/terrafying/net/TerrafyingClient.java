@@ -96,9 +96,9 @@ public class TerrafyingClient {
 			connected = true;
 			System.out.println("connected!");
 			
-			System.out.println("startchunk: " + p.startChunkId + "  " + p.startChunk.getBlocks());
+			System.out.println("startchunk: " + p.startChunkId);
 			world.map.addChunk(p.startChunkId, p.startChunk);
-			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id);
+			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);

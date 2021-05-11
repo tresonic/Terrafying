@@ -22,7 +22,11 @@ public class EntityManager {
 	public void updateEntity(Entity entity) {
 		for(int i=0; i<entities.size; i++) {
 			if(entities.get(i).id == entity.id) {
-				entities.set(i, entity);
+				entities.get(i).posx = entity.posx;
+				entities.get(i).posy = entity.posy;
+				entities.get(i).speedx = entity.speedx;
+				entities.get(i).speedy = entity.speedy;
+				entities.get(i).lastMoveDir = entity.lastMoveDir;
 			}
 		}
 	}

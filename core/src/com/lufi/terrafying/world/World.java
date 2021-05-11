@@ -35,10 +35,11 @@ public class World {
 		for(Entity e : entityManager.getEntities()) {
 			sb.begin();
 			sh.begin();
-			if(e instanceof Player) {
+			if(e.isPlayer()) {
 				Texture t = Terrafying.assetManager.get("TerrafyingMensch.png", Texture.class);
 				boolean flip = e.getLastMoveDirX() < 0;
 				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
+				Terrafying.font.draw(sb, e.name, e.posx, (float) (e.posy + t.getHeight() * 1.5));
 			} else {				
 				sh.rect(e.posx, e.posy, 10, 10);
 				

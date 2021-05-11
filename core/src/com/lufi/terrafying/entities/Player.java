@@ -6,12 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.world.Vector2i;
 
 public class Player extends Entity implements InputProcessor {
-	private final int spd = 50;
+	private final int MAX_SPEED = 50;
 	
-	public Player() {}
+
+	public Player() {
+	}
 	
-	public Player(float x, float y, int id) {
-		super(x, y, id);
+	public Player(float x, float y, int id, String nName) {
+		super(x, y, id, nName);
 	}
 
 	public Vector2 updateAndGetTranslation(float delta) {
@@ -25,22 +27,25 @@ public class Player extends Entity implements InputProcessor {
 		
 		return new Vector2(speedx * delta, speedy * delta);
 	}
+	
+	public String getName() {
+		return name;
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
-		//System.out.println("keydown");
 		switch(keycode) {
-		case Keys.A:
-			speedx = -spd;
-			break;
-		case Keys.D:
-			speedx = spd;
-			break;
 		case Keys.W:
-			speedy = spd;
+			speedy = MAX_SPEED;
 			break;
 		case Keys.S:
-			speedy = -spd;
+			speedy = -MAX_SPEED;
+			break;
+		case Keys.A:
+			speedx = -MAX_SPEED;
+			break;
+		case Keys.D:
+			speedx = MAX_SPEED;
 			break;
 		}
 		return true;
@@ -49,22 +54,25 @@ public class Player extends Entity implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		switch(keycode) {
-		case Keys.A:
-			speedx = 0;
-			break;
-		case Keys.D:
-			speedx = 0;
-			break;
 		case Keys.W:
-			speedy = 0;
+			if(speedy == MAX_SPEED)
+				speedy = 0;
 			break;
 		case Keys.S:
-			speedy = 0;
+			if(speedy == -MAX_SPEED)
+				speedy = 0;
+			break;
+		case Keys.A:
+			if(speedx == -MAX_SPEED)
+				speedx = 0;
+			break;
+		case Keys.D:
+			if(speedx == MAX_SPEED)
+				speedx = 0;
 			break;
 		}
 		return true;
 	}
-
 
 	@Override
 	public boolean keyTyped(char character) {

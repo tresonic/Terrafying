@@ -4,6 +4,7 @@ import com.esotericsoftware.kryonet.*;
 import com.esotericsoftware.kryonet.Listener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
+import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.world.Map;
 import com.lufi.terrafying.world.Vector2i;
@@ -19,7 +20,7 @@ public class TerrafyingServer {
 	
 	private TerrafyingServer() {
 		entityManager = new EntityManager();	
-		map = new Map(50, 50);
+		map = new Map(50, 15);
 		long b = System.nanoTime();
 		map.generate();
 		long e = System.nanoTime();
@@ -75,9 +76,11 @@ public class TerrafyingServer {
 			p.startChunk = map.getChunkAt(map.spawnpoint);
 			p.startChunkId = map.getChunkIdAt(map.spawnpoint);
 			p.spawnpoint = map.spawnpoint;
+			p.name = ((ConnectionRequestPacket)object).name;
 			connection.sendTCP(p);
 			
-			Entity e = new Entity(0, 0, p.id);
+			Entity e = new Entity(0, 0, p.id, p.name);
+			e.isPlayer = true;
 			entityManager.addEntity(e);
 			
 			EntityAddPacket aP = new EntityAddPacket();
