@@ -28,7 +28,9 @@ jobs:
       
     - name: Build Jar with Gradle
       run: ./gradlew desktop:dist
-
+      
+    - name: Rename Jar
+      run: mv ./desktop/build/libs/desktop-1.0.jar ./Terrafying.jar
     
     - name: Automatic Releases
       # You may pin to the exact commit or the version.
@@ -38,6 +40,7 @@ jobs:
         # GitHub secret token
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: latest
+        title: "Terrafying - Nightly"
         # Assets to upload to the release
         files: |
-          ./desktop/build/libs/*.jar
+          ./Terrafying.jar
