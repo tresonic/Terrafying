@@ -92,8 +92,7 @@ public class TerrafyingClient {
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
-			connecting = false;
-			connected = true;
+
 			System.out.println("connected!");
 			
 			System.out.println("startchunk: " + p.startChunkId);
@@ -104,6 +103,9 @@ public class TerrafyingClient {
 			world.entityManager.addEntities(p.entities);
 			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
 			System.out.println(p.entities);
+			
+			connecting = false;
+			connected = true;
 		}
 		
 		if(object instanceof EntityAddPacket) {

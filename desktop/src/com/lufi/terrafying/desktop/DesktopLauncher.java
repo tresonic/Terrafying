@@ -2,11 +2,13 @@ package com.lufi.terrafying.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.esotericsoftware.minlog.Log;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.net.TerrafyingServer;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		Log.set(Log.LEVEL_NONE);
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
 			TerrafyingServer.the().start();
 		} else {

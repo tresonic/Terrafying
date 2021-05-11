@@ -19,11 +19,12 @@ public class Terrafying extends Game {
 	
 	@Override
 	public void create () {
+		
 		fontTex = new Texture(Gdx.files.internal("arial32.png"), true);
 		fontTex.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
 		font = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(fontTex), false);
-		
 		font.getData().setScale(0.3f);
+		
 		assetManager = new AssetManager();
 		Block.loadBlockTextures(assetManager);
 		assetManager.load("TerrafyingMensch.png", Texture.class);
