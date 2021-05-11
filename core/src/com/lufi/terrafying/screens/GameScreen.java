@@ -12,7 +12,7 @@ import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
-	private final int viewPortWidth = 550 * Block.BLOCK_SIZE;
+	private final int viewPortWidth = 50 * Block.BLOCK_SIZE;
 	private final Game game;
 	
 	private TerrafyingClient client;

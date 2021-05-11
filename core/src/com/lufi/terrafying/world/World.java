@@ -36,8 +36,9 @@ public class World {
 			sb.begin();
 			sh.begin();
 			if(e instanceof Player) {
-				
-				sb.draw(Terrafying.assetManager.get("blocks/stone.png", Texture.class), e.posx, e.posy);
+				Texture t = Terrafying.assetManager.get("TerrafyingMensch.png", Texture.class);
+				boolean flip = e.getLastMoveDirX() < 0;
+				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
 			} else {				
 				sh.rect(e.posx, e.posy, 10, 10);
 				

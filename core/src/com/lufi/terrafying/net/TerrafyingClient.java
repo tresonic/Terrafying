@@ -72,7 +72,7 @@ public class TerrafyingClient {
 		//System.out.println("sending position..." + client.getRemoteAddressTCP());
 		client.sendUDP(p);
 		
-		final int chunkDist = 4;
+		final int chunkDist = 2;
 		
 		for(int x = -chunkDist; x<chunkDist; x++) {
 			for(int y = -chunkDist; y<chunkDist; y++) {
