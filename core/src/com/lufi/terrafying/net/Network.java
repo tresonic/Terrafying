@@ -9,10 +9,11 @@ import com.esotericsoftware.kryo.io.Output;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.world.Chunk;
+import com.lufi.terrafying.world.Vector2i;
 
 public class Network {
-	static public final int port0 = 30000;
-	static public final int port1 = 30001;
+	static public final int port0 = 6567;
+	static public final int port1 = 6567;
 	
 	public static void register(Kryo k) {
 		register(k,
@@ -20,12 +21,15 @@ public class Network {
 				ConnectionResponsePacket.class,
 				EntityAddPacket.class,
 				EntityUpdatePacket.class,
+				ChunkRequestPacket.class,
+				ChunkResponsePacket.class,
 				
 				Player.class,
 				Entity.class,
 				Chunk.class,
 				
 				Vector2.class,
+				Vector2i.class,
 				Array.class,
 				Object[].class,
 				int[][].class,
@@ -45,8 +49,22 @@ public class Network {
 		
 		public int id;
 		public Array<Entity> entities;
-		public int mapData[][];
+		public Vector2i startChunkId;
+		public Chunk startChunk;
 		public Vector2 spawnpoint;
+	}
+	
+	static public class ChunkRequestPacket {
+		public ChunkRequestPacket() {}
+		
+		public Vector2i id;
+	}
+	
+	static public class ChunkResponsePacket {
+		public ChunkResponsePacket() {}
+		
+		public Vector2i chunkId;
+		public Chunk chunk;
 	}
 
 	static public class EntityAddPacket {

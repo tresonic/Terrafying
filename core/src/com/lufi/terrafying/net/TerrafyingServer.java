@@ -6,6 +6,7 @@ import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.world.Map;
+import com.lufi.terrafying.world.Vector2i;
 import com.badlogic.gdx.utils.Array;
 
 public class TerrafyingServer {
@@ -19,7 +20,10 @@ public class TerrafyingServer {
 	private TerrafyingServer() {
 		entityManager = new EntityManager();	
 		map = new Map(50, 50);
+		long b = System.nanoTime();
 		map.generate();
+		long e = System.nanoTime();
+		System.out.println("mapgen took " + (e-b)/1000000 + " ms");
 		entityCounter = 0;
 	}
 	
@@ -68,7 +72,8 @@ public class TerrafyingServer {
 			
 			p.id = entityCounter++;
 			p.entities = entityManager.getEntities();
-			p.mapData = map.getMapData();
+			p.startChunk = map.getChunkAt(map.spawnpoint);
+			p.startChunkId = map.getChunkIdAt(map.spawnpoint);
 			p.spawnpoint = map.spawnpoint;
 			connection.sendTCP(p);
 			
@@ -83,6 +88,14 @@ public class TerrafyingServer {
 		if(object instanceof EntityUpdatePacket) {
 			//System.out.println("server received EntityUpdate");
 			server.sendToAllExceptUDP(connection.getID(), object);
+		}
+		
+		if(object instanceof ChunkRequestPacket) {
+			ChunkResponsePacket cRP = new ChunkResponsePacket();
+			Vector2i cId = ((ChunkRequestPacket)object).id;
+			cRP.chunk = map.getChunkAtChunkId(cId);
+			cRP.chunkId = cId;
+			connection.sendTCP(cRP);
 		}
 	}
 }

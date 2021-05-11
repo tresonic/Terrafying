@@ -12,7 +12,7 @@ import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
-	private final int viewPortWidth = 30 * Block.BLOCK_SIZE;
+	private final int viewPortWidth = 550 * Block.BLOCK_SIZE;
 	private final Game game;
 	
 	private TerrafyingClient client;
@@ -34,6 +34,8 @@ public class GameScreen implements Screen {
 		world = new World(500, 500);
 		client = new TerrafyingClient(world);
 		client.connect(name, ip);
+		// world.map.generate();
+		
 		lastTime = 0;
 		spriteBatch = new SpriteBatch();
 		camera = new OrthographicCamera(viewPortWidth, viewPortWidth * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.net.TerrafyingServer;
 
 
@@ -71,7 +72,19 @@ public class MainMenuScreen implements Screen {
 					game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
 			}
 		});
-		joinIpField = new TextField("127.0.0.1", skin);
+		joinIpField = new TextField("", skin);
+		
+		new Thread("discover") {
+			@Override
+			public void run() {
+				String s = new String();
+				try {
+					s = TerrafyingClient.discoverServer();
+				} catch (Exception e) {}
+				if(!s.isEmpty())
+					joinIpField.setText(s);
+			}
+		}.start();
 		
 		jGrp.addActor(joinIpField);
 		jGrp.addActor(joinButton);

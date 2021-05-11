@@ -1,6 +1,9 @@
 package com.lufi.terrafying.net;
 
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.List;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -8,6 +11,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
+import com.lufi.terrafying.world.Block;
+import com.lufi.terrafying.world.Chunk;
 import com.lufi.terrafying.world.World;
 
 public class TerrafyingClient {
@@ -26,8 +31,9 @@ public class TerrafyingClient {
 		Network.register(client.getKryo());
 	}
 	
-	public void connect(final String playerName, final String address) {
+	public void connect(final String playerName, final String address) {		
 		client.start();
+		
 		new Thread("Connect") {
 			public void run () {
 				try {
@@ -65,6 +71,22 @@ public class TerrafyingClient {
 		p.entity = world.player;
 		//System.out.println("sending position..." + client.getRemoteAddressTCP());
 		client.sendUDP(p);
+		
+		final int chunkDist = 4;
+		
+		for(int x = -chunkDist; x<chunkDist; x++) {
+			for(int y = -chunkDist; y<chunkDist; y++) {
+				int offsetX = x * Block.BLOCK_SIZE * Chunk.CHUNK_SIZE;
+				int offsetY = y * Block.BLOCK_SIZE * Chunk.CHUNK_SIZE;
+				
+				if(world.map.getChunkAt(world.player.posx + offsetX, world.player.posy + offsetY) == null) {
+					ChunkRequestPacket cRP = new ChunkRequestPacket();
+					cRP.id = world.map.getChunkIdAt(world.player.posx + offsetX, world.player.posy + offsetY);
+					client.sendTCP(cRP);
+				}
+			}
+		}
+
 	}
 	
 	public void packetReceived(Connection connection, Object object) {
@@ -74,11 +96,11 @@ public class TerrafyingClient {
 			connected = true;
 			System.out.println("connected!");
 			
-			world.map.setMapData(p.mapData);
+			System.out.println("startchunk: " + p.startChunkId + "  " + p.startChunk.getBlocks());
+			world.map.addChunk(p.startChunkId, p.startChunk);
 			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
-			System.out.println("before " + world.entityManager.getEntities().size);
 			world.entityManager.addEntities(p.entities);
 			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
 			System.out.println(p.entities);
@@ -94,5 +116,15 @@ public class TerrafyingClient {
 			//System.out.println("client: received EntityUpdate " + ((EntityUpdatePacket)object).entity.id);
 			world.entityManager.updateEntity(((EntityUpdatePacket)object).entity);
 		}
+		
+		if(object instanceof ChunkResponsePacket) {
+			ChunkResponsePacket p = (ChunkResponsePacket)object;
+			world.map.addChunk(p.chunkId, p.chunk);
+		}
+	}
+	
+	public static String discoverServer() {
+		Client nC = new Client();
+		return nC.discoverHost(Network.port1, 5000).toString().substring(1);
 	}
 }

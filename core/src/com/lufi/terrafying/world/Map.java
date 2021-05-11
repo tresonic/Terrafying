@@ -1,5 +1,6 @@
 package com.lufi.terrafying.world;
 
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
@@ -9,50 +10,81 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.lufi.terrafying.Terrafying;
 
 public class Map {
 
 	private int width;
 	private int height;
-	private int blocks[][];
+	private HashMap<Vector2i, Chunk> chunks;
 	
 	public Vector2 spawnpoint = new Vector2(250 * Block.BLOCK_SIZE, 150 * Block.BLOCK_SIZE);
 	
 	public Map(int nWidth, int nHeight) {
-		width = nWidth;
-		height = nHeight;
-		blocks = new int[nWidth][nHeight];		
+		width = nWidth * Chunk.CHUNK_SIZE;
+		height = nHeight * Chunk.CHUNK_SIZE;
+		chunks = new HashMap<Vector2i, Chunk>();		
 	}
 	
 	public void generate() {
+		for(int x=0; x<width/Chunk.CHUNK_SIZE; x++) {
+			for(int y=0; y<height/Chunk.CHUNK_SIZE; y++) {
+				addChunk(new Vector2i(x, y), new Chunk());
+			}
+		}
+
+		System.out.println("num chunks generated: " + chunks.size());
+		
 		SimplexNoise n1 = new SimplexNoise(300, 0.45f, ThreadLocalRandom.current().nextInt());
 		SimplexNoise n2 = new SimplexNoise(300, 0.65f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise n3 = new SimplexNoise(35, 0.4f, ThreadLocalRandom.current().nextInt());
+		
+		int stoneLayerHeight = height / 3;
+		int dirtLayerHeight = height / 100;
+		
+		// basic map gen with stone + dirt on top
 		for(int x=0; x<width; x++) {
-			int stoneHeight = (int) ((n1.getNoise(x, 0) + 1) * 30);
-			int dirtHeight = (int) ((n2.getNoise(x, 0) + 1) * 4);
+			int stoneHeight = (int) ((n1.getNoise(x, 0) + 1) * stoneLayerHeight);
+			int dirtHeight = (int) ((n2.getNoise(x, 0) + 1) * dirtLayerHeight);
 			
-			System.out.println("s: " +  stoneHeight + ", d: " + dirtHeight);
+			//System.out.println("s: " +  stoneHeight + ", d: " + dirtHeight);
 			
 			for(int y=0; y<stoneHeight; y++) {
-				blocks[x][y] = Block.STONE.getId();
+				setBlock(x, y, Block.STONE.getId());
 			}
 			
 			for(int y=stoneHeight; y<stoneHeight + dirtHeight; y++) {
-				blocks[x][y] = Block.DIRT.getId();
+				setBlock(x, y, Block.DIRT.getId());
 			}
 			
 			for(int y = stoneHeight + dirtHeight; y<height; y++) {
-				blocks[x][y] = Block.AIR.getId();
+				setBlock(x, y, Block.AIR.getId());
 			}
 			
-			blocks[x][stoneHeight+dirtHeight] = Block.GRASS.getId();
+			setBlock(x, stoneHeight+dirtHeight, Block.GRASS.getId());
 		}
 		
+		// carve caves into stone
+		for(int x=1; x<width; x++) {
+			double xMul = (-1/(2*x + 0.0000001) + 1)
+						* (-1/(2*(width-x) + 0.0000001) + 1);
+			
+			for(int y=1; y<height; y++) {
+				if(((n3.getNoise(x, y) + 1) / 2) 
+						* (1 / ((double)height/((double)height*2000) * y + 1)) // higher -> less caves
+						* (- 1/(2 * y+0.0000001) + 1) // very bottom -> no caves
+						* xMul // closer to left or right edge -> less caves
+						> 0.5f)
+					setBlock(x, y, Block.AIR.getId());
+			}
+		}
+		
+		// find spawnpoint
 		int spawnX = ThreadLocalRandom.current().nextInt(width / 10, width - width/10);
 		int spawnY = height;
-		while(true) {
-			if(blocks[spawnX][spawnY - 1] != Block.AIR.getId())
+		for(int i=height; i>0; i--) {
+			if(getBlock(spawnX, spawnY - 1) != Block.AIR.getId())
 				break;
 			spawnY--;
 		}
@@ -78,8 +110,8 @@ public class Map {
 		sb.begin();
 		for(int x=startx; x<endx; x++) {
 			for(int y=starty; y<endy; y++) {
-				if(Block.getBlockById(blocks[x][y]).getDrawable()) {
-					Texture t = Terrafying.assetManager.get("blocks/" + Block.getBlockById(blocks[x][y]).getName() + ".png", Texture.class);
+				if(Block.getBlockById(getBlock(x, y)).getDrawable()) {
+					Texture t = Terrafying.assetManager.get("blocks/" + Block.getBlockById(getBlock(x, y)).getName() + ".png", Texture.class);
 					sb.draw(t , x*Block.BLOCK_SIZE, y*Block.BLOCK_SIZE);
 				}
 			}
@@ -87,13 +119,50 @@ public class Map {
 		sb.end();
 	}
 	
-	public int[][] getMapData() {
-		return blocks;
+	private int getBlock(int x, int y) {
+		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
+		Chunk c = chunks.get(chunkId);
+		if(c != null) {
+			return c.getBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		} else {
+			return Block.AIR.getId();
+		}
 	}
 	
-	public void setMapData(int[][] data) {
-		blocks = data;
-		width = data.length;
-		height = data[0].length;
+	private void setBlock(int x, int y, int block) {
+		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
+		Chunk c = chunks.get(chunkId);
+		if(c != null) {
+			c.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, block);
+		} 
+	}
+	
+	public Vector2i getChunkIdAt(float x, float y) {
+		return new Vector2i((int) x / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE, (int) y / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE);
+	}
+	
+	public Vector2i getChunkIdAt(Vector2 vec) {
+		Vector2i v = new Vector2i(((int) vec.x) / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE, ((int) vec.y) / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE);
+		return v;
+	}
+	
+	public Chunk getChunkAt(float x, float y) {
+		return chunks.get(getChunkIdAt(x, y));
+	}
+	
+	public Chunk getChunkAt(Vector2 vec) {
+		return chunks.get(getChunkIdAt(vec));
+	}
+	
+	public Chunk getChunkAtChunkId(Vector2i id) {
+		return chunks.get(id);
+	}
+	
+	public void addChunk(Vector2i chunkId, Chunk chunk) {
+		chunks.put(chunkId, chunk);
+	}
+	
+	public void removeChunk(Vector2i chunkId) {
+		chunks.remove(chunkId);
 	}
 }
