@@ -112,7 +112,7 @@ public class Map {
 			for(int y=starty; y<endy; y++) {
 				Block block = Block.getBlockById(getBlock(x, y));
 				if(block.getDrawable()) {
-					Texture t = Terrafying.assetManager.get(block.BLOCK_PATH + "/" + block.getName() + ".png", Texture.class);
+					Texture t = Terrafying.assetManager.get(Block.BLOCK_PATH + "/" + block.getName() + ".png", Texture.class);
 					sb.draw(t , x*Block.BLOCK_SIZE, y*Block.BLOCK_SIZE);
 				}
 			}

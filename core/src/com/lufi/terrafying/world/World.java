@@ -23,8 +23,12 @@ public class World {
 	}
 	
 	public void render(float delta, OrthographicCamera cam,ShapeRenderer sh, SpriteBatch sb) {
-		//System.out.println(Gdx.input.getInputProcessor());
-		cam.translate(player.updateAndGetTranslation(delta));
+		// System.out.println(delta);
+		
+		cam.position.x = player.posx;
+		cam.position.y = player.posy;
+		player.updateAndGetTranslation(0.02f);
+
 		//entityManager.interpolateEntites(delta);
 		
 		map.render(cam, sb);
@@ -39,7 +43,7 @@ public class World {
 				Texture t = Terrafying.assetManager.get("TerrafyingMensch.png", Texture.class);
 				boolean flip = e.getLastMoveDirX() < 0;
 				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
-				Terrafying.font.draw(sb, e.name, e.posx, (float) (e.posy + t.getHeight() * 1.5));
+				Terrafying.font.draw(sb, e.name, e.posx, e.posy);
 			} else {				
 				sh.rect(e.posx, e.posy, 10, 10);
 				

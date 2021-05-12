@@ -21,11 +21,6 @@ public class TerrafyingServer {
 	
 	private TerrafyingServer() {
 		entityManager = new EntityManager();	
-		map = new Map(50, 15);
-		long b = System.nanoTime();
-		map.generate();
-		long e = System.nanoTime();
-		System.out.println("mapgen took " + (e-b)/1000000 + " ms");
 		entityCounter = 0;
 	}
 	
@@ -38,6 +33,12 @@ public class TerrafyingServer {
 	
 	public void start() {
 		System.out.println("starting server");
+		map = new Map(50, 15);
+		long beg = System.nanoTime();
+		map.generate();
+		long end = System.nanoTime();
+		System.out.println("mapgen took " + (end-beg)/1000000 + " ms");
+		
 		try {
 			server = new Server(Network.port0, Network.port1);
 			server.bind(Network.port0, Network.port1);

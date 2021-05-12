@@ -6,17 +6,64 @@ import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.world.Vector2i;
 
 public class Player extends Entity implements InputProcessor {
-	private final int MAX_SPEED = 50;
+	private final float ACCEL_GROUND = 150;
+	private final float ACCEL_AIR = 70;
+	private final float MAX_SPD = 80;
+	private final float JUMP_SPD = 60;
+	private final float GRAVITY = -120;
+	private final float FRICTION = -10;
 	
+	private Vector2i inputDir;
+	private boolean inputJump;
+	
+	private float accelx;
+	private float accely;
+	
+	private boolean onGround;
 
 	public Player() {
+		inputDir = new Vector2i();
+		onGround = true;
 	}
 	
 	public Player(float x, float y, int id, String nName) {
 		super(x, y, id, nName);
+		accelx = 0;
+		accely = 0;
+		inputDir = new Vector2i();
+		onGround = true;
 	}
 
 	public Vector2 updateAndGetTranslation(float delta) {
+		//System.out.println(delta);
+		if(inputDir.x > 0)
+			speedx += (onGround ? ACCEL_GROUND : ACCEL_AIR) * delta;
+		else if(inputDir.x < 0)
+			speedx += (onGround ? -ACCEL_GROUND : -ACCEL_AIR) * delta;
+		else {
+			if(onGround) {
+				speedx += FRICTION * speedx * delta;
+				if (Math.abs(speedx) < 0.01f)
+					speedx = 0;
+			}
+		}
+		
+		if(speedx > MAX_SPD)
+			speedx = MAX_SPD;
+		else if(speedx < -MAX_SPD)
+			speedx = -MAX_SPD;
+			
+
+		if(onGround && inputJump) {
+			//if(speedy == 0) {
+				speedy = JUMP_SPD;
+			//}
+		}
+		
+
+		
+		//speedy += GRAVITY * delta;
+		
 		posx += speedx * delta;
 		posy += speedy * delta;
 		
@@ -36,16 +83,19 @@ public class Player extends Entity implements InputProcessor {
 	public boolean keyDown(int keycode) {
 		switch(keycode) {
 		case Keys.W:
-			speedy = MAX_SPEED;
+			inputDir.y = 1;
 			break;
 		case Keys.S:
-			speedy = -MAX_SPEED;
+			inputDir.y = -1;
 			break;
 		case Keys.A:
-			speedx = -MAX_SPEED;
+			inputDir.x = -1;
 			break;
 		case Keys.D:
-			speedx = MAX_SPEED;
+			inputDir.x = 1;
+			break;
+		case Keys.SPACE:
+			inputJump = true;
 			break;
 		}
 		return true;
@@ -55,20 +105,23 @@ public class Player extends Entity implements InputProcessor {
 	public boolean keyUp(int keycode) {
 		switch(keycode) {
 		case Keys.W:
-			if(speedy == MAX_SPEED)
-				speedy = 0;
+			if(inputDir.y == 1)
+				inputDir.y = 0;
 			break;
 		case Keys.S:
-			if(speedy == -MAX_SPEED)
-				speedy = 0;
+			if(inputDir.y == -1)
+				inputDir.y = 0;
 			break;
 		case Keys.A:
-			if(speedx == -MAX_SPEED)
-				speedx = 0;
+			if(inputDir.x == -1)
+				inputDir.x = 0;
 			break;
 		case Keys.D:
-			if(speedx == MAX_SPEED)
-				speedx = 0;
+			if(inputDir.x == 1)
+				inputDir.x = 0;
+			break;
+		case Keys.SPACE:
+			inputJump = false;
 			break;
 		}
 		return true;

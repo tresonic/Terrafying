@@ -1,5 +1,6 @@
 package com.lufi.terrafying.desktop;
 
+import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.esotericsoftware.minlog.Log;
@@ -17,7 +18,7 @@ public class DesktopLauncher {
 			config.height = 720;
 			config.title = "Terrafying";
 			// add icon in the future!!!
-			// config.addIcon(path, fileType);
+			config.addIcon("assets/icon1.png", FileType.Internal);
 			new LwjglApplication(new Terrafying(), config);
 		}
 	} 
