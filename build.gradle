@@ -47,7 +47,9 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        compile "com.github.crykn:kryonet:2.22.7"
+        compile files("lib/kryonet-2.22.8.jar")
+        //compile "com.github.Tresonic:kryonet:2.22.7"
+        compile "com.esotericsoftware:kryo:5.0.3"
     }
 }
 

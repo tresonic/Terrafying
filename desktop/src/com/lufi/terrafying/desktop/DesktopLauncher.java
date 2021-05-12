@@ -8,7 +8,7 @@ import com.lufi.terrafying.net.TerrafyingServer;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		Log.set(Log.LEVEL_NONE);
+		Log.set(Log.LEVEL_WARN);
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
 			TerrafyingServer.the().start();
 		} else {

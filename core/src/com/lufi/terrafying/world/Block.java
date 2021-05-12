@@ -13,6 +13,7 @@ public enum Block {
 	GRASS(4, true, "grass");
 	
 	public static final int BLOCK_SIZE = 16;
+	public static final String BLOCK_PATH = "blocks";
 	
 	private int id;
 	private boolean collidable;
@@ -60,7 +61,7 @@ public enum Block {
 	public static void loadBlockTextures(AssetManager am) {
 		for(Block b : Block.values()) {
 			if(b.drawable) {
-				am.load("blocks/" + b.name + ".png", Texture.class);
+				am.load(BLOCK_PATH + "/" + b.name + ".png", Texture.class);
 			}
 		}
 	}

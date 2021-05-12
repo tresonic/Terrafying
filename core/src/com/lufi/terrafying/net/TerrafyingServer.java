@@ -2,6 +2,7 @@ package com.lufi.terrafying.net;
 
 import com.esotericsoftware.kryonet.*;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
 import com.lufi.terrafying.entities.Player;
@@ -42,7 +43,7 @@ public class TerrafyingServer {
 			server.bind(Network.port0, Network.port1);
 			
 			server.start();
-			server.addListener(new Listener() {
+			server.addListener(new ThreadedListener(new Listener() {
 				public void received(Connection connection, Object object) {
 					packetReceived(connection, object);
 				}
@@ -52,7 +53,7 @@ public class TerrafyingServer {
 					System.out.println("client disconnected from server!");
 				}
 				
-			});
+			}));
 			Network.register(server.getKryo());
 			
 		} catch(Exception e) {
@@ -63,7 +64,8 @@ public class TerrafyingServer {
 	}
 	
 	public void stop() {
-		server.stop();
+		if(server != null)
+			server.stop();
 	}
 	
 	public void packetReceived(Connection connection, Object object) {

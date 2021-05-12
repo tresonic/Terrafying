@@ -8,6 +8,7 @@ import java.util.List;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
@@ -37,8 +38,10 @@ public class TerrafyingClient {
 		new Thread("Connect") {
 			public void run () {
 				try {
+					System.out.println("connecting to " + address);
 					connecting = true;
 					client.connect(5000, address, Network.port0, Network.port1);
+					System.out.println("connect call finished");
 					// Server communication after connection can go here, or in Listener#connected().
 				} catch (IOException ex) {
 					ex.printStackTrace();
@@ -46,7 +49,8 @@ public class TerrafyingClient {
 				}
 			}
 		}.start();
-		client.addListener(new Listener() {
+		
+		client.addListener(new ThreadedListener(new Listener() {
 			public void received(Connection connection, Object object) {
 				packetReceived(connection, object);
 			}
@@ -62,7 +66,7 @@ public class TerrafyingClient {
 				System.out.println("client lost connection");
 				connected = false;
 			}
-		});
+		}));
 
 	}
 	

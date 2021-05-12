@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.*;
 import com.lufi.terrafying.world.Block;
 
@@ -40,5 +41,6 @@ public class Terrafying extends Game {
 	@Override
 	public void dispose () {
 		assetManager.dispose();
+		TerrafyingServer.the().stop();
 	}
 }
