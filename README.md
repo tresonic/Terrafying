@@ -21,7 +21,7 @@ Die fertige Jar-Datei befindet sich in `desktop/build/libs`
 
 Button | Aktion
 --- | ---
-Join | Einem bestehenden Spiel beitreten. Dabei muss, sofern nicht automatisch vom Spiel erkannt, eine IP-Adresse eingegeben werden.
+Join | Einem bestehenden Spiel beitreten. Dabei muss, sofern nicht automatisch vom Spiel erkannt, die IP-Adresse des Servers eingegeben werden.
 Host | Ein neues Spiel eröffnen. Hier können andere Spieler im lokalen Netz beitreten.
 
 ### Spiel
