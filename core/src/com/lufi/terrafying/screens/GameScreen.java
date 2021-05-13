@@ -7,17 +7,19 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
-	public final static int viewPortWidth = 50 * Block.BLOCK_SIZE;
-	private final Game game;
+	public final static int viewPortWidth = 40 * Block.BLOCK_SIZE;
+	public final Game game;
 	
-	private TerrafyingClient client;
-	private World world;
-	private OrthographicCamera camera;
+	public TerrafyingClient client;
+	public World world;
+	public OrthographicCamera camera;
+	public GuiManager guiManager;
 	
 	private SpriteBatch spriteBatch;
 	private ShapeRenderer sh;
@@ -40,12 +42,13 @@ public class GameScreen implements Screen {
 		spriteBatch = new SpriteBatch();
 		camera = new OrthographicCamera(viewPortWidth, viewPortWidth * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
 		camera.position.set(world.map.spawnpoint.x, world.map.spawnpoint.y, 0);
+		guiManager = new GuiManager(this);
 	}
 	
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(world.player);
+		Gdx.input.setInputProcessor(guiManager);
 		camera.position.x = world.player.posx;
 		camera.position.y = world.player.posy;
 	}

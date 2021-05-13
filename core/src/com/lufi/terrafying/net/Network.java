@@ -8,8 +8,8 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
+import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Chunk;
-import com.lufi.terrafying.world.Vector2i;
 
 public class Network {
 	static public final int port0 = 6567;

@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.util.SimplexNoise;
+import com.lufi.terrafying.util.Vector2i;
 
 public class Map {
 
@@ -132,6 +134,10 @@ public class Map {
 	
 	public int getBlockAt(float x, float y) {
 		return getBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE);
+	}
+	
+	public void setBlockAt(float x, float y, int block) {
+		setBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE, block);
 	}
 	
 	public void setBlock(int x, int y, int block) {

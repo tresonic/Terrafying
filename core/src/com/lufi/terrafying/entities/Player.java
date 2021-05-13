@@ -1,13 +1,14 @@
 package com.lufi.terrafying.entities;
 
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
-import com.lufi.terrafying.world.Vector2i;
 
-public class Player extends Entity implements InputProcessor {
+public class Player extends Entity {
 	private final float ACCEL_GROUND = 150;
 	private final float ACCEL_AIR = 70;
 	private final float MAX_SPD = 80;
@@ -31,7 +32,6 @@ public class Player extends Entity implements InputProcessor {
 	public Player(float x, float y, int id, String nName) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
-
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
@@ -119,7 +119,6 @@ public class Player extends Entity implements InputProcessor {
 		return name;
 	}
 
-	@Override
 	public boolean keyDown(int keycode) {
 		switch(keycode) {
 		case Keys.W:
@@ -141,7 +140,6 @@ public class Player extends Entity implements InputProcessor {
 		return true;
 	}
 
-	@Override
 	public boolean keyUp(int keycode) {
 		switch(keycode) {
 		case Keys.W:
@@ -167,40 +165,18 @@ public class Player extends Entity implements InputProcessor {
 		return true;
 	}
 
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public boolean scrolled(float amountX, float amountY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

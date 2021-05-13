@@ -1,4 +1,4 @@
-package com.lufi.terrafying.world;
+package com.lufi.terrafying.util;
 
 public class Vector2i {
 	public int x;

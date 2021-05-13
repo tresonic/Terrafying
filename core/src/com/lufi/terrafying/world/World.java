@@ -38,7 +38,7 @@ public class World {
 			
 			
 			if(e.isPlayer()) {
-				Texture t = Terrafying.assetManager.get("TestMensch.png", Texture.class);
+				Texture t = Terrafying.assetManager.get("wizard.png", Texture.class);
 				boolean flip = e.getLastMoveDirX() < 0;
 				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
 				Terrafying.font.draw(sb, e.name, e.posx, e.posy);

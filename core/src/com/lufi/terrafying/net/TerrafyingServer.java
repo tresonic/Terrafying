@@ -7,8 +7,8 @@ import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
+import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Map;
-import com.lufi.terrafying.world.Vector2i;
 import com.badlogic.gdx.utils.Array;
 
 public class TerrafyingServer {

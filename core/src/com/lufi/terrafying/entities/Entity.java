@@ -1,6 +1,6 @@
 package com.lufi.terrafying.entities;
 
-import com.lufi.terrafying.world.Vector2i;
+import com.lufi.terrafying.util.Vector2i;
 
 public class Entity {
 	public float posx;

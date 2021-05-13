@@ -1,4 +1,4 @@
-package com.lufi.terrafying.world;
+package com.lufi.terrafying.util;
 
 import java.util.Random;
 
