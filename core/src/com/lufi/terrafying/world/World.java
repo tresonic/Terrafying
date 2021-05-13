@@ -27,29 +27,27 @@ public class World {
 		
 		cam.position.x = player.posx;
 		cam.position.y = player.posy;
-		player.updateAndGetTranslation(0.02f);
+		player.updateAndGetTranslation(0.02f, map);
 
 		//entityManager.interpolateEntites(delta);
 		
 		map.render(cam, sb);
 		
-		sh.setColor(Color.BLUE);
-		sh.setAutoShapeType(true);
 		
 		for(Entity e : entityManager.getEntities()) {
 			sb.begin();
-			sh.begin();
+			
 			if(e.isPlayer()) {
-				Texture t = Terrafying.assetManager.get("TerrafyingMensch.png", Texture.class);
+				Texture t = Terrafying.assetManager.get("TestMensch.png", Texture.class);
 				boolean flip = e.getLastMoveDirX() < 0;
 				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
 				Terrafying.font.draw(sb, e.name, e.posx, e.posy);
 			} else {				
-				sh.rect(e.posx, e.posy, 10, 10);
 				
-			}
-			sb.end();
-			sh.end();
+				
+			}			
 		}
+			
+		sb.end();
 	}
 }

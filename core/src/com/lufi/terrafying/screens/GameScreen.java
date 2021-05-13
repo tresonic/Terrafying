@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
 		ScreenUtils.clear(0, 0, 0, 1);
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
+		sh.setProjectionMatrix(camera.combined);
 		world.render(delta, camera, sh, spriteBatch);
 		
 		//System.out.println(Gdx.input.getInputProcessor());

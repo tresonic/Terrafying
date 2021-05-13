@@ -120,7 +120,7 @@ public class Map {
 		sb.end();
 	}
 	
-	private int getBlock(int x, int y) {
+	public int getBlock(int x, int y) {
 		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
 		Chunk c = chunks.get(chunkId);
 		if(c != null) {
@@ -130,7 +130,11 @@ public class Map {
 		}
 	}
 	
-	private void setBlock(int x, int y, int block) {
+	public int getBlockAt(float x, float y) {
+		return getBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE);
+	}
+	
+	public void setBlock(int x, int y, int block) {
 		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
 		Chunk c = chunks.get(chunkId);
 		if(c != null) {

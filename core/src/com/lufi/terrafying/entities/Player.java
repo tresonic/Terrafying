@@ -3,21 +3,24 @@ package com.lufi.terrafying.entities;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.lufi.terrafying.world.Block;
+import com.lufi.terrafying.world.Map;
 import com.lufi.terrafying.world.Vector2i;
 
 public class Player extends Entity implements InputProcessor {
 	private final float ACCEL_GROUND = 150;
 	private final float ACCEL_AIR = 70;
 	private final float MAX_SPD = 80;
-	private final float JUMP_SPD = 60;
-	private final float GRAVITY = -120;
+	private final float JUMP_SPD = 120;
+	private final float GRAVITY = -300;
 	private final float FRICTION = -10;
+	
+	private final float WIDTH = Block.BLOCK_SIZE - 2;
+	private final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
 	
 	private Vector2i inputDir;
 	private boolean inputJump;
 	
-	private float accelx;
-	private float accely;
 	
 	private boolean onGround;
 
@@ -28,18 +31,16 @@ public class Player extends Entity implements InputProcessor {
 	
 	public Player(float x, float y, int id, String nName) {
 		super(x, y, id, nName);
-		accelx = 0;
-		accely = 0;
 		inputDir = new Vector2i();
 		onGround = true;
 	}
 
-	public Vector2 updateAndGetTranslation(float delta) {
+	public Vector2 updateAndGetTranslation(float delta, Map map) {
 		//System.out.println(delta);
 		if(inputDir.x > 0)
 			speedx += (onGround ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else if(inputDir.x < 0)
-			speedx += (onGround ? -ACCEL_GROUND : -ACCEL_AIR) * delta;
+			speedx -= (onGround ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else {
 			if(onGround) {
 				speedx += FRICTION * speedx * delta;
@@ -57,15 +58,40 @@ public class Player extends Entity implements InputProcessor {
 		if(onGround && inputJump) {
 			//if(speedy == 0) {
 				speedy = JUMP_SPD;
+				onGround = false;
 			//}
 		}
 		
-
+		speedy += GRAVITY * delta;
 		
-		//speedy += GRAVITY * delta;
+		float newposx = posx + speedx * delta;
+		float newposy = posy + speedy * delta;
 		
-		posx += speedx * delta;
-		posy += speedy * delta;
+		if(speedx > 0) {
+			if(Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT)).getCollidable()) {
+				newposx = Math.round(posx);
+				speedx = 0;
+			}
+		}
+		
+		else if(speedx < 0) {
+			if(Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT)).getCollidable()) {
+				newposx = Math.round(posx);
+				speedx = 0;
+			}
+		}
+		
+		if(speedy < 0) {
+			if(Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy)).getCollidable()) {
+				newposy = ((int)posy);
+				onGround = true;
+				speedy = 0;
+			}
+		}
+		
+		
+		posx = newposx;
+		posy = newposy;
 		
 		if(speedx > 0)
 			lastMoveDir.x = 1;
