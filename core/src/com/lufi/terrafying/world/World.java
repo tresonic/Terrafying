@@ -33,9 +33,9 @@ public class World {
 		
 		map.render(cam, sb);
 		
-		
+		sb.begin();
 		for(Entity e : entityManager.getEntities()) {
-			sb.begin();
+			
 			
 			if(e.isPlayer()) {
 				Texture t = Terrafying.assetManager.get("TestMensch.png", Texture.class);
