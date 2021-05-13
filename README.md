@@ -37,4 +37,5 @@ Host | Ein neues Spiel eröffnen. Hier können andere Spieler im lokalen Netz be
 
 ## Server
 Mit dem Argument `server` kann ein dedizierter Server gestartet werden:
+
 `java -jar Terrafying.jar server`
