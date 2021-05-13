@@ -72,7 +72,7 @@ public class Map {
 			
 			for(int y=1; y<height; y++) {
 				if(((n3.getNoise(x, y) + 1) / 2) 
-						* (1 / ((double)height/((double)height*2000) * y + 1)) // higher -> less caves
+						* (1 / ((double)height/((double)height*1000) * y + 1)) // higher -> less caves
 						* (- 1/(2 * y+0.0000001) + 1) // very bottom -> no caves
 						* xMul // closer to left or right edge -> less caves
 						> 0.5f)
@@ -95,8 +95,8 @@ public class Map {
 		Vector2 startpos = new Vector2(cam.position.x - cam.viewportWidth / 2, cam.position.y - cam.viewportHeight / 2);
 		Vector2 endpos = new Vector2(cam.position.x + cam.viewportWidth / 2, cam.position.y + cam.viewportHeight);
 		
-		int startx = MathUtils.clamp((int) (startpos.x / (float) Block.BLOCK_SIZE), 0, width);
-		int starty = MathUtils.clamp((int) (startpos.y / (float) Block.BLOCK_SIZE), 0, height);
+		int startx = MathUtils.clamp((int) (startpos.x / (float) Block.BLOCK_SIZE) - 1, 0, width);
+		int starty = MathUtils.clamp((int) (startpos.y / (float) Block.BLOCK_SIZE) - 1, 0, height);
 		int endx = MathUtils.clamp((int) (endpos.x / (float) Block.BLOCK_SIZE) + 1, 0, width);
 		int endy = MathUtils.clamp((int) (endpos.y / (float) Block.BLOCK_SIZE) + 1, 0, height);
 		

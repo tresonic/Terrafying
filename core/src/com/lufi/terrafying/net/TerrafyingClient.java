@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
+import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Chunk;
 import com.lufi.terrafying.world.World;
@@ -76,7 +77,7 @@ public class TerrafyingClient {
 		//System.out.println("sending position..." + client.getRemoteAddressTCP());
 		client.sendUDP(p);
 		
-		final int chunkDist = 3;
+		final int chunkDist = GameScreen.viewPortWidth / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
 		
 		for(int x = -chunkDist; x<chunkDist; x++) {
 			for(int y = -chunkDist; y<chunkDist; y++) {

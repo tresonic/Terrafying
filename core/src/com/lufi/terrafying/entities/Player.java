@@ -19,30 +19,29 @@ public class Player extends Entity implements InputProcessor {
 	private final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
 	
 	private Vector2i inputDir;
-	private boolean inputJump;
+	private boolean inputJump; 
 	
-	
-	private boolean onGround;
+	private int jumpsLeft;
+	private int jumpCount = 2;	
 
 	public Player() {
 		inputDir = new Vector2i();
-		onGround = true;
 	}
 	
 	public Player(float x, float y, int id, String nName) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
-		onGround = true;
+
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
 		//System.out.println(delta);
 		if(inputDir.x > 0)
-			speedx += (onGround ? ACCEL_GROUND : ACCEL_AIR) * delta;
+			speedx += ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else if(inputDir.x < 0)
-			speedx -= (onGround ? ACCEL_GROUND : ACCEL_AIR) * delta;
+			speedx -= ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else {
-			if(onGround) {
+			if((jumpsLeft == jumpCount)) {
 				speedx += FRICTION * speedx * delta;
 				if (Math.abs(speedx) < 0.01f)
 					speedx = 0;
@@ -55,11 +54,10 @@ public class Player extends Entity implements InputProcessor {
 			speedx = -MAX_SPD;
 			
 
-		if(onGround && inputJump) {
-			//if(speedy == 0) {
-				speedy = JUMP_SPD;
-				onGround = false;
-			//}
+		if(jumpsLeft > 0 && inputJump) {
+			speedy = JUMP_SPD;
+			jumpsLeft--;
+			inputJump = false;
 		}
 		
 		speedy += GRAVITY * delta;
@@ -68,23 +66,39 @@ public class Player extends Entity implements InputProcessor {
 		float newposy = posy + speedy * delta;
 		
 		if(speedx > 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT)).getCollidable()) {
+			if(Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy)).getCollidable() 
+				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT / 2)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT)).getCollidable()) 
+			{
 				newposx = Math.round(posx);
 				speedx = 0;
 			}
 		}
 		
 		else if(speedx < 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT)).getCollidable()) {
+			if(Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT / 2)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT)).getCollidable()) 
+			{
 				newposx = Math.round(posx);
 				speedx = 0;
 			}
 		}
 		
 		if(speedy < 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable() || Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy)).getCollidable()) {
+			if(Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy)).getCollidable()) 
+			{
 				newposy = ((int)posy);
-				onGround = true;
+				jumpsLeft = jumpCount;
+				speedy = 0;
+			}
+		}
+		else if(speedy > 0) {
+			if(Block.getBlockById(map.getBlockAt(newposx, newposy + HEIGHT)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy + HEIGHT)).getCollidable()) 
+			{
+				newposy = ((int)posy);
 				speedy = 0;
 			}
 		}
