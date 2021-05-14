@@ -53,18 +53,18 @@ public class Map {
 			//System.out.println("s: " +  stoneHeight + ", d: " + dirtHeight);
 			
 			for(int y=0; y<stoneHeight; y++) {
-				setBlock(x, y, Block.STONE.getId());
+				setBlock(x, y, Block.getBlockByName("stone").getId());
 			}
 			
 			for(int y=stoneHeight; y<stoneHeight + dirtHeight; y++) {
-				setBlock(x, y, Block.DIRT.getId());
+				setBlock(x, y, Block.getBlockByName("dirt").getId());
 			}
 			
 			for(int y = stoneHeight + dirtHeight; y<height; y++) {
-				setBlock(x, y, Block.AIR.getId());
+				setBlock(x, y, Block.getBlockByName("air").getId());
 			}
 			
-			setBlock(x, stoneHeight+dirtHeight, Block.GRASS.getId());
+			setBlock(x, stoneHeight+dirtHeight, Block.getBlockByName("grass").getId());
 		}
 		
 		// carve caves into stone
@@ -78,7 +78,7 @@ public class Map {
 						* (- 1/(2 * y+0.0000001) + 1) // very bottom -> no caves
 						* xMul // closer to left or right edge -> less caves
 						> 0.5f)
-					setBlock(x, y, Block.AIR.getId());
+					setBlock(x, y, Block.getBlockByName("air").getId());
 			}
 		}
 		
@@ -86,7 +86,7 @@ public class Map {
 		int spawnX = ThreadLocalRandom.current().nextInt(width / 10, width - width/10);
 		int spawnY = height;
 		for(int i=height; i>0; i--) {
-			if(getBlock(spawnX, spawnY - 1) != Block.AIR.getId())
+			if(getBlock(spawnX, spawnY - 1) != Block.getBlockByName("air").getId())
 				break;
 			spawnY--;
 		}
@@ -128,7 +128,7 @@ public class Map {
 		if(c != null) {
 			return c.getBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		} else {
-			return Block.AIR.getId();
+			return Block.getBlockByName("air").getId();
 		}
 	}
 	

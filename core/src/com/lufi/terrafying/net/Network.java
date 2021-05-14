@@ -8,6 +8,9 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
+import com.lufi.terrafying.items.Inventory;
+import com.lufi.terrafying.items.Item;
+import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Chunk;
 
@@ -27,6 +30,11 @@ public class Network {
 				Player.class,
 				Entity.class,
 				Chunk.class,
+				
+				Inventory.class,
+				ItemStack.class,
+				ItemStack[].class,
+				Item.class,
 				
 				Vector2.class,
 				Vector2i.class,

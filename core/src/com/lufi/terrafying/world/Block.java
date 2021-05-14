@@ -5,12 +5,9 @@ import java.util.HashMap;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
-public enum Block {
+public class Block {
 	
-	AIR(1, false, false, "air"),
-	STONE(2, true, "stone"),
-	DIRT(3, true, "dirt"),
-	GRASS(4, true, "grass");
+	private static HashMap<Integer, Block> blockMap;
 	
 	public static final int BLOCK_SIZE = 16;
 	public static final String BLOCK_PATH = "blocks";
@@ -49,21 +46,36 @@ public enum Block {
 		return name;
 	}
 	
-	private static HashMap<Integer, Block> blockMap;
-	
-	static {
+	public static void registerBlocks() {
 		blockMap = new HashMap<Integer, Block>();
-		for(Block b : Block.values()) {
-			blockMap.put(b.getId(), b);
-		}
+		registerBlock(1, false, false, "air");
+		registerBlock(2, true, true, "stone");
+		registerBlock(3, true, true, "dirt");
+		registerBlock(4, true, true, "grass");
+	}
+	
+	public static void registerBlock(int id, boolean nCollidable, boolean nDrawable, String nName) {
+		blockMap.put(id, new Block(id, nCollidable, nDrawable, nName));
+	}
+	
+	public static int getNumRegisteredBlocks() {
+		return blockMap.size();
 	}
 	
 	public static void loadBlockTextures(AssetManager am) {
-		for(Block b : Block.values()) {
+		for(Block b : blockMap.values()) {
 			if(b.drawable) {
 				am.load(BLOCK_PATH + "/" + b.name + ".png", Texture.class);
 			}
 		}
+	}
+	
+	public static Block getBlockByName(String name) {
+		for(Block b : blockMap.values()) {
+			if(b.name == name)
+				return b;
+		}
+		return null;
 	}
 	
 	public static Block getBlockById(int id) {

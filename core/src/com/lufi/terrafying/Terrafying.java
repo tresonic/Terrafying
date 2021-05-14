@@ -27,6 +27,7 @@ public class Terrafying extends Game {
 		font.getData().setScale(0.3f);
 		
 		assetManager = new AssetManager();
+		Block.registerBlocks();
 		Block.loadBlockTextures(assetManager);
 		assetManager.load("TerrafyingMensch.png", Texture.class);
 		assetManager.load("TestMensch.png", Texture.class);

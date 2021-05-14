@@ -22,7 +22,7 @@ public class World {
 		entityManager = new EntityManager();
 	}
 	
-	public void render(float delta, OrthographicCamera cam,ShapeRenderer sh, SpriteBatch sb) {
+	public void render(float delta, OrthographicCamera cam, ShapeRenderer sh, SpriteBatch sb) {
 		// System.out.println(delta);
 		
 		cam.position.x = player.posx;
@@ -34,9 +34,7 @@ public class World {
 		map.render(cam, sb);
 		
 		sb.begin();
-		for(Entity e : entityManager.getEntities()) {
-			
-			
+		for(Entity e : entityManager.getEntities()) {	
 			if(e.isPlayer()) {
 				Texture t = Terrafying.assetManager.get("wizard.png", Texture.class);
 				boolean flip = e.getLastMoveDirX() < 0;

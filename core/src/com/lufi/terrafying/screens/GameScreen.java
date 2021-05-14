@@ -19,10 +19,11 @@ public class GameScreen implements Screen {
 	public TerrafyingClient client;
 	public World world;
 	public OrthographicCamera camera;
+	public OrthographicCamera hudCamera;
 	public GuiManager guiManager;
 	
-	private SpriteBatch spriteBatch;
-	private ShapeRenderer sh;
+	public SpriteBatch spriteBatch;
+	private ShapeRenderer shapeRenderer;
 	
 	private String name, ip;
 	
@@ -32,7 +33,8 @@ public class GameScreen implements Screen {
 		game = g;
 		name = playerName;
 		ip = serverAddress;
-		sh = new ShapeRenderer();
+		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setAutoShapeType(true);
 		world = new World(500, 500);
 		client = new TerrafyingClient(world);
 		client.connect(name, ip);
@@ -41,25 +43,34 @@ public class GameScreen implements Screen {
 		lastTime = 0;
 		spriteBatch = new SpriteBatch();
 		camera = new OrthographicCamera(viewPortWidth, viewPortWidth * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+		hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		hudCamera.position.x = Gdx.graphics.getWidth()/2;
+		hudCamera.position.y = Gdx.graphics.getHeight()/2;
+		hudCamera.update();
 		camera.position.set(world.map.spawnpoint.x, world.map.spawnpoint.y, 0);
-		guiManager = new GuiManager(this);
 	}
 	
 	
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(guiManager);
 		camera.position.x = world.player.posx;
 		camera.position.y = world.player.posy;
+		guiManager = new GuiManager(this);
+		Gdx.input.setInputProcessor(guiManager);
 	}
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 0, 1);
+		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
-		sh.setProjectionMatrix(camera.combined);
-		world.render(delta, camera, sh, spriteBatch);
+		shapeRenderer.setProjectionMatrix(camera.combined);
+		world.render(delta, camera, shapeRenderer, spriteBatch);
+		
+		hudCamera.update();
+		spriteBatch.setProjectionMatrix(hudCamera.combined);
+		shapeRenderer.setProjectionMatrix(hudCamera.combined);
+		guiManager.draw(spriteBatch, shapeRenderer, delta);
 		
 		//System.out.println(Gdx.input.getInputProcessor());
 		//System.out.println(Gdx.graphics.getFramesPerSecond());

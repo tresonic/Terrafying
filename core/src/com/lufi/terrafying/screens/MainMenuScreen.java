@@ -59,7 +59,7 @@ public class MainMenuScreen implements Screen {
 		nameLabel = new Label("Enter Player Name:", skin);
 		root.addActor(nameLabel);
 		nameField = new TextField("", skin);
-		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 92)));
+		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 91)));
 		root.addActor(nameField);
 		spaceLabel = new Label("", skin);
 		root.addActor(spaceLabel);

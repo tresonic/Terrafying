@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
@@ -16,6 +17,8 @@ public class Player extends Entity {
 	private final float GRAVITY = -300;
 	private final float FRICTION = -10;
 	
+	private final int INV_SIZE = 27;
+	
 	private final float WIDTH = Block.BLOCK_SIZE - 2;
 	private final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
 	
@@ -24,14 +27,18 @@ public class Player extends Entity {
 	
 	private int jumpsLeft;
 	private int jumpCount = 2;	
+	
+	public Inventory inventory;
 
 	public Player() {
 		inputDir = new Vector2i();
+		inventory = new Inventory(INV_SIZE);
 	}
 	
 	public Player(float x, float y, int id, String nName) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
+		inventory = new Inventory(INV_SIZE);
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
