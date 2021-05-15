@@ -15,6 +15,7 @@ import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Chunk;
+import com.lufi.terrafying.world.Map;
 import com.lufi.terrafying.world.World;
 
 public class TerrafyingClient {
@@ -94,6 +95,13 @@ public class TerrafyingClient {
 
 	}
 	
+	public void sendBlockUpdate(float x, float y) {
+		BlockUpdatePacket p = new BlockUpdatePacket();
+		p.blockId = world.map.getBlockAt(x, y);
+		p.pos = Map.getBlockPos(x, y);
+		client.sendTCP(p);
+	}
+	
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
@@ -128,6 +136,12 @@ public class TerrafyingClient {
 			ChunkResponsePacket p = (ChunkResponsePacket)object;
 			world.map.addChunk(p.chunkId, p.chunk);
 		}
+		
+		if(object instanceof BlockUpdatePacket) {
+			BlockUpdatePacket p = (BlockUpdatePacket)object;
+			world.map.setBlock(p.pos.x, p.pos.y, p.blockId);
+		}
+		
 	}
 	
 	public static String discoverServer() {

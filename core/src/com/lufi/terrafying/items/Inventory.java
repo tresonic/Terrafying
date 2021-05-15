@@ -13,7 +13,7 @@ public class Inventory {
 	
 	public ItemStack addItem(ItemStack item) {
 		for(int i = 0; i<itemStacks.length; i++) {
-			if(item.getName() == itemStacks[i].getName())
+			if(item.getName() == itemStacks[i].getName() && itemStacks[i].count < ItemStack.STACK_MAX)
 				return itemStacks[i].addItem(item);
 		}
 		for(int i=0; i<itemStacks.length; i++) {

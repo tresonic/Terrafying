@@ -123,12 +123,14 @@ public class Map {
 	}
 	
 	public int getBlock(int x, int y) {
+		if(x <= 0 || y <= 0)
+			return Block.getBlockByName("barrier").getId();
 		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
 		Chunk c = chunks.get(chunkId);
 		if(c != null) {
 			return c.getBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		} else {
-			return Block.getBlockByName("air").getId();
+			return Block.getBlockByName("barrier").getId();
 		}
 	}
 	
@@ -175,5 +177,9 @@ public class Map {
 	
 	public void removeChunk(Vector2i chunkId) {
 		chunks.remove(chunkId);
+	}
+	
+	public static Vector2i getBlockPos(float x, float y) {
+		return new Vector2i((int)x / Block.BLOCK_SIZE, (int)y / Block.BLOCK_SIZE);
 	}
 }

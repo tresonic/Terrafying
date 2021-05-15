@@ -26,6 +26,7 @@ public class Network {
 				EntityUpdatePacket.class,
 				ChunkRequestPacket.class,
 				ChunkResponsePacket.class,
+				BlockUpdatePacket.class,
 				
 				Player.class,
 				Entity.class,
@@ -92,6 +93,13 @@ public class Network {
 		public EntityUpdatePacket() {}
 		
 		public Entity entity;
+	}
+	
+	static public class BlockUpdatePacket {
+		public BlockUpdatePacket() {}
+		
+		public Vector2i pos;
+		public int blockId;
 	}
 
 	

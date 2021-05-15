@@ -89,10 +89,14 @@ public class GuiManager implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(!guiActive) {
 			Vector3 wpos = gameScreen.camera.unproject(new Vector3(screenX, screenY, 0));
-			if(button == Input.Buttons.LEFT)
-				gameScreen.world.player.wield(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem());
-			else if(button == Input.Buttons.RIGHT)
-				gameScreen.world.player.use(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem());
+			if(button == Input.Buttons.LEFT) {
+				if(gameScreen.world.player.wield(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem()))
+					gameScreen.client.sendBlockUpdate(wpos.x, wpos.y);
+			}
+			else if(button == Input.Buttons.RIGHT) {
+				if(gameScreen.world.player.use(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem()))
+					gameScreen.client.sendBlockUpdate(wpos.x, wpos.y);
+			}
 		} else {
 			currentGui.mouseDown((int)mpos.x, (int)mpos.y, button);
 		}

@@ -33,7 +33,7 @@ public class TerrafyingServer {
 	
 	public void start() {
 		System.out.println("starting server");
-		map = new Map(50, 15);
+		map = new Map(5, 2);
 		long beg = System.nanoTime();
 		map.generate();
 		long end = System.nanoTime();
@@ -102,6 +102,12 @@ public class TerrafyingServer {
 			cRP.chunk = map.getChunkAtChunkId(cId);
 			cRP.chunkId = cId;
 			connection.sendTCP(cRP);
+		}
+		
+		if(object instanceof BlockUpdatePacket) {
+			BlockUpdatePacket p = (BlockUpdatePacket)object;
+			map.setBlock(p.pos.x, p.pos.y, p.blockId);
+			server.sendToAllExceptTCP(connection.getID(), p);
 		}
 	}
 }

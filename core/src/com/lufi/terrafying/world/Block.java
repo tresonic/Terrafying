@@ -16,19 +16,21 @@ public class Block {
 	private int id;
 	private boolean collidable;
 	private boolean drawable;
+	private boolean mineable;
 	private String name;
 	
 
 	
-	private Block(int nId, boolean nCollidable, boolean nDrawable, String nName) {
+	private Block(int nId, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
 		id = nId;
 		collidable = nCollidable;
 		drawable = nDrawable;
+		mineable = nMineable;
 		name = nName;
 	}
 	
 	private Block(int nId, boolean nCollidable, String nName) {
-		this(nId, nCollidable, true, nName);
+		this(nId, nCollidable, true, true, nName);
 	}
 	
 	public int getId() {
@@ -43,20 +45,27 @@ public class Block {
 		return drawable;
 	}
 	
+	public boolean getMineable() {
+		return mineable;
+	}
+	
 	public String getName() {
 		return name;
 	}
+
 	
 	public static void registerBlocks() {
 		blockMap = new HashMap<Integer, Block>();
-		registerBlock(1, false, false, "air");
-		registerBlock(2, true, true, "stone");
-		registerBlock(3, true, true, "dirt");
-		registerBlock(4, true, true, "grass");
+		int c = 0;
+		registerBlock(c++, true, false, false, "barrier");
+		registerBlock(c++, false, false, false, "air");
+		registerBlock(c++, true, true, true, "stone");
+		registerBlock(c++, true, true, true, "dirt");
+		registerBlock(c++, true, true, true, "grass");
 	}
 	
-	public static void registerBlock(int id, boolean nCollidable, boolean nDrawable, String nName) {
-		blockMap.put(id, new Block(id, nCollidable, nDrawable, nName));
+	public static void registerBlock(int id, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
+		blockMap.put(id, new Block(id, nCollidable, nDrawable, nMineable, nName));
 		Item.registerItem(id, nName, true);
 	}
 	
