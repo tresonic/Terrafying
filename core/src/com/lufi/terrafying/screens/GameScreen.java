@@ -85,7 +85,13 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		camera.viewportWidth = viewPortWidth;                 // Viewport of 30 units!
+		camera.viewportHeight = viewPortWidth * height/width; // Lets keep things in proportion.
+		camera.update();
+		
+//		hudCamera.viewportWidth = 1280f;
+//		hudCamera.viewportHeight = 720f;
+//		hudCamera.update();
 		
 	}
 

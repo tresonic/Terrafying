@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.items.Inventory;
+import com.lufi.terrafying.items.Item;
+import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
@@ -39,6 +41,8 @@ public class Player extends Entity {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
+		inventory.addItem(new ItemStack(Item.getItemByName("stone"), 50));
+		inventory.addItem(new ItemStack(Item.getItemByName("grass"), 50));
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {

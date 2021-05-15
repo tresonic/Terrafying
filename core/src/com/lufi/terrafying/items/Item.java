@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.world.Block;
 
 public class Item {
@@ -15,6 +16,8 @@ public class Item {
 	 
 	 private static String ITEM_PATH = "items";
 	 private static HashMap<Integer, Item> itemMap = new HashMap<Integer, Item>();
+	 
+	 public Item() {}
 	 
 	 private Item(int nId, String nName, boolean nBlockItem) {
 		 id = nId;
@@ -53,6 +56,14 @@ public class Item {
 				am.load(ITEM_PATH + "/" + i.name + ".png", Texture.class);
 			}
 		}
+	}
+	
+	public static Texture getItemTexture(int id) {
+		Item i = itemMap.get(id);
+		if(i.getBlockItem())
+			return Terrafying.assetManager.get(Block.BLOCK_PATH + "/" + i.name + ".png", Texture.class);
+		else
+			return Terrafying.assetManager.get(ITEM_PATH + "/" + i.name + ".png", Texture.class);
 	}
 	
 	public static Item getItemByName(String name) {

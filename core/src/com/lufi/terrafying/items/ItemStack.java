@@ -26,13 +26,14 @@ public class ItemStack {
 		else if(isEmpty()) {
 			item = newItem.item;
 			count = newItem.count;
+			newItem.count = 0;
 		}
 		// item doesn't match
 		else if(item.getName() != newItem.item.getName()) {}
 		// new stack fits fully
 		else if(newItem.count <= getFreeSpace()) {
 			count += newItem.count;
-			return null;
+			newItem.count = 0;
 		}
 		// new stack doesn't fit fully, add everything that fits and return the rest
 		else {
@@ -43,7 +44,7 @@ public class ItemStack {
 		if(newItem.count > 0)
 			return newItem;
 		else 
-			return null;
+			return new ItemStack();
 		
 	}
 	
@@ -54,7 +55,7 @@ public class ItemStack {
 	 */
 	public ItemStack takeItem(int takeCount) {
 		if(takeCount == 0 || count == 0)
-			return null;
+			return new ItemStack();
 		ItemStack result = new ItemStack(item, count);
 		if(takeCount >= count) {
 			count = 0;
@@ -85,6 +86,14 @@ public class ItemStack {
 	}
 	
 	public String getName() {
-		return item.getName();
+		if(item != null)
+			return item.getName();
+		return new String();
+	}
+	
+	public int getId() {
+		if(item != null)
+			return item.getId();
+		return 0;
 	}
 }

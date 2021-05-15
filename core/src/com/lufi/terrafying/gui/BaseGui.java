@@ -9,6 +9,6 @@ public abstract class BaseGui {
 	public abstract void keyDown(int keycode);
 	public abstract void keyUp(int keycode);
 	public abstract void mouseMoved(int x, int y);
-	public abstract void mouseDown(int x, int y, int button, OrthographicCamera cam);
+	public abstract void mouseDown(int x, int y, int button);
 	public abstract void mouseUp(int x, int y, int button);
 }

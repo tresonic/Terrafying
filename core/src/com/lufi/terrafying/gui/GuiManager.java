@@ -8,9 +8,14 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.screens.GameScreen;
 
 public class GuiManager implements InputProcessor {
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720;
+	
 	public static Color backColor = Color.GRAY;
 	public static Color frontColor = Color.LIGHT_GRAY;
 	public static Color selectColor = Color.RED;
@@ -22,6 +27,8 @@ public class GuiManager implements InputProcessor {
 	private BaseGui currentGui;
 	private Hotbar hotbar;
 	
+	private Vector2 mpos;
+	
 	private boolean guiActive;
 
 	
@@ -29,6 +36,7 @@ public class GuiManager implements InputProcessor {
 		gameScreen = nGameScreen;
 		guiActive = false;
 		hotbar = new Hotbar(gameScreen.world.player.inventory, 9);
+		mpos = new Vector2();
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
@@ -36,6 +44,14 @@ public class GuiManager implements InputProcessor {
 			currentGui.draw(sb, sr, delta);
 		else
 			hotbar.draw(sb, sr, delta);
+		
+//		sr.begin();
+//		sr.setColor(Color.RED);
+//		sr.circle(mpos.x, mpos.y, 3);
+//		sr.end();
+	}
+	
+	public void resized(int width, int height) {
 	}
 
 	@Override
@@ -46,7 +62,11 @@ public class GuiManager implements InputProcessor {
 			else
 				currentGui = new InventoryGui(gameScreen.world.player.inventory);
 			guiActive = !guiActive;
-		} else if(!guiActive) {
+		} else if(guiActive) {
+			currentGui.keyDown(keycode);
+		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
+			hotbar.keyDown(keycode);
+		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}
 		return true;
@@ -69,7 +89,7 @@ public class GuiManager implements InputProcessor {
 		if(!guiActive) {
 			
 		} else {
-			currentGui.mouseDown(screenX, Gdx.graphics.getHeight() - screenY, button, gameScreen.hudCamera);
+			currentGui.mouseDown((int)mpos.x, (int)mpos.y, button);
 		}
 			
 		return true;
@@ -83,14 +103,18 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
+		mpos.set(gameScreen.hudCamera.unproject(new Vector3(screenX, screenY, 0)).x, gameScreen.hudCamera.unproject(new Vector3(screenX, screenY, 0)).y);
+		if(!guiActive) {
+			
+		} else {
+			currentGui.mouseMoved((int)mpos.x, (int)mpos.y);
+		}
+		return true;
 	}
 
 	@Override

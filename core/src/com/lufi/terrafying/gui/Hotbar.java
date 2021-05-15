@@ -1,15 +1,21 @@
 package com.lufi.terrafying.gui;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.items.Inventory;
+import com.lufi.terrafying.items.Item;
+import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.world.Block;
 
 public class Hotbar extends BaseGui {
 	private Inventory inventory;
+	
+	private ItemStackGui itemStackGuis[];
 	private int numSlots;
 	private int selectedSlot;
 
@@ -17,30 +23,23 @@ public class Hotbar extends BaseGui {
 	public Hotbar(Inventory nInventory, int nNumSlots) {
 		inventory = nInventory;
 		numSlots = nNumSlots;
+		itemStackGuis = new ItemStackGui[nNumSlots];
+		for(int i=0; i<numSlots; i++) {
+			itemStackGuis[i] = new ItemStackGui(i * ItemStackGui.SIZE, 0);
+		}
 		selectedSlot = 0;
 	}
 	@Override
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {
-		sr.begin();
-		sb.begin();
-		sr.set(ShapeType.Filled);
-		for(int i=0; i<numSlots; i++) {
-			sr.setColor(i == selectedSlot ? GuiManager.selectColor : GuiManager.backColor);
-			sr.rect((i * Block.BLOCK_SIZE + i * GuiManager.MARGIN * 2) * GuiManager.HUD_SCALE, 0,
-					(Block.BLOCK_SIZE + GuiManager.MARGIN * 2) * GuiManager.HUD_SCALE, (Block.BLOCK_SIZE + GuiManager.MARGIN * 2) * GuiManager.HUD_SCALE);
-			sr.setColor(GuiManager.frontColor);
-			sr.rect((i * (Block.BLOCK_SIZE + 2 * GuiManager.MARGIN) + GuiManager.MARGIN) * GuiManager.HUD_SCALE, GuiManager.MARGIN * GuiManager.HUD_SCALE,
-					Block.BLOCK_SIZE * GuiManager.MARGIN, Block.BLOCK_SIZE * GuiManager.MARGIN);
+		for(int i=0; i<itemStackGuis.length; i++) {
+			itemStackGuis[i].selected = i == selectedSlot;
+			itemStackGuis[i].draw(sb, sr, inventory.getItemStack(i));
 		}
-		sr.end();
-		sb.end();
-		
 	}
 
 	@Override
 	public void keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		
+		selectedSlot = keycode - Keys.NUM_1;	
 	}
 
 	@Override
@@ -56,7 +55,7 @@ public class Hotbar extends BaseGui {
 	}
 
 	@Override
-	public void mouseDown(int x, int y, int button, OrthographicCamera cam) {
+	public void mouseDown(int x, int y, int button) {
 		// TODO Auto-generated method stub
 		
 	}

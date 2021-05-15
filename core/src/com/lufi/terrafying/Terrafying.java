@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.*;
 import com.lufi.terrafying.world.Block;
@@ -16,6 +17,8 @@ public class Terrafying extends Game {
 	public static AssetManager assetManager;
 	public static BitmapFont font;
 	public static Texture fontTex;
+	public static BitmapFont guifont;
+	public static Texture guifontTex;
 	
 	
 	@Override
@@ -25,10 +28,18 @@ public class Terrafying extends Game {
 		fontTex.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
 		font = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(fontTex), false);
 		font.getData().setScale(0.3f);
+		font.setUseIntegerPositions(false);
+		
+		guifontTex = new Texture(Gdx.files.internal("arial32.png"), true);
+		guifont = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(guifontTex), false);
+		guifont.getData().setScale(0.5f);
+		
 		
 		assetManager = new AssetManager();
 		Block.registerBlocks();
 		Block.loadBlockTextures(assetManager);
+		Item.registerItems();
+		Item.loadItemTextures(assetManager);
 		assetManager.load("TerrafyingMensch.png", Texture.class);
 		assetManager.load("TestMensch.png", Texture.class);
 		assetManager.load("wizard.png", Texture.class);

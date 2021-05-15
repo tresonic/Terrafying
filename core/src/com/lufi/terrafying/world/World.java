@@ -28,8 +28,6 @@ public class World {
 		cam.position.x = player.posx;
 		cam.position.y = player.posy;
 		player.updateAndGetTranslation(0.02f, map);
-
-		//entityManager.interpolateEntites(delta);
 		
 		map.render(cam, sb);
 		

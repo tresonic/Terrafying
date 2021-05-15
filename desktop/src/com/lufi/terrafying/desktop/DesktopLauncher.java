@@ -8,7 +8,7 @@ import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.net.TerrafyingServer;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main (String[] arg) {		
 		Log.set(Log.LEVEL_WARN);
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
 			TerrafyingServer.the().start();
@@ -17,7 +17,6 @@ public class DesktopLauncher {
 			config.width = 1280;
 			config.height = 720;
 			config.title = "Terrafying";
-			// add icon in the future!!!
 			config.addIcon("icon1.png", FileType.Internal);
 			new LwjglApplication(new Terrafying(), config);
 		}

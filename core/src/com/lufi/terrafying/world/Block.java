@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.lufi.terrafying.items.Item;
 
 public class Block {
 	
@@ -56,6 +57,7 @@ public class Block {
 	
 	public static void registerBlock(int id, boolean nCollidable, boolean nDrawable, String nName) {
 		blockMap.put(id, new Block(id, nCollidable, nDrawable, nName));
+		Item.registerItem(id, nName, true);
 	}
 	
 	public static int getNumRegisteredBlocks() {
