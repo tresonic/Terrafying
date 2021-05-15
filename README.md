@@ -33,8 +33,8 @@ Taste | Aktion
 <kbd>A</kbd> | nach links gehen
 <kbd>D</kbd> | nach rechts gehen
 <kbd>Leertaste</kbd> | springen
-Linke Maustaste | Block abbauen
-Rechte Maustaste | Block platzieren
+<kbd>LMT</kbd> | Block abbauen
+<kbd>RMT</kbd> | Block platzieren
 <kbd>E</kbd> | Inventar öffnen
 <kbd>1</kbd> - <kbd>9</kbd> | Hotbar-Slot auswählen
 
