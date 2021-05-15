@@ -126,6 +126,22 @@ public class Player extends Entity {
 		return new Vector2(speedx * delta, speedy * delta);
 	}
 	
+	public void wield(float x, float y, Map map, ItemStack wieldItem) {
+		int bId = map.getBlockAt(x, y);
+		if(Block.getBlockById(bId).getName() == "air")
+			return;
+		map.setBlockAt(x, y, Block.getBlockByName("air").getId());
+		Item i = Item.getItemById(bId);
+		inventory.addItem(new ItemStack(i, 1));		
+	}
+	
+	public void use(float x, float y, Map map, ItemStack wieldItem) {
+		if(wieldItem.item.getBlockItem()) {
+			map.setBlockAt(x, y, wieldItem.item.getId());
+			wieldItem.count--;
+		}
+	}
+	
 	public String getName() {
 		return name;
 	}

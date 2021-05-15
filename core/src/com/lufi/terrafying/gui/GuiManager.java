@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -87,7 +88,11 @@ public class GuiManager implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(!guiActive) {
-			
+			Vector3 wpos = gameScreen.camera.unproject(new Vector3(screenX, screenY, 0));
+			if(button == Input.Buttons.LEFT)
+				gameScreen.world.player.wield(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem());
+			else if(button == Input.Buttons.RIGHT)
+				gameScreen.world.player.use(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem());
 		} else {
 			currentGui.mouseDown((int)mpos.x, (int)mpos.y, button);
 		}

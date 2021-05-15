@@ -65,5 +65,9 @@ public class Hotbar extends BaseGui {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public ItemStack getSelectedItem() {
+		return inventory.getItemStack(selectedSlot);
+	}
 
 }
