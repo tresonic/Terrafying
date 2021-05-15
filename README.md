@@ -27,14 +27,15 @@ Exit | Das Spiel verlassen.
 
 ### Spiel
 
-| Taste | Aktion |
-| --- | --- | 
-| <kbd>A</kbd> | nach links gehen |
-| <kbd>D</kbd> | nach rechts gehen |
-| <kbd>Leertaste</kbd> | springen |
-| Linke Maustaste | Block abbauen | 
-| Rechte Maustaste | Block platzieren |
-| <kbd>E</kbd> | Inventar öffnen |
+Taste | Aktion
+--- | ---
+<kbd>A</kbd> | nach links gehen
+<kbd>D</kbd> | nach rechts gehen
+<kbd>Leertaste</kbd> | springen
+Linke Maustaste | Block abbauen
+Rechte Maustaste | Block platzieren
+<kbd>E</kbd> | Inventar öffnen
+<kbd>1</kbd> - <kbd>9</kbd> | Hotbar-Slot auswählen
 
 ## Server
 Mit dem Argument `server` kann ein dedizierter Server gestartet werden:
