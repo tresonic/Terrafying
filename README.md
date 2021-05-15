@@ -1,4 +1,5 @@
-# Terrafying
+
+# ![leer lol](https://github.com/Tresonic/Terrafying/blob/main/core/assets/icon1.png)   Terrafying
 Terrafying ist ein Multiplayer-2D-Sandbox-Spiel, inspiriert durch Minecraft und Terraria.
 
 ## Download
