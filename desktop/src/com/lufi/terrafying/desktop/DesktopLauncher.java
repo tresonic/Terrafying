@@ -11,7 +11,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {		
 		Log.set(Log.LEVEL_WARN);
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
-			if(arg[1] != null)
+			if(arg.length > 1)
 				TerrafyingServer.the().start(arg[1]);
 			else 
 				TerrafyingServer.the().start("world");
