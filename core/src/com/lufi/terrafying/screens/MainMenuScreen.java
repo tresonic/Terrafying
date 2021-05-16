@@ -63,14 +63,8 @@ public class MainMenuScreen implements Screen {
 		root.columnDefaults(0).width(200);
 		root.defaults().width(50);
 		
-//		titleLabel = new Label("Terrafying", skin);
-//		titleLabel.setFontScale(2.f);
-//		titleLabel.setAlignment(Align.center);
-//		root.add(titleLabel).colspan(2).spaceBottom(50);
-//		root.row();
 		
-		logoImage = new Image(new Texture(Gdx.files.internal("icon_big.png")));
-		logoImage.setSize(512, 512);
+		logoImage = new Image(new Texture(Gdx.files.internal("icon.png")));
 		root.add(logoImage).colspan(2).width(256).height(256).spaceBottom(50);
 		root.row();
 		
