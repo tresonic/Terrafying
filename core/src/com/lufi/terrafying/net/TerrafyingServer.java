@@ -9,6 +9,7 @@ import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Map;
+import com.lufi.terrafying.world.MapLoaderSaver;
 import com.badlogic.gdx.utils.Array;
 
 public class TerrafyingServer {
@@ -31,13 +32,18 @@ public class TerrafyingServer {
 		return instance;
 	}
 	
-	public void start() {
-		System.out.println("starting server");
-		map = new Map(50, 15);
-		long beg = System.nanoTime();
-		map.generate();
-		long end = System.nanoTime();
-		System.out.println("mapgen took " + (end-beg)/1000000 + " ms");
+	public void start(String mapname) {
+		Map nMap = MapLoaderSaver.loadMap(mapname);
+		if(nMap == null) {
+			System.out.println("starting server");
+			map = new Map(mapname, 50, 15);
+			long beg = System.nanoTime();
+			map.generate();
+			long end = System.nanoTime();
+			System.out.println("mapgen took " + (end-beg)/1000000 + " ms");
+		} else {
+			map = nMap;
+		}
 		
 		try {
 			server = new Server(Network.port0, Network.port1);
@@ -65,8 +71,10 @@ public class TerrafyingServer {
 	}
 	
 	public void stop() {
-		if(server != null)
+		if(server != null) {
 			server.stop();
+			MapLoaderSaver.saveMap(map);
+		}
 	}
 	
 	public void packetReceived(Connection connection, Object object) {

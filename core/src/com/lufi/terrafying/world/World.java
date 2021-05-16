@@ -18,7 +18,7 @@ public class World {
 	public Player player;
 	
 	public World(int nWidth, int nHeight){
-		map = new Map(nWidth, nHeight);
+		map = new Map("client", nWidth, nHeight);
 		entityManager = new EntityManager();
 	}
 	

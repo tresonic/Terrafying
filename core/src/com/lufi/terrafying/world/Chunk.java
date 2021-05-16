@@ -1,6 +1,8 @@
 package com.lufi.terrafying.world;
 
-public class Chunk {
+import java.io.Serializable;
+
+public class Chunk implements Serializable {
 	public static final int CHUNK_SIZE = 32;
 	
 	private int[][] blocks;

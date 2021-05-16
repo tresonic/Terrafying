@@ -1,33 +1,26 @@
 package com.lufi.terrafying.world;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ObjectMap;
 import com.lufi.terrafying.Terrafying;
-import com.lufi.terrafying.util.SimplexNoise;
 import com.lufi.terrafying.util.Vector2i;
 
-public class Map {
+public class Map implements Serializable {
 
 	private int width;
 	private int height;
+	private String name;
 	private HashMap<Vector2i, Chunk> chunks;
 	
 	public Vector2 spawnpoint = new Vector2(250 * Block.BLOCK_SIZE, 150 * Block.BLOCK_SIZE);
 	
-	public Map(int nWidth, int nHeight) {
+	public Map(String nName, int nWidth, int nHeight) {
+		name = nName;
 		width = nWidth * Chunk.CHUNK_SIZE;
 		height = nHeight * Chunk.CHUNK_SIZE;
 		chunks = new HashMap<Vector2i, Chunk>();		
@@ -128,5 +121,9 @@ public class Map {
 	
 	public static Vector2i getBlockPos(float x, float y) {
 		return new Vector2i((int)x / Block.BLOCK_SIZE, (int)y / Block.BLOCK_SIZE);
+	}
+
+	public String getName() {
+		return name;
 	}
 }

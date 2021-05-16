@@ -4,20 +4,24 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.net.TerrafyingServer;
+import com.lufi.terrafying.world.MapLoaderSaver;
 
 
 
@@ -28,13 +32,16 @@ public class MainMenuScreen implements Screen {
 	
 	private VerticalGroup root;
 	
+	private Image logoImage;
 	private Label titleLabel;
 	private Label nameLabel;
 	private TextField nameField;
 	private Label spaceLabel;	
 	private TextButton joinButton;
 	private TextField joinIpField;
+	private SelectBox<String> mapSelectBox;
 	private TextButton hostButton;
+	private TextButton newMapButton;
 	private TextButton exitButton;
 	
 	private Skin skin;
@@ -55,6 +62,10 @@ public class MainMenuScreen implements Screen {
 		titleLabel = new Label("Terrafying", skin);
 		titleLabel.setFontScale(2.f);
 		root.addActor(titleLabel);
+		
+//		logoImage = new Image(new Texture(Gdx.files.internal("icon2.png")));
+//		logoImage.setSize(512, 512);
+//		root.addActor(logoImage);
 		
 		nameLabel = new Label("Enter Player Name:", skin);
 		root.addActor(nameLabel);
@@ -90,16 +101,36 @@ public class MainMenuScreen implements Screen {
 		jGrp.addActor(joinButton);
 		root.addActor(jGrp);
 		
+		
+		HorizontalGroup hGrp = new HorizontalGroup();
+		mapSelectBox = new SelectBox<String>(skin);
+		String maps[] = MapLoaderSaver.getAvailableMaps();
+		System.out.println(maps.length);
+		if(maps.length != 0)
+			mapSelectBox.setItems(maps);
+		else
+			mapSelectBox.setItems("no maps found...");
+		hGrp.addActor(mapSelectBox);
+		
 		hostButton = new TextButton("Host", skin);
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				if(!nameField.getText().isEmpty()) {
-					TerrafyingServer.the().start();
+				if(!nameField.getText().isEmpty() && mapSelectBox.getSelected() != "no maps found...") {
+					TerrafyingServer.the().start(mapSelectBox.getSelected());
 					game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
 				}
 			}
 		});
-		root.addActor(hostButton);
+		hGrp.addActor(hostButton);
+		root.addActor(hGrp);
+		
+		newMapButton = new TextButton("Create New Map", skin);
+		newMapButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.setScreen(new NewMapScreen(game, skin));
+			}
+		});
+		root.addActor(newMapButton);
 		
 		exitButton = new TextButton("Exit", skin);
 		exitButton.addListener(new ChangeListener() {
@@ -112,6 +143,7 @@ public class MainMenuScreen implements Screen {
 		root.align(Align.center);
 		root.setFillParent(true);
 		root.fill();
+
 		stage.addActor(root);
 	}
 	

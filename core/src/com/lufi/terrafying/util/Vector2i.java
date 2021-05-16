@@ -1,6 +1,8 @@
 package com.lufi.terrafying.util;
 
-public class Vector2i {
+import java.io.Serializable;
+
+public class Vector2i implements Serializable {
 	public int x;
 	public int y;
 	
