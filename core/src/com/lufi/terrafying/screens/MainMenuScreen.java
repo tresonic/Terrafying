@@ -105,7 +105,7 @@ public class MainMenuScreen implements Screen {
 		HorizontalGroup hGrp = new HorizontalGroup();
 		mapSelectBox = new SelectBox<String>(skin);
 		String maps[] = MapLoaderSaver.getAvailableMaps();
-		System.out.println(maps.length);
+
 		if(maps.length != 0)
 			mapSelectBox.setItems(maps);
 		else

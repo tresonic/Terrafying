@@ -61,6 +61,14 @@ public class NewMapScreen implements Screen {
 		root.add(sizeYField).spaceBottom(30);
 		root.row();
 		
+		TextButton backButton = new TextButton("back", skin);
+		backButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.setScreen(new MainMenuScreen(game));
+			}
+		});
+		root.add(backButton);
+		
 		TextButton createButton = new TextButton("create & save", skin);
 		createButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -68,7 +76,7 @@ public class NewMapScreen implements Screen {
 				game.setScreen(new MainMenuScreen(game));
 			}
 		});
-		root.add(createButton).colspan(2);
+		root.add(createButton);
 		
 		
 		
