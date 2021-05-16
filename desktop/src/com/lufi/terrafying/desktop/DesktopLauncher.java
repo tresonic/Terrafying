@@ -17,7 +17,7 @@ public class DesktopLauncher {
 			config.width = 1280;
 			config.height = 720;
 			config.title = "Terrafying";
-			config.addIcon("icon1.png", FileType.Internal);
+			config.addIcon("icon2.png", FileType.Internal);
 			new LwjglApplication(new Terrafying(), config);
 		}
 	} 
