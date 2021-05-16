@@ -36,9 +36,7 @@ public class Terrafying extends Game {
 		
 		
 		assetManager = new AssetManager();
-		Block.registerBlocks();
 		Block.loadBlockTextures(assetManager);
-		Item.registerItems();
 		Item.loadItemTextures(assetManager);
 		assetManager.load("TerrafyingMensch.png", Texture.class);
 		assetManager.load("TestMensch.png", Texture.class);

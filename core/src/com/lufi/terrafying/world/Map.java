@@ -23,10 +23,12 @@ public class Map implements Serializable {
 		name = nName;
 		width = nWidth * Chunk.CHUNK_SIZE;
 		height = nHeight * Chunk.CHUNK_SIZE;
-		chunks = new HashMap<Vector2i, Chunk>();		
+		chunks = new HashMap<Vector2i, Chunk>();	
+		System.out.println(width + " " + height);
 	}
 	
 	public void generate() {
+		System.out.println(width + " " + height);
 		MapGenerator.generate(this, width, height);
 	}
 	
@@ -125,5 +127,9 @@ public class Map implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+	
+	public int getNumChunks() {
+		return chunks.size();
 	}
 }

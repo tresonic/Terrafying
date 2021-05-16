@@ -7,11 +7,14 @@ import com.lufi.terrafying.util.Vector2i;
 
 public class MapGenerator {
 	public static void generate(Map map, int width, int height) {
+		System.out.println(width + " " + height);
 		for(int x=0; x<width/Chunk.CHUNK_SIZE; x++) {
 			for(int y=0; y<height/Chunk.CHUNK_SIZE; y++) {
 				map.addChunk(new Vector2i(x, y), new Chunk());
 			}
 		}
+		
+		System.out.println("chunks in map: " + map.getNumChunks());
 		
 		SimplexNoise n1 = new SimplexNoise(300, 0.45f, ThreadLocalRandom.current().nextInt());
 		SimplexNoise n2 = new SimplexNoise(300, 0.65f, ThreadLocalRandom.current().nextInt());

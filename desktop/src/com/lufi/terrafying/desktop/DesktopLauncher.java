@@ -5,11 +5,17 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.esotericsoftware.minlog.Log;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.net.TerrafyingServer;
+import com.lufi.terrafying.world.Block;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {		
 		Log.set(Log.LEVEL_WARN);
+		
+		Block.registerBlocks();
+		Item.registerItems();
+		
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
 			if(arg.length > 1)
 				TerrafyingServer.the().start(arg[1]);
