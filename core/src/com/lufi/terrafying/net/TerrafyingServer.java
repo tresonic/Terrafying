@@ -36,14 +36,13 @@ public class TerrafyingServer {
 		Map nMap = MapLoaderSaver.loadMap(mapname);
 		if(nMap == null) {
 			System.out.println("starting server");
-			map = new Map(mapname, 50, 15);
+			nMap = new Map(mapname, 50, 15);
 			long beg = System.nanoTime();
-			map.generate();
+			nMap.generate();
 			long end = System.nanoTime();
 			System.out.println("mapgen took " + (end-beg)/1000000 + " ms");
-		} else {
-			map = nMap;
 		}
+		map = nMap;
 		
 		try {
 			server = new Server(Network.port0, Network.port1);
