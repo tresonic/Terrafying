@@ -64,8 +64,8 @@ public class MainMenuScreen implements Screen {
 		root.defaults().width(50);
 		
 		
-		logoImage = new Image(new Texture(Gdx.files.internal("icon.png")));
-		root.add(logoImage).colspan(2).width(256).height(256).spaceBottom(50);
+		logoImage = new Image(new Texture(Gdx.files.internal("banner.png")));
+		root.add(logoImage).colspan(2).width(75 * 9).height(25 * 9).spaceBottom(50);
 		root.row();
 		
 		nameLabel = new Label("Enter Player Name:", skin);
@@ -84,8 +84,8 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 		joinIpField = new TextField("", skin);
-		root.add(joinIpField);
-		root.add(joinButton);
+		root.add(joinIpField).align(Align.right);
+		root.add(joinButton).align(Align.left);
 		root.row();
 		
 		new Thread("discover") {
@@ -101,7 +101,8 @@ public class MainMenuScreen implements Screen {
 		}.start();
 		
 		
-		
+		root.add(new Actor()).spaceBottom(4);
+		root.row();
 
 		mapSelectBox = new SelectBox<String>(skin);
 		String maps[] = MapLoaderSaver.getAvailableMaps();
@@ -110,7 +111,7 @@ public class MainMenuScreen implements Screen {
 			mapSelectBox.setItems(maps);
 		else
 			mapSelectBox.setItems("no maps found...");
-		root.add(mapSelectBox);
+		root.add(mapSelectBox).align(Align.right);
 		
 		hostButton = new TextButton("Host", skin);
 		hostButton.addListener(new ChangeListener() {
@@ -121,7 +122,7 @@ public class MainMenuScreen implements Screen {
 				}
 			}
 		});
-		root.add(hostButton);
+		root.add(hostButton).align(Align.left);
 		root.row();
 		
 		root.add(new Actor()).spaceBottom(20);
@@ -151,7 +152,7 @@ public class MainMenuScreen implements Screen {
 	
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0,0,0,1);
+		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
 		stage.act();
 		stage.draw();
 	}

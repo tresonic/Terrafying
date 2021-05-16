@@ -72,8 +72,10 @@ public class NewMapScreen implements Screen {
 		TextButton createButton = new TextButton("create & save", skin);
 		createButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				MapLoaderSaver.genAndSaveMap(nameField.getText(), Integer.parseInt(sizeXField.getText()), Integer.parseInt(sizeYField.getText()));
-				game.setScreen(new MainMenuScreen(game));
+				if(!nameField.getText().isEmpty()) {
+					MapLoaderSaver.genAndSaveMap(nameField.getText(), Integer.parseInt(sizeXField.getText()), Integer.parseInt(sizeYField.getText()));
+					game.setScreen(new MainMenuScreen(game));
+				}
 			}
 		});
 		root.add(createButton);
