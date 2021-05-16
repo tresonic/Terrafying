@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -30,7 +31,7 @@ public class MainMenuScreen implements Screen {
 	
 	private Stage stage;
 	
-	private VerticalGroup root;
+	private Table root;
 	
 	private Image logoImage;
 	private Label titleLabel;
@@ -55,27 +56,32 @@ public class MainMenuScreen implements Screen {
 	public void show() {
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
-		root = new VerticalGroup();
+		root = new Table();
 		
 		skin = new Skin(Gdx.files.internal("uiskin.json"));
 		
-		titleLabel = new Label("Terrafying", skin);
-		titleLabel.setFontScale(2.f);
-		root.addActor(titleLabel);
+		root.columnDefaults(0).width(200);
+		root.defaults().width(50);
 		
-//		logoImage = new Image(new Texture(Gdx.files.internal("icon2.png")));
-//		logoImage.setSize(512, 512);
-//		root.addActor(logoImage);
+//		titleLabel = new Label("Terrafying", skin);
+//		titleLabel.setFontScale(2.f);
+//		titleLabel.setAlignment(Align.center);
+//		root.add(titleLabel).colspan(2).spaceBottom(50);
+//		root.row();
+		
+		logoImage = new Image(new Texture(Gdx.files.internal("icon_big.png")));
+		logoImage.setSize(512, 512);
+		root.add(logoImage).colspan(2).width(256).height(256).spaceBottom(50);
+		root.row();
 		
 		nameLabel = new Label("Enter Player Name:", skin);
-		root.addActor(nameLabel);
+		root.add(nameLabel).colspan(2);
+		root.row();
 		nameField = new TextField("", skin);
 		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 91)));
-		root.addActor(nameField);
-		spaceLabel = new Label("", skin);
-		root.addActor(spaceLabel);
+		root.add(nameField).colspan(2).spaceBottom(20);
+		root.row();
 		
-		HorizontalGroup jGrp = new HorizontalGroup();
 		joinButton = new TextButton("Join", skin);
 		joinButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
@@ -84,6 +90,9 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 		joinIpField = new TextField("", skin);
+		root.add(joinIpField);
+		root.add(joinButton);
+		root.row();
 		
 		new Thread("discover") {
 			@Override
@@ -97,12 +106,9 @@ public class MainMenuScreen implements Screen {
 			}
 		}.start();
 		
-		jGrp.addActor(joinIpField);
-		jGrp.addActor(joinButton);
-		root.addActor(jGrp);
 		
 		
-		HorizontalGroup hGrp = new HorizontalGroup();
+
 		mapSelectBox = new SelectBox<String>(skin);
 		String maps[] = MapLoaderSaver.getAvailableMaps();
 
@@ -110,7 +116,7 @@ public class MainMenuScreen implements Screen {
 			mapSelectBox.setItems(maps);
 		else
 			mapSelectBox.setItems("no maps found...");
-		hGrp.addActor(mapSelectBox);
+		root.add(mapSelectBox);
 		
 		hostButton = new TextButton("Host", skin);
 		hostButton.addListener(new ChangeListener() {
@@ -121,8 +127,11 @@ public class MainMenuScreen implements Screen {
 				}
 			}
 		});
-		hGrp.addActor(hostButton);
-		root.addActor(hGrp);
+		root.add(hostButton);
+		root.row();
+		
+		root.add(new Actor()).spaceBottom(20);
+		root.row();
 		
 		newMapButton = new TextButton("Create New Map", skin);
 		newMapButton.addListener(new ChangeListener() {
@@ -130,7 +139,8 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new NewMapScreen(game, skin));
 			}
 		});
-		root.addActor(newMapButton);
+		root.add(newMapButton).colspan(2).spaceBottom(4);
+		root.row();
 		
 		exitButton = new TextButton("Exit", skin);
 		exitButton.addListener(new ChangeListener() {
@@ -138,12 +148,10 @@ public class MainMenuScreen implements Screen {
 				Gdx.app.exit();
 			}
 		});
-		root.addActor(exitButton);
+		root.add(exitButton).colspan(2);
 		
-		root.align(Align.center);
 		root.setFillParent(true);
-		root.fill();
-
+		//root.setDebug(true);
 		stage.addActor(root);
 	}
 	
