@@ -33,7 +33,7 @@ public class TerrafyingServer {
 	
 	public void start() {
 		System.out.println("starting server");
-		map = new Map(5, 2);
+		map = new Map(50, 15);
 		long beg = System.nanoTime();
 		map.generate();
 		long end = System.nanoTime();

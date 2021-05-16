@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.gui.GuiManager;
@@ -13,7 +14,7 @@ import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
-	public final static int viewPortWidth = 40 * Block.BLOCK_SIZE;
+	public final static int viewPortWidth = 50 * Block.BLOCK_SIZE;
 	public final Game game;
 	
 	public TerrafyingClient client;
@@ -24,6 +25,8 @@ public class GameScreen implements Screen {
 	
 	public SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
+	
+	private ShaderProgram lightShader;
 	
 	private String name, ip;
 	
@@ -48,6 +51,9 @@ public class GameScreen implements Screen {
 		hudCamera.position.y = Gdx.graphics.getHeight()/2;
 		hudCamera.update();
 		camera.position.set(world.map.spawnpoint.x, world.map.spawnpoint.y, 0);
+		
+		lightShader = new ShaderProgram(Gdx.files.internal("vertex.glsl"), Gdx.files.internal("fragment.glsl"));
+		spriteBatch.setShader(lightShader);
 	}
 	
 	
@@ -62,10 +68,13 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
+		
+		spriteBatch.setShader(lightShader);
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		world.render(delta, camera, shapeRenderer, spriteBatch);
+		spriteBatch.setShader(null);
 		
 		hudCamera.update();
 		spriteBatch.setProjectionMatrix(hudCamera.combined);

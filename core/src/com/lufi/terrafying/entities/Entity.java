@@ -1,8 +1,12 @@
 package com.lufi.terrafying.entities;
 
 import com.lufi.terrafying.util.Vector2i;
+import com.lufi.terrafying.world.Block;
 
 public class Entity {
+	public final float WIDTH = Block.BLOCK_SIZE - 2;
+	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
+	
 	public float posx;
 	public float posy;
 	public float speedx;

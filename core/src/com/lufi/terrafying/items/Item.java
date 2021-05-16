@@ -71,10 +71,13 @@ public class Item {
 			if(i.name == name)
 				return i;
 		}
-		return null;
+		return getItemByName("noblock");
 	}
 	
 	public static Item getItemById(int id) {
-		return itemMap.get(id);
+		Item i = itemMap.get(id);
+		if(i != null)
+			return i;
+		return getItemByName("noblock");
 	}
 }

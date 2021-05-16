@@ -22,9 +22,6 @@ public class Player extends Entity {
 	
 	private final int INV_SIZE = 27;
 	
-	private final float WIDTH = Block.BLOCK_SIZE - 2;
-	private final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
-	
 	private Vector2i inputDir;
 	private boolean inputJump; 
 	
@@ -44,6 +41,7 @@ public class Player extends Entity {
 		inventory = new Inventory(INV_SIZE);
 		inventory.addItem(new ItemStack(Item.getItemByName("stone"), 50));
 		inventory.addItem(new ItemStack(Item.getItemByName("grass"), 50));
+		inventory.addItem(new ItemStack(Item.getItemByName("light"), 50));
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
@@ -78,9 +76,9 @@ public class Player extends Entity {
 		float newposy = posy + speedy * delta;
 		
 		if(speedx > 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy)).getCollidable() 
-				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT / 2)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH + 1, posy + HEIGHT)).getCollidable()) 
+			if(Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy)).getCollidable() 
+				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT / 2)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT)).getCollidable()) 
 			{
 				newposx = Math.round(posx);
 				speedx = 0;
@@ -89,8 +87,8 @@ public class Player extends Entity {
 		
 		else if(speedx < 0) {
 			if(Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT / 2)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx, posy + HEIGHT)).getCollidable()) 
+				|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT / 2)).getCollidable()
+				|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT)).getCollidable()) 
 			{
 				newposx = Math.round(posx);
 				speedx = 0;
@@ -99,7 +97,7 @@ public class Player extends Entity {
 		
 		if(speedy < 0) {
 			if(Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy)).getCollidable()) 
+				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy)).getCollidable()) 
 			{
 				newposy = ((int)posy);
 				jumpsLeft = jumpCount;
@@ -107,8 +105,8 @@ public class Player extends Entity {
 			}
 		}
 		else if(speedy > 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, newposy + HEIGHT)).getCollidable()
-					|| Block.getBlockById(map.getBlockAt(newposx + WIDTH, newposy + HEIGHT)).getCollidable()) 
+			if(Block.getBlockById(map.getBlockAt(newposx, newposy + super.HEIGHT)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy + super.HEIGHT)).getCollidable()) 
 			{
 				newposy = ((int)posy);
 				speedy = 0;
@@ -139,7 +137,26 @@ public class Player extends Entity {
 	}
 	
 	public boolean use(float x, float y, Map map, ItemStack wieldItem) {
+		if(wieldItem.count == 0)
+			return false;
+		
 		if(wieldItem.item.getBlockItem()) {
+			if(Block.getBlockById(map.getBlockAt(x, y)).getName() != "air")
+				return false;
+			
+			boolean hasNeighbor = false;
+			Vector2i pos = Map.getBlockPos(x, y);
+			for(int x1=-1; x1<2; x1++) {
+				for(int y1=-1; y1<2; y1++) {
+					if(Block.getBlockById(map.getBlock(pos.x + x1, pos.y + y1)).getCollidable()) {
+						hasNeighbor = true;
+					}
+				}
+			}
+			
+			if(!hasNeighbor)
+				return false;
+			
 			map.setBlockAt(x, y, wieldItem.item.getId());
 			wieldItem.count--;
 			return true;

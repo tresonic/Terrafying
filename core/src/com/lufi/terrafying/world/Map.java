@@ -1,9 +1,13 @@
 package com.lufi.terrafying.world;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -30,67 +34,7 @@ public class Map {
 	}
 	
 	public void generate() {
-		for(int x=0; x<width/Chunk.CHUNK_SIZE; x++) {
-			for(int y=0; y<height/Chunk.CHUNK_SIZE; y++) {
-				addChunk(new Vector2i(x, y), new Chunk());
-			}
-		}
-
-		System.out.println("num chunks generated: " + chunks.size());
-		
-		SimplexNoise n1 = new SimplexNoise(300, 0.45f, ThreadLocalRandom.current().nextInt());
-		SimplexNoise n2 = new SimplexNoise(300, 0.65f, ThreadLocalRandom.current().nextInt());
-		SimplexNoise n3 = new SimplexNoise(35, 0.4f, ThreadLocalRandom.current().nextInt());
-		
-		int stoneLayerHeight = height / 3;
-		int dirtLayerHeight = height / 100;
-		
-		// basic map gen with stone + dirt on top
-		for(int x=0; x<width; x++) {
-			int stoneHeight = (int) ((n1.getNoise(x, 0) + 1) * stoneLayerHeight);
-			int dirtHeight = (int) ((n2.getNoise(x, 0) + 1) * dirtLayerHeight);
-			
-			//System.out.println("s: " +  stoneHeight + ", d: " + dirtHeight);
-			
-			for(int y=0; y<stoneHeight; y++) {
-				setBlock(x, y, Block.getBlockByName("stone").getId());
-			}
-			
-			for(int y=stoneHeight; y<stoneHeight + dirtHeight; y++) {
-				setBlock(x, y, Block.getBlockByName("dirt").getId());
-			}
-			
-			for(int y = stoneHeight + dirtHeight; y<height; y++) {
-				setBlock(x, y, Block.getBlockByName("air").getId());
-			}
-			
-			setBlock(x, stoneHeight+dirtHeight, Block.getBlockByName("grass").getId());
-		}
-		
-		// carve caves into stone
-		for(int x=1; x<width; x++) {
-			double xMul = (-1/(2*x + 0.0000001) + 1)
-						* (-1/(2*(width-x) + 0.0000001) + 1);
-			
-			for(int y=1; y<height; y++) {
-				if(((n3.getNoise(x, y) + 1) / 2) 
-						* (1 / ((double)height/((double)height*1000) * y + 1)) // higher -> less caves
-						* (- 1/(2 * y+0.0000001) + 1) // very bottom -> no caves
-						* xMul // closer to left or right edge -> less caves
-						> 0.5f)
-					setBlock(x, y, Block.getBlockByName("air").getId());
-			}
-		}
-		
-		// find spawnpoint
-		int spawnX = ThreadLocalRandom.current().nextInt(width / 10, width - width/10);
-		int spawnY = height;
-		for(int i=height; i>0; i--) {
-			if(getBlock(spawnX, spawnY - 1) != Block.getBlockByName("air").getId())
-				break;
-			spawnY--;
-		}
-		spawnpoint.set(spawnX * Block.BLOCK_SIZE, spawnY * Block.BLOCK_SIZE);
+		MapGenerator.generate(this, width, height);
 	}
 	
 	public void render(OrthographicCamera cam, SpriteBatch sb) {
@@ -99,8 +43,8 @@ public class Map {
 		
 		int startx = MathUtils.clamp((int) (startpos.x / (float) Block.BLOCK_SIZE) - 1, 0, width);
 		int starty = MathUtils.clamp((int) (startpos.y / (float) Block.BLOCK_SIZE) - 1, 0, height);
-		int endx = MathUtils.clamp((int) (endpos.x / (float) Block.BLOCK_SIZE) + 1, 0, width);
-		int endy = MathUtils.clamp((int) (endpos.y / (float) Block.BLOCK_SIZE) + 1, 0, height);
+		int endx = MathUtils.clamp((int) (endpos.x / (float) Block.BLOCK_SIZE) + 2, 0, width);
+		int endy = MathUtils.clamp((int) (endpos.y / (float) Block.BLOCK_SIZE) + 2, 0, height);
 		
 		//System.out.println(cam.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0)));
 		//System.out.println(cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0)));
@@ -110,15 +54,18 @@ public class Map {
 		sb.setProjectionMatrix(cam.combined);
 
 		sb.begin();
+				
 		for(int x=startx; x<endx; x++) {
 			for(int y=starty; y<endy; y++) {
 				Block block = Block.getBlockById(getBlock(x, y));
+								
 				if(block.getDrawable()) {
 					Texture t = Terrafying.assetManager.get(Block.BLOCK_PATH + "/" + block.getName() + ".png", Texture.class);
 					sb.draw(t , x*Block.BLOCK_SIZE, y*Block.BLOCK_SIZE);
 				}
 			}
 		}
+
 		sb.end();
 	}
 	

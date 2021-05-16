@@ -14,6 +14,7 @@ public class Block {
 	public static final String BLOCK_PATH = "blocks";
 	
 	private int id;
+	private float emission;
 	private boolean collidable;
 	private boolean drawable;
 	private boolean mineable;
@@ -21,8 +22,9 @@ public class Block {
 	
 
 	
-	private Block(int nId, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
+	private Block(int nId, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
 		id = nId;
+		emission = nEmission;
 		collidable = nCollidable;
 		drawable = nDrawable;
 		mineable = nMineable;
@@ -30,11 +32,15 @@ public class Block {
 	}
 	
 	private Block(int nId, boolean nCollidable, String nName) {
-		this(nId, nCollidable, true, true, nName);
+		this(nId, 0, nCollidable, true, true, nName);
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public float getEmission() {
+		return emission;
 	}
 	
 	public boolean getCollidable() {
@@ -57,15 +63,16 @@ public class Block {
 	public static void registerBlocks() {
 		blockMap = new HashMap<Integer, Block>();
 		int c = 0;
-		registerBlock(c++, true, false, false, "barrier");
-		registerBlock(c++, false, false, false, "air");
-		registerBlock(c++, true, true, true, "stone");
-		registerBlock(c++, true, true, true, "dirt");
-		registerBlock(c++, true, true, true, "grass");
+		registerBlock(c++, 0, true, true, true, "noblock");
+		registerBlock(c++, 0, true, false, false, "barrier");
+		registerBlock(c++, 0, false, false, false, "air");
+		registerBlock(c++, 0, true, true, true, "stone");
+		registerBlock(c++, 0, true, true, true, "dirt");
+		registerBlock(c++, 0, true, true, true, "grass");
 	}
 	
-	public static void registerBlock(int id, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
-		blockMap.put(id, new Block(id, nCollidable, nDrawable, nMineable, nName));
+	public static void registerBlock(int id, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
+		blockMap.put(id, new Block(id, nEmission, nCollidable, nDrawable, nMineable, nName));
 		Item.registerItem(id, nName, true);
 	}
 	
@@ -86,10 +93,13 @@ public class Block {
 			if(b.name == name)
 				return b;
 		}
-		return null;
+		return getBlockByName("noblock");
 	}
 	
 	public static Block getBlockById(int id) {
-		return blockMap.get(id);
+		Block b = blockMap.get(id);
+		if(b != null)
+			return b;
+		return getBlockByName("noblock");
 	}
 }
