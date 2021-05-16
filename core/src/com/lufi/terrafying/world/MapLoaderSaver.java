@@ -32,8 +32,8 @@ public class MapLoaderSaver {
 			return map;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		return null;
+			return null;
+		}		
 	}
 	
 	public static void saveMap(Map map) {
@@ -51,8 +51,7 @@ public class MapLoaderSaver {
 	public static void genAndSaveMap(String name, int width, int height) {
 		try {
 			Map map = new Map(name, width, height);
-			map.generate();
-			
+			map.generate();			
 			saveMap(map);
 		} catch (Exception e) {
 			e.printStackTrace();
