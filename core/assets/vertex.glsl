@@ -14,7 +14,7 @@ void main() {
 //	for(int i=0; i<NUM_LIGHTS*PER_LIGHT; i += PER_LIGHT) {
 //		mult.xyz *= length(a_position - vec4(lights[i], lights[i+1], 0, 0));
 //	}
-    v_color = a_color;
+    v_color = a_color /* * vec4(1, 0.5, 0.5, 1)*/;
     v_texCoords = a_texCoord0;
     gl_Position = u_projTrans * a_position;
 }

@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.screens.GameScreen;
+import com.lufi.terrafying.util.Vector2i;
+import com.lufi.terrafying.world.Block;
 
 public class GuiManager implements InputProcessor {
 	public static final int WIDTH = 1280;
@@ -28,7 +30,8 @@ public class GuiManager implements InputProcessor {
 	private BaseGui currentGui;
 	private Hotbar hotbar;
 	
-	private Vector2 mpos;
+	private Vector2i mpos;
+	private Vector2 wpos;
 	
 	private boolean guiActive;
 
@@ -37,23 +40,19 @@ public class GuiManager implements InputProcessor {
 		gameScreen = nGameScreen;
 		guiActive = false;
 		hotbar = new Hotbar(gameScreen.world.player.inventory, 9);
-		mpos = new Vector2();
+		mpos = new Vector2i();
+		wpos = new Vector2();
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
+		hotbar.update(wpos, gameScreen.world.map, gameScreen.client);
+				
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
 		else
 			hotbar.draw(sb, sr, delta);
-		
-//		sr.begin();
-//		sr.setColor(Color.RED);
-//		sr.circle(mpos.x, mpos.y, 3);
-//		sr.end();
 	}
 	
-	public void resized(int width, int height) {
-	}
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -88,15 +87,11 @@ public class GuiManager implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if(!guiActive) {
-			Vector3 wpos = gameScreen.camera.unproject(new Vector3(screenX, screenY, 0));
-			if(button == Input.Buttons.LEFT) {
-				if(gameScreen.world.player.wield(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem()))
-					gameScreen.client.sendBlockUpdate(wpos.x, wpos.y);
-			}
-			else if(button == Input.Buttons.RIGHT) {
-				if(gameScreen.world.player.use(wpos.x, wpos.y, gameScreen.world.map, hotbar.getSelectedItem()))
-					gameScreen.client.sendBlockUpdate(wpos.x, wpos.y);
-			}
+			hotbar.mouseDown((int)wpos.x, (int)wpos.y, button);
+			// Vector3 wpos = gameScreen.camera.unproject(new Vector3(screenX, screenY, 0));
+//			if(button == Input.Buttons.LEFT)
+//				gameScreen.world.map.setBlockAt(wpos.x, wpos.y, Block.getBlockByName("air").getId());
+
 		} else {
 			currentGui.mouseDown((int)mpos.x, (int)mpos.y, button);
 		}
@@ -106,20 +101,29 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		if(!guiActive) {
+			hotbar.mouseUp((int)mpos.x, (int)mpos.y, button);
+		}
+		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		return false;
+		mouseMoved(screenX, screenY);
+		return true;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		mpos.set(gameScreen.hudCamera.unproject(new Vector3(screenX, screenY, 0)).x, gameScreen.hudCamera.unproject(new Vector3(screenX, screenY, 0)).y);
+		Vector3 uVec = new Vector3(screenX, screenY, 0);
+		gameScreen.hudCamera.unproject(uVec);
+		mpos.set((int)uVec.x, (int)uVec.y);
+		uVec.set(screenX, screenY, 0);
+		gameScreen.camera.unproject(uVec);
+		wpos.set(uVec.x, uVec.y);
+	
 		if(!guiActive) {
-			
+			hotbar.mouseMoved((int)wpos.x, (int)wpos.y);
 		} else {
 			currentGui.mouseMoved((int)mpos.x, (int)mpos.y);
 		}

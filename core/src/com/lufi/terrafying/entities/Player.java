@@ -41,6 +41,7 @@ public class Player extends Entity {
 		inventory = new Inventory(INV_SIZE);
 		inventory.addItem(new ItemStack(Item.getItemByName("stone"), 50));
 		inventory.addItem(new ItemStack(Item.getItemByName("grass"), 50));
+		inventory.addItem(new ItemStack(Item.getItemByName("testitem"), 5));
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
@@ -122,45 +123,6 @@ public class Player extends Entity {
 			lastMoveDir.x = -1;
 		
 		return new Vector2(speedx * delta, speedy * delta);
-	}
-	
-	public boolean wield(float x, float y, Map map, ItemStack wieldItem) {
-		int bId = map.getBlockAt(x, y);
-		if(!Block.getBlockById(bId).getMineable()) {
-			return false;
-		}
-		map.setBlockAt(x, y, Block.getBlockByName("air").getId());
-		Item i = Item.getItemById(bId);
-		inventory.addItem(new ItemStack(i, 1));
-		return true;
-	}
-	
-	public boolean use(float x, float y, Map map, ItemStack wieldItem) {
-		if(wieldItem.count == 0)
-			return false;
-		
-		if(wieldItem.item.getBlockItem()) {
-			if(Block.getBlockById(map.getBlockAt(x, y)).getName() != "air")
-				return false;
-			
-			boolean hasNeighbor = false;
-			Vector2i pos = Map.getBlockPos(x, y);
-			for(int x1=-1; x1<2; x1++) {
-				for(int y1=-1; y1<2; y1++) {
-					if(Block.getBlockById(map.getBlock(pos.x + x1, pos.y + y1)).getCollidable()) {
-						hasNeighbor = true;
-					}
-				}
-			}
-			
-			if(!hasNeighbor)
-				return false;
-			
-			map.setBlockAt(x, y, wieldItem.item.getId());
-			wieldItem.count--;
-			return true;
-		}
-		return false;
 	}
 	
 	public String getName() {

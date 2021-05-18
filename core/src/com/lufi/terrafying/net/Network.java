@@ -12,6 +12,7 @@ import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.util.Vector2i;
+import com.lufi.terrafying.world.Block.MineType;
 import com.lufi.terrafying.world.Chunk;
 
 public class Network {
@@ -36,6 +37,7 @@ public class Network {
 				ItemStack.class,
 				ItemStack[].class,
 				Item.class,
+				MineType.class,
 				
 				Vector2.class,
 				Vector2i.class,
@@ -77,12 +79,6 @@ public class Network {
 		public Chunk chunk;
 	}
 	
-//	static public class PlayerAddPacket {
-//		public PlayerAddPacket() {}
-//		
-//		public Player player;
-//	}
-
 	static public class EntityAddPacket {
 		public EntityAddPacket() {}
 		
