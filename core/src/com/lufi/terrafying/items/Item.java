@@ -53,7 +53,7 @@ public class Item {
 
 	public static void registerItems() {
 		int start = getNumRegisteredItems();
-		registerItem(++start, MineType.STONELIKE, 3.0f, "testitem", false);
+		registerItem(++start, MineType.DIRTLIKE, 0.3f, "testitem", false);
 	}
 
 	public static void registerItem(int id, MineType nMineType, float nMineFactor, String nName, boolean nBlockItem) {

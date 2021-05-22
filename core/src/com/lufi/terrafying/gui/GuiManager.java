@@ -50,7 +50,7 @@ public class GuiManager implements InputProcessor {
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
 		else
-			hotbar.draw(sb, sr, delta);
+			hotbar.draw(sb, sr, gameScreen, delta);
 	}
 	
 
