@@ -20,6 +20,8 @@ public class MapGenerator {
 		SimplexNoise n2 = new SimplexNoise(300, 0.65f, ThreadLocalRandom.current().nextInt());
 		SimplexNoise n3 = new SimplexNoise(35, 0.4f, ThreadLocalRandom.current().nextInt());
 		
+		
+		
 		int stoneLayerHeight = height / 3;
 		int dirtLayerHeight = height / 100;
 		float smoothingFactor = 0.5f;

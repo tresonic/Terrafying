@@ -149,6 +149,7 @@ public class Hotbar extends BaseGui {
 	public void mouseUp(int x, int y, int button) {
 		if (button == Input.Buttons.LEFT) {
 			digPressed = false;
+			digging = false;
 			curDigTime = 0;
 		}
 		else if(button == Input.Buttons.RIGHT)

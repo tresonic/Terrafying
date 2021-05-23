@@ -86,6 +86,7 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		mouseMoved(screenX, screenY);
 		if(!guiActive) {
 			hotbar.mouseDown((int)wpos.x, (int)wpos.y, button);
 			// Vector3 wpos = gameScreen.camera.unproject(new Vector3(screenX, screenY, 0));
@@ -101,6 +102,7 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		mouseMoved(screenX, screenY);
 		if(!guiActive) {
 			hotbar.mouseUp((int)mpos.x, (int)mpos.y, button);
 		}
@@ -132,8 +134,12 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
-		// TODO Auto-generated method stub
-		return false;
+		gameScreen.camera.zoom += amountY / 10;
+		if(gameScreen.camera.zoom <= 0.3f)
+			gameScreen.camera.zoom = 0.3f;
+		gameScreen.camera.update();
+		System.out.println(gameScreen.camera.viewportWidth);
+		return true;
 	}
 
 }
