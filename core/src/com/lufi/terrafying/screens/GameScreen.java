@@ -67,6 +67,10 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		if(client.connected == false) {
+			game.setScreen(new MainMenuScreen(game));
+		}
+		
 		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
 		
 		spriteBatch.setShader(lightShader);
@@ -124,7 +128,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		
+
 	}
 	
 	public boolean isConnected() {

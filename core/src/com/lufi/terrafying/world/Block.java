@@ -27,11 +27,12 @@ public class Block {
 	private boolean collidable;
 	private boolean drawable;
 	private boolean mineable;
+	private boolean hasMeta;
 	private String name;
 	
 
 	
-	private Block(int nId, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
+	private Block(int nId, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, boolean nHasMeta, String nName) {
 		id = nId;
 		mineTime = nMineTime;
 		mineType = nMineType;
@@ -39,11 +40,12 @@ public class Block {
 		collidable = nCollidable;
 		drawable = nDrawable;
 		mineable = nMineable;
+		hasMeta = nHasMeta;
 		name = nName;
 	}
 	
 	private Block(int nId, float nMineTime, MineType nMineType, boolean nCollidable, String nName) {
-		this(nId, nMineTime, nMineType, 0, nCollidable, true, true, nName);
+		this(nId, nMineTime, nMineType, 0, nCollidable, true, true, false, nName);
 	}
 	
 	public int getId() {
@@ -74,6 +76,10 @@ public class Block {
 		return mineable;
 	}
 	
+	public boolean getHasMeta() {
+		return hasMeta;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -82,16 +88,17 @@ public class Block {
 	public static void registerBlocks() {
 		blockMap = new HashMap<Integer, Block>();
 		int c = 0;
-		registerBlock(c++, 0.0f, MineType.NONE, 0, true, true, true, "noblock");
-		registerBlock(c++, 0.0f, MineType.NONE, 0, true, false, false, "barrier");
-		registerBlock(c++, 0.0f, MineType.NONE, 0, false, false, false, "air");
-		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, "stone");
-		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, "dirt");
-		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, "grass");
+		registerBlock(c++, 0.0f, MineType.NONE, 0, true, true, true, false, "noblock");
+		registerBlock(c++, 0.0f, MineType.NONE, 0, true, false, false, false, "barrier");
+		registerBlock(c++, 0.0f, MineType.NONE, 0, false, false, false, false, "air");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "stone");
+		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "dirt");
+		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "grass");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, true, "chest");
 	}
 	
-	public static void registerBlock(int id, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, String nName) {
-		blockMap.put(id, new Block(id, nMineTime, nMineType, nEmission, nCollidable, nDrawable, nMineable, nName));
+	public static void registerBlock(int id, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, boolean nHasMeta, String nName) {
+		blockMap.put(id, new Block(id, nMineTime, nMineType, nEmission, nCollidable, nDrawable, nMineable, nHasMeta, nName));
 		Item.registerItem(id, MineType.NONE, 1.0f, nName, true);
 	}
 	

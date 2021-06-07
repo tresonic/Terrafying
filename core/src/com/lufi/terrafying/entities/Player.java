@@ -42,6 +42,7 @@ public class Player extends Entity {
 		inventory.addItem(new ItemStack(Item.getItemByName("stone"), 50));
 		inventory.addItem(new ItemStack(Item.getItemByName("grass"), 50));
 		inventory.addItem(new ItemStack(Item.getItemByName("testitem"), 5));
+		inventory.addItem(new ItemStack(Item.getItemByName("chest"), 5));
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {

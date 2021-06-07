@@ -72,6 +72,13 @@ public class TerrafyingClient {
 
 	}
 	
+	public void disconnect() {
+		client.sendTCP(new ClientDisconnectPacket());
+		client.close();
+		connected = false;
+		connecting = false;
+	}
+	
 	public void update() {
 		EntityUpdatePacket p = new EntityUpdatePacket();
 		p.entity = world.player;
@@ -106,16 +113,16 @@ public class TerrafyingClient {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
 
-			System.out.println("connected!");
-			
-			System.out.println("startchunk: " + p.startChunkId);
+//			System.out.println("connected!");
+//			
+//			System.out.println("startchunk: " + p.startChunkId);
 			world.map.addChunk(p.startChunkId, p.startChunk);
 			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);
-			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
-			System.out.println(p.entities);
+//			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
+//			System.out.println(p.entities);
 			
 			connecting = false;
 			connected = true;
@@ -125,6 +132,12 @@ public class TerrafyingClient {
 			world.entityManager.addEntity(((EntityAddPacket)object).entity);
 			//System.out.println("client: player joined " + ((EntityAddPacket)object).entity.id);
 			//System.out.println(world.entityManager.getEntities());
+		}
+		
+		if(object instanceof EntityRemovePacket) {
+			System.out.println("entity removed packet");
+			int id = ((EntityRemovePacket)object).id;
+			world.entityManager.removeEntity(id);
 		}
 		
 		if(object instanceof EntityUpdatePacket) {
@@ -140,6 +153,10 @@ public class TerrafyingClient {
 		if(object instanceof BlockUpdatePacket) {
 			BlockUpdatePacket p = (BlockUpdatePacket)object;
 			world.map.setBlock(p.pos.x, p.pos.y, p.blockId);
+		}
+		
+		if(object instanceof ServerClosedPacket) {
+			disconnect();
 		}
 		
 	}

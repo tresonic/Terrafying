@@ -23,7 +23,10 @@ public class Network {
 		register(k,
 				ConnectionRequestPacket.class,
 				ConnectionResponsePacket.class,
+				ServerClosedPacket.class,
+				ClientDisconnectPacket.class,
 				EntityAddPacket.class,
+				EntityRemovePacket.class,
 				EntityUpdatePacket.class,
 				ChunkRequestPacket.class,
 				ChunkResponsePacket.class,
@@ -85,6 +88,10 @@ public class Network {
 		public Entity entity;
 	}
 	
+	static public class EntityRemovePacket {
+		public int id;
+	}
+	
 	static public class EntityUpdatePacket {
 		public EntityUpdatePacket() {}
 		
@@ -97,6 +104,10 @@ public class Network {
 		public Vector2i pos;
 		public int blockId;
 	}
+	
+	static public class ServerClosedPacket {}
+	
+	static public class ClientDisconnectPacket {}
 
 	
 	private static void register(Kryo k, Class<?>...classes){
