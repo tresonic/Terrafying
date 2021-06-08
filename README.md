@@ -27,6 +27,7 @@ Host | Ein neues Spiel eröffnen. Hier können andere Spieler im lokalen Netz be
 Exit | Das Spiel verlassen.
 
 ### Spiel
+![icon](https://github.com/Tresonic/Terrafying/blob/main/core/assets/Ritter-Animation.gif)  
 
 Taste | Aktion
 --- | ---
