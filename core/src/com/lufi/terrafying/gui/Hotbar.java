@@ -76,7 +76,7 @@ public class Hotbar extends BaseGui {
 			Vector2i newDigPos = Map.getBlockPos(wpos.x, wpos.y);
 			
 			if(!digPos.equals(newDigPos)) {
-				if(Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType())
+				if(inventory.getItemStack(selectedSlot).item != null && Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType())
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime() * inventory.getItemStack(selectedSlot).item.getMineFactor();
 				else
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime();

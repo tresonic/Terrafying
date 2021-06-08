@@ -1,6 +1,8 @@
 package com.lufi.terrafying.items;
 
-public class Inventory {
+import java.io.Serializable;
+
+public class Inventory implements Serializable {
 	private ItemStack itemStacks[];
 	
 	public Inventory() {}

@@ -54,5 +54,6 @@ public class Terrafying extends Game {
 	public void dispose () {
 		assetManager.dispose();
 		TerrafyingServer.the().stop();
+		getScreen().dispose();
 	}
 }

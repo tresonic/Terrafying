@@ -1,6 +1,8 @@
 package com.lufi.terrafying.items;
 
-public class ItemStack {
+import java.io.Serializable;
+
+public class ItemStack implements Serializable {
 	public static final int STACK_MAX = 99;
 	public Item item;
 	public int count;

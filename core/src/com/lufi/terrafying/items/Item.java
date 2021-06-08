@@ -1,5 +1,6 @@
 package com.lufi.terrafying.items;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -8,7 +9,7 @@ import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Block.MineType;
 
-public class Item {
+public class Item implements Serializable {
 
 	private int id;
 	private String name;

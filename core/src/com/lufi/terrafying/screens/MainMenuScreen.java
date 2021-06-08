@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.net.TerrafyingServer;
-import com.lufi.terrafying.world.MapLoaderSaver;
+import com.lufi.terrafying.world.LoaderSaver;
 
 
 
@@ -105,7 +105,7 @@ public class MainMenuScreen implements Screen {
 		root.row();
 
 		mapSelectBox = new SelectBox<String>(skin);
-		String maps[] = MapLoaderSaver.getAvailableMaps();
+		String maps[] = LoaderSaver.getAvailableMaps();
 
 		if(maps.length != 0)
 			mapSelectBox.setItems(maps);
