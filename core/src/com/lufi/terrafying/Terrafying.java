@@ -2,11 +2,13 @@ package com.lufi.terrafying;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.*;
@@ -19,10 +21,19 @@ public class Terrafying extends Game {
 	public static Texture fontTex;
 	public static BitmapFont guifont;
 	public static Texture guifontTex;
-	
+	public static Skin skin;
+	public Screen mainMenuScreen, pauseScreen, loadingScreen, newMapScreen, optionsScreen;
+	public GameScreen gameScreen;
 	
 	@Override
 	public void create () {	
+		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		
+		mainMenuScreen = new MainMenuScreen(this);
+		pauseScreen = new PauseScreen(this);
+		newMapScreen = new NewMapScreen(this);
+		optionsScreen = new OptionsScreen(this);
+		
 		fontTex = new Texture(Gdx.files.internal("arial32.png"), true);
 		fontTex.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
 		font = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(fontTex), false);

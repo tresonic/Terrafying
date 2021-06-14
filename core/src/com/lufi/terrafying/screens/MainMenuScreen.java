@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.MapLoaderSaver;
@@ -27,7 +28,7 @@ import com.lufi.terrafying.world.MapLoaderSaver;
 
 
 public class MainMenuScreen implements Screen {
-	private final Game game;
+	private final Terrafying game;
 	
 	private Stage stage;
 	
@@ -45,10 +46,10 @@ public class MainMenuScreen implements Screen {
 	private TextButton newMapButton;
 	private TextButton exitButton;
 	
-	private Skin skin;
+
 	
 	
-	public MainMenuScreen(final Game g) {
+	public MainMenuScreen(final Terrafying g) {
 		game = g;
 	}
 	
@@ -58,7 +59,6 @@ public class MainMenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);
 		root = new Table();
 		
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
 		
 		root.columnDefaults(0).width(200);
 		root.defaults().width(50);
@@ -68,22 +68,22 @@ public class MainMenuScreen implements Screen {
 		root.add(logoImage).colspan(2).width(75 * 9).height(25 * 9).spaceBottom(50);
 		root.row();
 		
-		nameLabel = new Label("Enter Player Name:", skin);
+		nameLabel = new Label("Enter Player Name:", game.skin);
 		root.add(nameLabel).colspan(2);
 		root.row();
-		nameField = new TextField("", skin);
+		nameField = new TextField("", game.skin);
 		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 91)));
 		root.add(nameField).colspan(2).spaceBottom(20);
 		root.row();
 		
-		joinButton = new TextButton("Join", skin);
+		joinButton = new TextButton("Join", game.skin);
 		joinButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty())
 					game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
 			}
 		});
-		joinIpField = new TextField("", skin);
+		joinIpField = new TextField("", game.skin);
 		root.add(joinIpField).align(Align.right);
 		root.add(joinButton).align(Align.left);
 		root.row();
@@ -104,7 +104,7 @@ public class MainMenuScreen implements Screen {
 		root.add(new Actor()).spaceBottom(4);
 		root.row();
 
-		mapSelectBox = new SelectBox<String>(skin);
+		mapSelectBox = new SelectBox<String>(game.skin);
 		String maps[] = MapLoaderSaver.getAvailableMaps();
 
 		if(maps.length != 0)
@@ -113,12 +113,13 @@ public class MainMenuScreen implements Screen {
 			mapSelectBox.setItems("no maps found...");
 		root.add(mapSelectBox).align(Align.right);
 		
-		hostButton = new TextButton("Host", skin);
+		hostButton = new TextButton("Host", game.skin);
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty() && mapSelectBox.getSelected() != "no maps found...") {
 					TerrafyingServer.the().start(mapSelectBox.getSelected());
-					game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
+					game.loadingScreen = new LoadingScreen(game, nameField.getText(), "127.0.0.1");
+					game.setScreen(game.loadingScreen);
 				}
 			}
 		});
@@ -128,16 +129,16 @@ public class MainMenuScreen implements Screen {
 		root.add(new Actor()).spaceBottom(20);
 		root.row();
 		
-		newMapButton = new TextButton("Create New Map", skin);
+		newMapButton = new TextButton("Create New Map", game.skin);
 		newMapButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(new NewMapScreen(game, skin));
+				game.setScreen(game.newMapScreen);
 			}
 		});
 		root.add(newMapButton).colspan(2).spaceBottom(4);
 		root.row();
 		
-		exitButton = new TextButton("Exit", skin);
+		exitButton = new TextButton("Exit", game.skin);
 		exitButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Gdx.app.exit();

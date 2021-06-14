@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.screens.GameScreen;
+import com.lufi.terrafying.screens.PauseScreen;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 
@@ -71,7 +72,7 @@ public class GuiManager implements InputProcessor {
 		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
 			hotbar.keyDown(keycode);
 		} else if(keycode == Keys.ESCAPE) {
-			gameScreen.client.disconnect();
+			gameScreen.game.setScreen(new PauseScreen(gameScreen.game));
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}

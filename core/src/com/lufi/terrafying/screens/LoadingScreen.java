@@ -7,28 +7,28 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.Terrafying;
 
 public class LoadingScreen implements Screen {
-	private final Game game;
+	private final Terrafying game;
 	
 	private Stage stage;
-	private Skin skin;
+	
 	
 	private boolean connected;
 	private GameScreen gameScreen;
 	
 	private Label loadField;
 	
-	public LoadingScreen(final Game g, String playerName, String serverIp) {
+	public LoadingScreen(final Terrafying g, String playerName, String serverIp) {
 		game = g;
 		connected = false;
 		
 		stage = new Stage();
 		
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
 		Gdx.input.setInputProcessor(stage);
 		
-		loadField = new Label("Loading... please wait...", skin);
+		loadField = new Label("Loading... please wait...", game.skin);
 		stage.addActor(loadField);
 		
 		gameScreen = new GameScreen(game, playerName, serverIp);
@@ -42,9 +42,11 @@ public class LoadingScreen implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(0,0,0,1);
 		if(!gameScreen.isConnected() && !gameScreen.isConnecting())
-			game.setScreen(new MainMenuScreen(game));
-		if(gameScreen.isConnected())
-			game.setScreen(gameScreen);
+			game.setScreen(game.mainMenuScreen);
+		if(gameScreen.isConnected()) {
+			game.gameScreen = gameScreen;
+			game.setScreen(gameScreen);	
+		}
 		stage.act();
 		stage.draw();
 	}
