@@ -73,6 +73,7 @@ public class TerrafyingClient {
 	}
 	
 	public void disconnect() {
+		sendPlayerInv();
 		client.sendTCP(new ClientDisconnectPacket());
 		client.close();
 		connected = false;

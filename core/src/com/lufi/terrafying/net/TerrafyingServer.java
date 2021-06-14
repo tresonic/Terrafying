@@ -40,7 +40,7 @@ public class TerrafyingServer {
 	public void start(String mapname) {
 		ServerWorld nWorld = LoaderSaver.loadWorld(mapname);
 		if(nWorld == null) {
-			System.out.println("starting server");
+			System.out.println("starting server with NULL map");
 			nWorld.map = new Map(mapname, 50, 15);
 			nWorld.playerInvs = new HashMap<String, Inventory>();
 			long beg = System.nanoTime();
@@ -79,7 +79,8 @@ public class TerrafyingServer {
 		if(server != null) {
 			LoaderSaver.saveWorld(world);
 			server.sendToAllTCP(new ServerClosedPacket());
-			server.stop();			
+			server.stop();
+			server = null;
 		}
 	}
 	
@@ -152,7 +153,7 @@ public class TerrafyingServer {
 		
 		if(object instanceof InventoryUpdatePacket) {
 			Entity e = world.entityManager.getEntity(connection.getID());
-			world.entityManager.updateEntity(e);
+			world.playerInvs.put(e.name, ((InventoryUpdatePacket)object).inv);
 		}
 		
 		if(object instanceof ClientDisconnectPacket) {

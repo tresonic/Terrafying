@@ -9,11 +9,12 @@ import com.lufi.terrafying.net.OfflinePlayers;
 
 public class ServerWorld implements Serializable {
 	public Map map;
-	public HashMap<String, Inventory> playerInvs;
+	public transient HashMap<String, Inventory> playerInvs;
 	public transient EntityManager entityManager;
 	public OfflinePlayers offlinePlayers;
 	
 	public ServerWorld() {
 		entityManager = new EntityManager();
+		playerInvs = new HashMap<String, Inventory>();
 	}
 }

@@ -15,8 +15,9 @@ public class Inventory implements Serializable {
 	
 	public ItemStack addItem(ItemStack item) {
 		for(int i = 0; i<itemStacks.length; i++) {
-			if(item.getName() == itemStacks[i].getName() && itemStacks[i].count < ItemStack.STACK_MAX)
+			if(item.getName().equals(itemStacks[i].getName()) && itemStacks[i].count < ItemStack.STACK_MAX) {
 				return itemStacks[i].addItem(item);
+			}
 		}
 		for(int i=0; i<itemStacks.length; i++) {
 			if(itemStacks[i].count == 0) {
@@ -28,7 +29,7 @@ public class Inventory implements Serializable {
 	}
 	
 	public ItemStack addItem(int idx, ItemStack itemStack) {
-		if(itemStacks[idx].getName() == itemStack.getName() || itemStacks[idx].count == 0) {
+		if(itemStacks[idx].getName().equals(itemStack.getName()) || itemStacks[idx].count == 0) {
 			return itemStacks[idx].addItem(itemStack);
 		} else {
 			return itemStack;
@@ -54,7 +55,7 @@ public class Inventory implements Serializable {
 	}
 	
 	public ItemStack changeItemStack(int idx, ItemStack itemStack) {
-		if(itemStacks[idx].getName() == itemStack.getName() && !itemStacks[idx].isFull()) {
+		if(itemStacks[idx].getName().equals(itemStack.getName()) && !itemStacks[idx].isFull()) {
 			return addItem(idx, itemStack);
 		}
 		ItemStack result = itemStacks[idx];
@@ -72,5 +73,16 @@ public class Inventory implements Serializable {
 				return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		String ret = new String();
+		ret += "[Inv: ";
+		for(int i=0; i<itemStacks.length; i++) {
+			ret += itemStacks[i].toString();
+		}
+		ret += "]";
+		return ret;
 	}
 }

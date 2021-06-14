@@ -72,8 +72,8 @@ public class GuiManager implements InputProcessor {
 		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
 			hotbar.keyDown(keycode);
 		} else if(keycode == Keys.ESCAPE) {
-			TerrafyingServer.the().stop();
 			gameScreen.client.disconnect();
+			TerrafyingServer.the().stop();
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}

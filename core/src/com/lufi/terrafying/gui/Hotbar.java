@@ -87,6 +87,7 @@ public class Hotbar extends BaseGui {
 					map.setBlockAt(wpos.x, wpos.y, Block.getBlockByName("air").getId());
 					Item i = Item.getItemById(bId);
 					inventory.addItem(new ItemStack(i, 1));
+					
 					curDigTime = 0;
 					digging = false;
 					client.sendBlockUpdate(wpos.x, wpos.y);
