@@ -9,6 +9,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.screens.GameScreen;
@@ -18,6 +19,8 @@ import com.lufi.terrafying.world.Block;
 public class GuiManager implements InputProcessor {
 	public static final int WIDTH = 1280;
 	public static final int HEIGHT = 720;
+	
+	public Vector2 resolution;
 	
 	public static Color backColor = Color.GRAY;
 	public static Color frontColor = Color.LIGHT_GRAY;
@@ -44,6 +47,7 @@ public class GuiManager implements InputProcessor {
 		mpos = new Vector2i();
 		spos = new Vector2i();
 		wpos = new Vector2();
+		resolution = new Vector2(1280, 720);
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
@@ -76,6 +80,8 @@ public class GuiManager implements InputProcessor {
 			currentGui.keyDown(keycode);
 		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
 			hotbar.keyDown(keycode);
+		} else if(keycode == Keys.ESCAPE) {
+			gameScreen.client.disconnect();
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}
@@ -145,11 +151,13 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
-		gameScreen.camera.zoom += amountY / 10;
-		if(gameScreen.camera.zoom <= 0.3f)
-			gameScreen.camera.zoom = 0.3f;
+		resolution.x += resolution.x * 0.3f * Math.signum(amountY);
+		resolution.y += resolution.y * 0.3f * Math.signum(amountY);
+		resolution.x = MathUtils.clamp(resolution.x, 426, 1280);
+		resolution.y = MathUtils.clamp(resolution.y, 240, 720);
+		gameScreen.camera.viewportWidth = resolution.x;
+		gameScreen.camera.viewportHeight = resolution.y;
 		gameScreen.camera.update();
-		// System.out.println(gameScreen.camera.);
 		return true;
 	}
 

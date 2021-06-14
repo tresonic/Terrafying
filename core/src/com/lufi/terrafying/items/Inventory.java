@@ -64,4 +64,11 @@ public class Inventory {
 		return itemStacks.length;
 	}
 
+	public boolean isEmpty() {
+		for(int i=0; i<itemStacks.length; i++) {
+			if(!itemStacks[i].isEmpty())
+				return false;
+		}
+		return true;
+	}
 }

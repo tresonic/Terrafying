@@ -35,6 +35,13 @@ public class EntityManager {
 		entities.add(entity);	
 	}
 	
+	public void removeEntity(int id) {
+		for(int i=0; i<entities.size; i++) {
+			if(entities.get(i).id == id)
+				entities.removeIndex(i);
+		}
+	}
+	
 	public void addEntities(Array<Entity> nEntities) {
 		entities.addAll(nEntities);
 	}

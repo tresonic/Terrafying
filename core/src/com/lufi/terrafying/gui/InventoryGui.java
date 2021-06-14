@@ -42,6 +42,7 @@ public class InventoryGui extends BaseGui {
 			}
 		}
 	}
+	
 
 	@Override
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {

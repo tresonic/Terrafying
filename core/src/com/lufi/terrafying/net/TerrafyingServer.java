@@ -20,11 +20,9 @@ public class TerrafyingServer {
 	private Server server;
 	private Map map;
 	private EntityManager entityManager;
-	private int entityCounter;
 	
 	private TerrafyingServer() {
 		entityManager = new EntityManager();	
-		entityCounter = 0;
 	}
 	
 	public static TerrafyingServer the() {
@@ -105,6 +103,7 @@ public class TerrafyingServer {
 	
 	public void stop() {
 		if(server != null) {
+			server.sendToAllTCP(new ServerClosedPacket());
 			server.stop();
 			if(persistence)
 				MapLoaderSaver.saveMap(map);
@@ -116,7 +115,7 @@ public class TerrafyingServer {
 			System.out.println("Connection request from client: " + ((ConnectionRequestPacket)object).name + connection.getRemoteAddressTCP());
 			ConnectionResponsePacket p = new ConnectionResponsePacket();
 			
-			p.id = entityCounter++;
+			p.id = connection.getID();
 			p.entities = entityManager.getEntities();
 			p.startChunk = map.getChunkAt(map.spawnpoint);
 			p.startChunkId = map.getChunkIdAt(map.spawnpoint);
@@ -149,6 +148,12 @@ public class TerrafyingServer {
 		if(object instanceof BlockUpdatePacket) {
 			BlockUpdatePacket p = (BlockUpdatePacket)object;
 			map.setBlock(p.pos.x, p.pos.y, p.blockId);
+			server.sendToAllExceptTCP(connection.getID(), p);
+		}
+		
+		if(object instanceof ClientDisconnectPacket) {
+			EntityRemovePacket p = new EntityRemovePacket();
+			p.id = connection.getID();
 			server.sendToAllExceptTCP(connection.getID(), p);
 		}
 	}

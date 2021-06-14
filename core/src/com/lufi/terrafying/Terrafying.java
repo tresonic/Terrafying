@@ -22,8 +22,7 @@ public class Terrafying extends Game {
 	
 	
 	@Override
-	public void create () {
-		
+	public void create () {	
 		fontTex = new Texture(Gdx.files.internal("arial32.png"), true);
 		fontTex.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Linear);
 		font = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(fontTex), false);
@@ -47,7 +46,7 @@ public class Terrafying extends Game {
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
 	

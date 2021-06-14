@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.util.Vector2i;
 
 public class Map implements Serializable {
@@ -16,6 +17,7 @@ public class Map implements Serializable {
 	private int height;
 	private String name;
 	private HashMap<Vector2i, Chunk> chunks;
+	private HashMap<Vector2i, Inventory> metadata;
 	
 	public Vector2 spawnpoint = new Vector2(250 * Block.BLOCK_SIZE, 150 * Block.BLOCK_SIZE);
 	
@@ -23,7 +25,8 @@ public class Map implements Serializable {
 		name = nName;
 		width = nWidth * Chunk.CHUNK_SIZE;
 		height = nHeight * Chunk.CHUNK_SIZE;
-		chunks = new HashMap<Vector2i, Chunk>();	
+		chunks = new HashMap<Vector2i, Chunk>();
+		metadata = new HashMap<Vector2i, Inventory>();
 		System.out.println(width + " " + height);
 	}
 	
@@ -64,6 +67,14 @@ public class Map implements Serializable {
 		sb.end();
 	}
 	
+	public Inventory getMeta(int x, int y) {
+		return metadata.get(new Vector2i(x, y));
+	}
+	
+	public Inventory getMeta(Vector2i pos) {
+		return metadata.get(pos);
+	}
+	
 	public int getBlock(int x, int y) {
 		if(x <= 0 || y <= 0)
 			return Block.getBlockByName("barrier").getId();
@@ -87,6 +98,29 @@ public class Map implements Serializable {
 	public void setBlock(int x, int y, int block) {
 		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
 		Chunk c = chunks.get(chunkId);
+		
+		Vector2i pos = new Vector2i(x, y);
+		if(Block.getBlockById(block).getHasMeta()) {
+			if(metadata.get(pos) == null) {
+				metadata.put(pos, new Inventory(27));
+			} else {
+				if(metadata.get(pos).isEmpty()) {
+					metadata.remove(pos);
+					metadata.put(pos,  new Inventory(27));
+				} else {
+					return;
+				}
+			}
+		} else {
+			if(metadata.get(pos) != null) {
+				if(metadata.get(pos).isEmpty()) {
+					metadata.remove(pos);
+				} else {
+					return;
+				}
+			}
+		}
+		
 		if(c != null) {
 			c.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, block);
 		} 

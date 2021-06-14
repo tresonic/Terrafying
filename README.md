@@ -27,11 +27,12 @@ Host | Ein neues Spiel eröffnen. Hier können andere Spieler im lokalen Netz be
 Exit | Das Spiel verlassen.
 
 ### Spiel
+![icon](https://github.com/Tresonic/Terrafying/blob/main/core/assets/Roboter-Animation.gif)  
 
 Taste | Aktion
 --- | ---
-<kbd>A</kbd> | nach links gehen
 <kbd>D</kbd> | nach rechts gehen
+<kbd>A</kbd> | nach links gehen
 <kbd>Leertaste</kbd> | springen
 <kbd>LMT</kbd> | Block abbauen
 <kbd>RMT</kbd> | Block platzieren
