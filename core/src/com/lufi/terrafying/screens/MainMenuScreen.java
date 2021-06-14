@@ -126,7 +126,7 @@ public class MainMenuScreen implements Screen {
 		root.add(hostButton).align(Align.left);
 		root.row();
 		
-		TextButton testButton = new TextButton("Test", skin);
+		TextButton testButton = new TextButton("Test", game.skin);
 		testButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				TerrafyingServer.the().startTest();
