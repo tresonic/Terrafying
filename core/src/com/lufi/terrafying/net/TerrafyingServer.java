@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.Array;
 public class TerrafyingServer {
 	private static TerrafyingServer instance;
 	
+	private boolean persistence;
+	
 	private Server server;
 	private Map map;
 	private EntityManager entityManager;
@@ -30,7 +32,39 @@ public class TerrafyingServer {
 		return instance;
 	}
 	
+	public void startTest() {
+		persistence = false;
+		
+		map = new Map("testtesttest", 50, 15);
+		map.generate();
+		
+		try {
+			server = new Server(Network.port0, Network.port1);
+			server.bind(Network.port0, Network.port1);
+			
+			server.start();
+			server.addListener(new ThreadedListener(new Listener() {
+				public void received(Connection connection, Object object) {
+					packetReceived(connection, object);
+				}
+				
+				@Override
+				public void disconnected(Connection connection) {
+					System.out.println("client disconnected from server!");
+				}
+				
+			}));
+			Network.register(server.getKryo());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("error while starting server");
+		}
+	}
+	
 	public void start(String mapname) {
+		persistence = true;
+		
 		Map nMap = MapLoaderSaver.loadMap(mapname);
 		if(nMap == null) {
 			System.out.println("starting server");
@@ -71,7 +105,8 @@ public class TerrafyingServer {
 		if(server != null) {
 			server.sendToAllTCP(new ServerClosedPacket());
 			server.stop();
-			MapLoaderSaver.saveMap(map);
+			if(persistence)
+				MapLoaderSaver.saveMap(map);
 		}
 	}
 	

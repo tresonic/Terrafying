@@ -58,7 +58,7 @@ public class Hotbar extends BaseGui {
 		sb.setProjectionMatrix(gameScreen.camera.combined);
 		sb.begin();
 		if(digging) {
-			int crack_idx = (int) (curDigTime / digTime * 5);
+			int crack_idx = (int) (curDigTime / digTime * 9);
 			TextureRegion tex = new TextureRegion(Terrafying.assetManager.get("crack.png",  Texture.class), 0, crack_idx * Block.BLOCK_SIZE, Block.BLOCK_SIZE, Block.BLOCK_SIZE);
 			sb.draw(tex, digPos.x * Block.BLOCK_SIZE, digPos.y * Block.BLOCK_SIZE);
 			curDigTime += delta;

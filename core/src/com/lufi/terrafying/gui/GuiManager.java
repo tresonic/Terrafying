@@ -34,8 +34,9 @@ public class GuiManager implements InputProcessor {
 	private BaseGui currentGui;
 	private Hotbar hotbar;
 	
-	private Vector2i mpos;
-	private Vector2 wpos;
+	private Vector2i spos; // screen position
+	private Vector2i mpos; // screen position, unprojected by hudCamera
+	private Vector2 wpos; // world position, unprojected by camera
 	
 	private boolean guiActive;
 
@@ -45,17 +46,26 @@ public class GuiManager implements InputProcessor {
 		guiActive = false;
 		hotbar = new Hotbar(gameScreen.world.player.inventory, 9);
 		mpos = new Vector2i();
+		spos = new Vector2i();
 		wpos = new Vector2();
 		resolution = new Vector2(1280, 720);
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
+		updateMouseWpos();
 		hotbar.update(wpos, gameScreen.world.map, gameScreen.client);
 				
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
 		else
 			hotbar.draw(sb, sr, gameScreen, delta);
+	}
+	
+	public void updateMouseWpos() {
+		Vector3 uVec = new Vector3(spos.x, spos.y, 0);
+		if(!gameScreen.camera.unproject(uVec).equals(wpos)) {
+			mouseMoved(spos.x, spos.y);
+		}
 	}
 	
 
@@ -124,6 +134,7 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		spos.set(screenX, screenY);
 		Vector3 uVec = new Vector3(screenX, screenY, 0);
 		gameScreen.hudCamera.unproject(uVec);
 		mpos.set((int)uVec.x, (int)uVec.y);

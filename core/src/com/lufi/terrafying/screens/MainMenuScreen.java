@@ -126,6 +126,16 @@ public class MainMenuScreen implements Screen {
 		root.add(hostButton).align(Align.left);
 		root.row();
 		
+		TextButton testButton = new TextButton("Test", skin);
+		testButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				TerrafyingServer.the().startTest();
+				game.setScreen(new LoadingScreen(game, nameField.getText(), "127.0.0.1"));
+			}
+		});
+		root.add(testButton).colspan(2);
+		root.row();
+		
 		root.add(new Actor()).spaceBottom(20);
 		root.row();
 		
