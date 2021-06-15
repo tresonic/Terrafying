@@ -88,13 +88,40 @@ public class Block {
 	public static void registerBlocks() {
 		blockMap = new HashMap<Integer, Block>();
 		int c = 0;
-		registerBlock(c++, 0.0f, MineType.NONE, 0, true, true, true, false, "noblock");
+				registerBlock(c++, 0.0f, MineType.NONE, 0, true, true, true, false, "noblock");
 		registerBlock(c++, 0.0f, MineType.NONE, 0, true, false, false, false, "barrier");
 		registerBlock(c++, 0.0f, MineType.NONE, 0, false, false, false, false, "air");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "stone");
 		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "dirt");
 		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "grass");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, true, "chest");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "coal");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "iron");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "gold");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "ruby");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "uranium");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "copper");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "diamond");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "cobble");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "bricks");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "blueclay");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "yellowclay");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "greenclay");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "orangeclay");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "pinkclay");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "redclay");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oawood");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oawoodplanks");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "craftingtable");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "wool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "bluewool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "yellowwool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "greenwool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "violetwool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "redwool");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "window");
+		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "sand");
+		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "gravel");
 	}
 	
 	public static void registerBlock(int id, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable, boolean nDrawable, boolean nMineable, boolean nHasMeta, String nName) {
