@@ -11,6 +11,7 @@ import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.net.OfflinePlayers.OfflinePlayer;
+import com.lufi.terrafying.util.Log;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.LoaderSaver;
 import com.lufi.terrafying.world.Map;
@@ -56,7 +57,7 @@ public class TerrafyingServer {
 				
 				@Override
 				public void disconnected(Connection connection) {
-					System.out.println("client disconnected from server!");
+					Log.serverLog("client disconnected from server!");
 				}
 				
 			}));
@@ -64,7 +65,7 @@ public class TerrafyingServer {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("error while starting server");
+			Log.serverLog("error while starting server");
 		}
 	}
 	
@@ -73,13 +74,13 @@ public class TerrafyingServer {
 		ServerWorld nWorld = LoaderSaver.loadWorld(mapname);
 		if(nWorld == null) {
 			nWorld = new ServerWorld();
-			System.out.println("starting server with NULL map");
+			Log.serverLog("starting with NULL map");
 			nWorld.map = new Map(mapname, 50, 15);
 			nWorld.playerInvs = new HashMap<String, Inventory>();
 			long beg = System.nanoTime();
 			nWorld.map.generate();
 			long end = System.nanoTime();
-			System.out.println("mapgen took " + (end-beg)/1000000 + " ms");
+			Log.serverLog("mapgen took " + (end-beg)/1000000 + " ms");
 		}
 		world = nWorld;
 		
@@ -95,7 +96,7 @@ public class TerrafyingServer {
 				
 				@Override
 				public void disconnected(Connection connection) {
-					System.out.println("client disconnected from server!");
+					Log.serverLog("client disconnected from server!");
 				}
 				
 			}));
@@ -103,7 +104,7 @@ public class TerrafyingServer {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
-			System.out.println("error while starting server");
+			Log.serverLog("error while starting server");
 		}
 		
 	}
@@ -119,17 +120,16 @@ public class TerrafyingServer {
 	
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionRequestPacket) {
-			System.out.println("Connection request from client: " + ((ConnectionRequestPacket)object).name + connection.getRemoteAddressTCP());
+			Log.serverLog("Connection request from client: " + ((ConnectionRequestPacket)object).name + connection.getRemoteAddressTCP());
 			String clientName = ((ConnectionRequestPacket)object).name;
 			
 			if(world.playerInvs.containsKey(clientName)) {
-				System.out.println("client with same name already on the server");
+				Log.serverLog("client with same name already on the server");
 				connection.sendTCP(new ConnectionDeniedPacket());
 				return;
 			}
 			ConnectionResponsePacket p = new ConnectionResponsePacket();
 			if(world.offlinePlayers.players.containsKey(clientName)) {
-				System.out.println("old player");
 				OfflinePlayer oPlayer = world.offlinePlayers.players.get(clientName);
 				
 				p.id = connection.getID();
@@ -141,7 +141,6 @@ public class TerrafyingServer {
 				p.name = ((ConnectionRequestPacket)object).name;
 				connection.sendTCP(p);
 			} else {	
-				System.out.println("new player");
 				p.id = connection.getID();
 				p.entities = world.entityManager.getEntities();
 				p.startChunk = world.map.getChunkAt(world.map.spawnpoint);
@@ -196,8 +195,7 @@ public class TerrafyingServer {
 			oPlayer.inv = world.playerInvs.get(name);
 			oPlayer.pos.x = world.entityManager.getEntity(connection.getID()).posx;
 			oPlayer.pos.y = world.entityManager.getEntity(connection.getID()).posy;
-			System.out.println("player left at: " + world.entityManager.getEntities());
-			System.out.println("aaa: " + world.playerInvs.get(name));
+			Log.serverLog("player left at: " + world.entityManager.getEntity(world.entityManager.getEntity(connection.getID()).id) + " with inv: " + world.playerInvs.get(name));
 			world.offlinePlayers.players.put(name, oPlayer);
 			world.playerInvs.remove(name);
 			

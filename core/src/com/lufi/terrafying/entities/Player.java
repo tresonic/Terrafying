@@ -46,7 +46,6 @@ public class Player extends Entity {
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
-		//System.out.println(delta);
 		if(inputDir.x > 0)
 			speedx += ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else if(inputDir.x < 0)

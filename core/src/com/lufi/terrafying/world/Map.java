@@ -27,11 +27,9 @@ public class Map implements Serializable {
 		height = nHeight * Chunk.CHUNK_SIZE;
 		chunks = new HashMap<Vector2i, Chunk>();
 		metadata = new HashMap<Vector2i, Inventory>();
-		System.out.println(width + " " + height);
 	}
 	
 	public void generate() {
-		System.out.println(width + " " + height);
 		MapGenerator.generate(this, width, height);
 	}
 	

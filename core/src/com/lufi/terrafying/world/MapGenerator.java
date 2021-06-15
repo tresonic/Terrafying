@@ -7,7 +7,7 @@ import com.lufi.terrafying.util.Vector2i;
 
 public class MapGenerator {
 	public static void generate(Map map, int width, int height) {
-		System.out.println(width + " " + height);
+		System.out.println("gen map width/height: " + width + "/" + height);
 		for(int x=0; x<width/Chunk.CHUNK_SIZE; x++) {
 			for(int y=0; y<height/Chunk.CHUNK_SIZE; y++) {
 				map.addChunk(new Vector2i(x, y), new Chunk());
@@ -48,6 +48,9 @@ public class MapGenerator {
 			map.setBlock(x, stoneHeight+dirtHeight, Block.getBlockByName("grass").getId());
 		}
 		
+		// add ores to mapgen
+		genOres(map, width, height);
+		
 		// carve caves into stone
 		for(int x=1; x<width; x++) {
 			double xMul = (-1/(2*x + 0.0000001) + 1)
@@ -63,6 +66,7 @@ public class MapGenerator {
 			}
 		}
 		
+		
 		// find spawnpoint
 		int spawnX = ThreadLocalRandom.current().nextInt(width / 10, width - width/10);
 		int spawnY = height;
@@ -72,5 +76,34 @@ public class MapGenerator {
 			spawnY--;
 		}
 		map.spawnpoint.set(spawnX * Block.BLOCK_SIZE, spawnY * Block.BLOCK_SIZE);
+	}
+	
+	private static void genOres(Map map, int width, int height) {
+		SimplexNoise ironNoise = new SimplexNoise(12, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise copperNoise = new SimplexNoise(10, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise goldNoise = new SimplexNoise(10, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise rubyNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise uraniumNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise diamondNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
+		
+		for(int x=0; x<width; x++) {
+			for(int y=0; y<height; y++) {
+				if(map.getBlock(x, y) == Block.getBlockByName("stone").getId()) {
+					if(ironNoise.getNoise(x, y) > 0.17)
+						map.setBlock(x, y, Block.getBlockByName("iron").getId());
+					if(copperNoise.getNoise(x, y) > 0.17)
+						map.setBlock(x, y, Block.getBlockByName("copper").getId());
+					if(goldNoise.getNoise(x, y) > 0.20)
+						map.setBlock(x, y, Block.getBlockByName("gold").getId());
+					if(rubyNoise.getNoise(x, y) > 0.23)
+						map.setBlock(x, y, Block.getBlockByName("ruby").getId());
+					if(uraniumNoise.getNoise(x, y) > 0.22)
+						map.setBlock(x, y, Block.getBlockByName("uranium").getId());
+					if(diamondNoise.getNoise(x, y) > 0.24)
+						map.setBlock(x, y, Block.getBlockByName("diamond").getId());
+				}
+			}
+		}
+		
 	}
 }

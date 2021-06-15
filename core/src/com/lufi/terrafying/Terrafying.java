@@ -62,10 +62,9 @@ public class Terrafying extends Game {
 	}
 	
 	@Override
-	public void dispose () {
-		System.out.println("disposing");
+	public void dispose() {
+		getScreen().dispose();
 		assetManager.dispose();
 		TerrafyingServer.the().stop();
-		getScreen().dispose();
 	}
 }

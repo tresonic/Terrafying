@@ -13,6 +13,7 @@ import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.screens.GameScreen;
+import com.lufi.terrafying.util.Log;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Chunk;
 import com.lufi.terrafying.world.Map;
@@ -40,10 +41,10 @@ public class TerrafyingClient {
 		new Thread("Connect") {
 			public void run () {
 				try {
-					System.out.println("connecting to " + address);
+					Log.clientLog("connecting to " + address);
 					connecting = true;
 					client.connect(5000, address, Network.port0, Network.port1);
-					System.out.println("connect call finished");
+					// Log.clientLog("connect call finished");
 					// Server communication after connection can go here, or in Listener#connected().
 				} catch (IOException ex) {
 					ex.printStackTrace();
@@ -58,14 +59,14 @@ public class TerrafyingClient {
 			}
 			
 			public void connected(Connection connection) {
-				System.out.println("client established connection");
+				Log.clientLog("established connection");
 				ConnectionRequestPacket p = new ConnectionRequestPacket();
 				p.name = playerName;
 				client.sendTCP(p);
 			}
 			@Override
 			public void disconnected(Connection connection) {
-				System.out.println("client lost connection");
+				Log.clientLog("lost connection");
 				connected = false;
 			}
 		}));
@@ -83,10 +84,10 @@ public class TerrafyingClient {
 	public void update() {
 		EntityUpdatePacket p = new EntityUpdatePacket();
 		p.entity = world.player;
-		//System.out.println("sending position..." + client.getRemoteAddressTCP());
 		client.sendUDP(p);
 		
-		final int chunkDist = GameScreen.viewPortWidth / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
+		int chunkDist = GameScreen.viewPortWidth / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
+		chunkDist *= 5;
 		
 		for(int x = -chunkDist; x<chunkDist; x++) {
 			for(int y = -chunkDist; y<chunkDist; y++) {
@@ -138,7 +139,7 @@ public class TerrafyingClient {
 		}
 		
 		if(object instanceof EntityRemovePacket) {
-			System.out.println("entity removed packet");
+			Log.clientLog("entity removed packet");
 			int id = ((EntityRemovePacket)object).id;
 			world.entityManager.removeEntity(id);
 		}
