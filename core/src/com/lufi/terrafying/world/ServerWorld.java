@@ -18,5 +18,11 @@ public class ServerWorld implements Serializable {
 		playerInvs = new HashMap<String, Inventory>();
 	}
 	
-	public ServerWorld(String name, int width, int height) {}
+	public ServerWorld(String name, int width, int height) {
+		entityManager = new EntityManager();
+		playerInvs = new HashMap<String, Inventory>();
+		map = new Map(name, width, height);
+		map.generate();		
+		offlinePlayers = new OfflinePlayers();
+	}
 }

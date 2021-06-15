@@ -72,6 +72,7 @@ public class TerrafyingServer {
 		persistence = true;
 		ServerWorld nWorld = LoaderSaver.loadWorld(mapname);
 		if(nWorld == null) {
+			nWorld = new ServerWorld();
 			System.out.println("starting server with NULL map");
 			nWorld.map = new Map(mapname, 50, 15);
 			nWorld.playerInvs = new HashMap<String, Inventory>();
