@@ -1,16 +1,18 @@
 package com.lufi.terrafying.entities;
 
+import java.io.Serializable;
+
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 
-public class Entity {
+public class Entity implements Serializable {
 	public final float WIDTH = Block.BLOCK_SIZE - 2;
 	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
 	
 	public float posx;
 	public float posy;
-	public float speedx;
-	public float speedy;
+	public transient float speedx;
+	public transient float speedy;
 	public int id;
 	
 	public String tex;
@@ -50,5 +52,10 @@ public class Entity {
 
 	public boolean isPlayer() {
 		return isPlayer;
+	}
+	
+	@Override
+	public String toString() {
+		return "Entity " + name + " at " + posx + " " + posy;
 	}
 }

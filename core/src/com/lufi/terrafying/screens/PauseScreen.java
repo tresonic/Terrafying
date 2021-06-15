@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
-import com.lufi.terrafying.world.MapLoaderSaver;
+import com.lufi.terrafying.net.TerrafyingServer;
+import com.lufi.terrafying.world.LoaderSaver;
 
 public class PauseScreen implements Screen {
 
@@ -63,6 +64,7 @@ public class PauseScreen implements Screen {
 		exitButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.gameScreen.client.disconnect();
+				TerrafyingServer.the().stop();
 				game.setScreen(game.mainMenuScreen);
 			}
 		});

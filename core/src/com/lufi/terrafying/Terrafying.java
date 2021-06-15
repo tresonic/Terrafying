@@ -12,11 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.*;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.world.Block;
 
 
 public class Terrafying extends Game {
 	public static AssetManager assetManager;
+	public Options options;
 	public static BitmapFont font;
 	public static Texture fontTex;
 	public static BitmapFont guifont;
@@ -28,6 +30,8 @@ public class Terrafying extends Game {
 	@Override
 	public void create () {	
 		skin = new Skin(Gdx.files.internal("uiskin.json"));
+		
+		options = Options.loadOptions();
 		
 		mainMenuScreen = new MainMenuScreen(this);
 		pauseScreen = new PauseScreen(this);
@@ -63,7 +67,9 @@ public class Terrafying extends Game {
 	
 	@Override
 	public void dispose () {
+		System.out.println("disposing");
 		assetManager.dispose();
 		TerrafyingServer.the().stop();
+		getScreen().dispose();
 	}
 }

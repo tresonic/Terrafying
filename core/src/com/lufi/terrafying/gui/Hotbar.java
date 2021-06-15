@@ -76,7 +76,7 @@ public class Hotbar extends BaseGui {
 			Vector2i newDigPos = Map.getBlockPos(wpos.x, wpos.y);
 			
 			if(!digPos.equals(newDigPos)) {
-				if(Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType())
+				if(inventory.getItemStack(selectedSlot).item != null && Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType())
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime() * inventory.getItemStack(selectedSlot).item.getMineFactor();
 				else
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime();
@@ -87,6 +87,7 @@ public class Hotbar extends BaseGui {
 					map.setBlockAt(wpos.x, wpos.y, Block.getBlockByName("air").getId());
 					Item i = Item.getItemById(bId);
 					inventory.addItem(new ItemStack(i, 1));
+					
 					curDigTime = 0;
 					digging = false;
 					client.sendBlockUpdate(wpos.x, wpos.y);
@@ -156,6 +157,8 @@ public class Hotbar extends BaseGui {
 			using = false;
 
 	}
+	
+
 
 	public ItemStack getSelectedItem() {
 		return inventory.getItemStack(selectedSlot);
@@ -166,6 +169,15 @@ public class Hotbar extends BaseGui {
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void scrolled(float amount) {
+		selectedSlot += Math.signum(amount);
+		selectedSlot %= numSlots;
+		if(selectedSlot < 0)
+			selectedSlot = numSlots -1;
 	}
 
 }

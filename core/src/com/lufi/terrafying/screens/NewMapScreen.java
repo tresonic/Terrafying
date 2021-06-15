@@ -13,8 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.world.LoaderSaver;
 import com.lufi.terrafying.Terrafying;
-import com.lufi.terrafying.world.MapLoaderSaver;
+
 
 public class NewMapScreen implements Screen {
 	private Terrafying game;
@@ -74,7 +75,7 @@ public class NewMapScreen implements Screen {
 		createButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty()) {
-					MapLoaderSaver.genAndSaveMap(nameField.getText(), Integer.parseInt(sizeXField.getText()), Integer.parseInt(sizeYField.getText()));
+					LoaderSaver.genAndSaveMap(nameField.getText(), Integer.parseInt(sizeXField.getText()), Integer.parseInt(sizeYField.getText()));
 					game.setScreen(new MainMenuScreen(game));
 				}
 			}

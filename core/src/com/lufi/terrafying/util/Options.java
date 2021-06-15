@@ -53,6 +53,7 @@ public class Options implements Serializable {
 			ObjectOutputStream oout = new ObjectOutputStream(fout);
 			oout.writeObject(options);
 			oout.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

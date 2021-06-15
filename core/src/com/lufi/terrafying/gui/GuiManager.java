@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.screens.PauseScreen;
 import com.lufi.terrafying.util.Vector2i;
@@ -152,13 +153,16 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
-		resolution.x += resolution.x * 0.3f * Math.signum(amountY);
-		resolution.y += resolution.y * 0.3f * Math.signum(amountY);
-		resolution.x = MathUtils.clamp(resolution.x, 426, 1280);
-		resolution.y = MathUtils.clamp(resolution.y, 240, 720);
-		gameScreen.camera.viewportWidth = resolution.x;
-		gameScreen.camera.viewportHeight = resolution.y;
-		gameScreen.camera.update();
+//		resolution.x += resolution.x * 0.3f * Math.signum(amountY);
+//		resolution.y += resolution.y * 0.3f * Math.signum(amountY);
+//		resolution.x = MathUtils.clamp(resolution.x, 426, 1280);
+//		resolution.y = MathUtils.clamp(resolution.y, 240, 720);
+//		gameScreen.camera.viewportWidth = resolution.x;
+//		gameScreen.camera.viewportHeight = resolution.y;
+//		gameScreen.camera.update();
+		if(!guiActive) {
+			hotbar.scrolled(amountY);
+		}
 		return true;
 	}
 

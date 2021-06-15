@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -13,6 +14,7 @@ import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.screens.GameScreen;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Chunk;
 import com.lufi.terrafying.world.Map;
@@ -73,19 +75,20 @@ public class TerrafyingClient {
 	}
 	
 	public void disconnect() {
+		sendPlayerInv();
 		client.sendTCP(new ClientDisconnectPacket());
 		client.close();
 		connected = false;
 		connecting = false;
 	}
 	
-	public void update() {
+	public void update(OrthographicCamera camera) {
 		EntityUpdatePacket p = new EntityUpdatePacket();
 		p.entity = world.player;
 		//System.out.println("sending position..." + client.getRemoteAddressTCP());
 		client.sendUDP(p);
 		
-		final int chunkDist = GameScreen.viewPortWidth / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
+		final int chunkDist = (int)(camera.viewportWidth * camera.zoom) / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
 		
 		for(int x = -chunkDist; x<chunkDist; x++) {
 			for(int y = -chunkDist; y<chunkDist; y++) {
@@ -109,20 +112,22 @@ public class TerrafyingClient {
 		client.sendTCP(p);
 	}
 	
+	public void sendPlayerInv() {
+		InventoryUpdatePacket p = new InventoryUpdatePacket();
+		p.inv = world.player.inventory;
+		client.sendTCP(p);
+	}
+	
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
 
-//			System.out.println("connected!");
-//			
-//			System.out.println("startchunk: " + p.startChunkId);
 			world.map.addChunk(p.startChunkId, p.startChunk);
 			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);
-//			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
-//			System.out.println(p.entities);
+			world.player.inventory = p.inventory;
 			
 			connecting = false;
 			connected = true;
@@ -155,8 +160,20 @@ public class TerrafyingClient {
 			world.map.setBlock(p.pos.x, p.pos.y, p.blockId);
 		}
 		
+		if(object instanceof InventoryUpdatePacket) {
+			world.player.inventory = ((InventoryUpdatePacket)object).inv;
+		}
+		
 		if(object instanceof ServerClosedPacket) {
-			disconnect();
+			client.close();
+			connected = false;
+			connecting = false;
+		}
+		
+		if(object instanceof ConnectionDeniedPacket) {
+			client.close();
+			connected = false;
+			connecting = false;
 		}
 		
 	}

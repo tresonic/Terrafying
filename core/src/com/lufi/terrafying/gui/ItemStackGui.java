@@ -38,6 +38,8 @@ public class ItemStackGui {
 					SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE, SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE);
 			Terrafying.guifont.draw(sb, String.valueOf(is.count), pos.x + GuiManager.MARGIN * GuiManager.HUD_SCALE, 
 					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
+//			Terrafying.guifont.draw(sb, is.getName(), pos.x + SIZE / 2, 
+//					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
 			sb.end();
 		}
 	}

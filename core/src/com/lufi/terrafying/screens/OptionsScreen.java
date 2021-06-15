@@ -14,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
-import com.lufi.terrafying.world.MapLoaderSaver;
+import com.lufi.terrafying.util.Options;
+import com.lufi.terrafying.world.LoaderSaver;
 
 public class OptionsScreen implements Screen {
 
@@ -49,11 +50,10 @@ public class OptionsScreen implements Screen {
 		root.add(viewingrangeLabel).padRight(5);
 		
 		//public Slider (float min, float max, float stepSize, boolean vertical, Skin skin)
-		
+		viewingrangeSlider.setValue(game.options.getViewingrange());
 		viewingrangeSlider.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.gameScreen.options.setViewingrange(viewingrangeSlider.getValue());
-				System.out.println(viewingrangeSlider.getValue());
+				game.options.setViewingrange(viewingrangeSlider.getValue());
 			}
 			
 		});
@@ -65,13 +65,23 @@ public class OptionsScreen implements Screen {
 		root.row();
 		
 		
+		TextButton saveButton = new TextButton("save options", game.skin);
+		saveButton.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				Options.saveOptions(game.options);			
+			}
+		});
+		root.add(saveButton).spaceTop(50).colspan(3);
+		root.row();
+		
+		
 		TextButton backButton = new TextButton("back", game.skin);
 		backButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.pauseScreen);			
 			}
 		});
-		root.add(backButton).spaceTop(50).colspan(3);
+		root.add(backButton).spaceTop(5).colspan(3);
 		
 		
 		
