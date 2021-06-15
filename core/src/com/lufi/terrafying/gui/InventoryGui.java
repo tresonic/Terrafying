@@ -119,4 +119,11 @@ public class InventoryGui extends BaseGui {
 		}
 		return -1;
 	}
+
+
+	@Override
+	public void scrolled(float amount) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -34,8 +34,8 @@ public class Map implements Serializable {
 	}
 	
 	public void render(OrthographicCamera cam, SpriteBatch sb) {
-		Vector2 startpos = new Vector2(cam.position.x - cam.viewportWidth / 2, cam.position.y - cam.viewportHeight / 2);
-		Vector2 endpos = new Vector2(cam.position.x + cam.viewportWidth / 2, cam.position.y + cam.viewportHeight);
+		Vector2 startpos = new Vector2(cam.position.x - cam.viewportWidth * cam.zoom / 2, cam.position.y - cam.viewportHeight * cam.zoom / 2);
+		Vector2 endpos = new Vector2(cam.position.x + cam.viewportWidth * cam.zoom/ 2, cam.position.y + cam.viewportHeight * cam.zoom);
 		
 		int startx = MathUtils.clamp((int) (startpos.x / (float) Block.BLOCK_SIZE) - 1, 0, width);
 		int starty = MathUtils.clamp((int) (startpos.y / (float) Block.BLOCK_SIZE) - 1, 0, height);

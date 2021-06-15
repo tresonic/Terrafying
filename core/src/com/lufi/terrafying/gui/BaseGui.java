@@ -11,4 +11,6 @@ public abstract class BaseGui {
 	public abstract void mouseMoved(int x, int y);
 	public abstract void mouseDown(int x, int y, int button);
 	public abstract void mouseUp(int x, int y, int button);
+	public abstract void scrolled(float amount);
+	
 }

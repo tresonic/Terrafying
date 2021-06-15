@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
@@ -25,6 +26,7 @@ public class GameScreen implements Screen {
 	public OrthographicCamera hudCamera;
 	public GuiManager guiManager;
 	
+	
 	public SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
 	
@@ -38,6 +40,7 @@ public class GameScreen implements Screen {
 		game = g;
 		name = playerName;
 		ip = serverAddress;
+		
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setAutoShapeType(true);
 		world = new World(500, 500);
@@ -47,7 +50,7 @@ public class GameScreen implements Screen {
 		
 		lastTime = 0;
 		spriteBatch = new SpriteBatch();
-		camera = new OrthographicCamera(viewPortWidth, viewPortWidth * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getWidth() * ((float)Gdx.graphics.getHeight() / (float)Gdx.graphics.getWidth()));
 		hudCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		hudCamera.position.x = Gdx.graphics.getWidth()/2;
 		hudCamera.position.y = Gdx.graphics.getHeight()/2;
@@ -73,6 +76,8 @@ public class GameScreen implements Screen {
 			game.setScreen(new MainMenuScreen(game));
 		}
 		
+		camera.zoom = game.options.getViewingrange();
+		
 		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
 		
 		spriteBatch.setShader(lightShader);
@@ -92,7 +97,7 @@ public class GameScreen implements Screen {
 		
 		lastTime += delta;
 		if(lastTime >= 0.02f) {
-			client.update();
+			client.update(camera);
 			lastTime = 0;
 		}
 	}
@@ -130,6 +135,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		
 		client.disconnect();
 		TerrafyingServer.the().stop();
 	}

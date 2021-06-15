@@ -157,6 +157,8 @@ public class Hotbar extends BaseGui {
 			using = false;
 
 	}
+	
+
 
 	public ItemStack getSelectedItem() {
 		return inventory.getItemStack(selectedSlot);
@@ -167,6 +169,15 @@ public class Hotbar extends BaseGui {
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public void scrolled(float amount) {
+		selectedSlot += Math.signum(amount);
+		selectedSlot %= numSlots;
+		if(selectedSlot < 0)
+			selectedSlot = numSlots -1;
 	}
 
 }

@@ -83,7 +83,7 @@ public class GuiManager implements InputProcessor {
 		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
 			hotbar.keyDown(keycode);
 		} else if(keycode == Keys.ESCAPE) {
-			gameScreen.game.setScreen(new PauseScreen(gameScreen.game));
+			gameScreen.game.setScreen(gameScreen.game.pauseScreen);
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}
@@ -153,13 +153,17 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean scrolled(float amountX, float amountY) {
-		resolution.x += resolution.x * 0.3f * Math.signum(amountY);
-		resolution.y += resolution.y * 0.3f * Math.signum(amountY);
-		resolution.x = MathUtils.clamp(resolution.x, 426, 1280 * 5);
-		resolution.y = MathUtils.clamp(resolution.y, 240, 720 * 5);
-		gameScreen.camera.viewportWidth = resolution.x;
-		gameScreen.camera.viewportHeight = resolution.y;
-		gameScreen.camera.update();
+//		resolution.x += resolution.x * 0.3f * Math.signum(amountY);
+//		resolution.y += resolution.y * 0.3f * Math.signum(amountY);
+//		resolution.x = MathUtils.clamp(resolution.x, 426, 1280);
+//		resolution.y = MathUtils.clamp(resolution.y, 240, 720);
+//		gameScreen.camera.viewportWidth = resolution.x;
+//		gameScreen.camera.viewportHeight = resolution.y;
+//		gameScreen.camera.update();
+		if(!guiActive) {
+			hotbar.scrolled(amountY);
+		}
+
 		return true;
 	}
 

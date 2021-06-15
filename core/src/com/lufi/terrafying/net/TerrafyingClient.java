@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -14,6 +15,7 @@ import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.util.Log;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Chunk;
 import com.lufi.terrafying.world.Map;
@@ -81,13 +83,12 @@ public class TerrafyingClient {
 		connecting = false;
 	}
 	
-	public void update() {
+	public void update(OrthographicCamera camera) {
 		EntityUpdatePacket p = new EntityUpdatePacket();
 		p.entity = world.player;
 		client.sendUDP(p);
 		
-		int chunkDist = GameScreen.viewPortWidth / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
-		chunkDist *= 5;
+		final int chunkDist = (int)(camera.viewportWidth * camera.zoom) / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
 		
 		for(int x = -chunkDist; x<chunkDist; x++) {
 			for(int y = -chunkDist; y<chunkDist; y++) {
