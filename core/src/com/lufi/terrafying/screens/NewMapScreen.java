@@ -14,54 +14,56 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.world.LoaderSaver;
+import com.lufi.terrafying.Terrafying;
+
 
 public class NewMapScreen implements Screen {
-	private Game game;
+	private Terrafying game;
 	
-	private Skin skin;
+	
 	private Stage stage;	
 	private Table root;
 	
 	
-	public NewMapScreen(final Game nGame, Skin nSkin) {
+	public NewMapScreen(final Terrafying nGame) {
 		game = nGame;
-		skin = nSkin;
+		
 	}
 	
 	@Override
 	public void show() {
 		stage = new Stage();
-		root = new Table(skin);
+		root = new Table(game.skin);
 		
-		Label titleLabel = new Label("Create a new World", skin);
+		Label titleLabel = new Label("Create a new World", game.skin);
 		titleLabel.setFontScale(2);
 		root.add(titleLabel).colspan(2).spaceBottom(20);
 		root.row();
 		
-		Label nameLabel = new Label("name:", skin);
+		Label nameLabel = new Label("name:", game.skin);
 		root.add(nameLabel);
-		final TextField nameField = new TextField("", skin);
+		final TextField nameField = new TextField("", game.skin);
 		root.add(nameField);
 		root.row();
 		root.add(new Actor()).spaceBottom(20);
 		root.row();
 		
-		Label sizeXLabel = new Label("width in chunks:", skin);
+		Label sizeXLabel = new Label("width in chunks:", game.skin);
 		root.add(sizeXLabel);
-		final TextField sizeXField = new TextField("50", skin);
+		final TextField sizeXField = new TextField("50", game.skin);
 		root.add(sizeXField);
 		root.row();
 		
 		root.add(new Actor()).spaceBottom(10);
 		root.row();
 		
-		Label sizeYLabel = new Label("height in chunks:", skin);
+		Label sizeYLabel = new Label("height in chunks:", game.skin);
 		root.add(sizeYLabel).spaceBottom(30);
-		final TextField sizeYField = new TextField("15", skin);
+		final TextField sizeYField = new TextField("15", game.skin);
 		root.add(sizeYField).spaceBottom(30);
 		root.row();
 		
-		TextButton backButton = new TextButton("back", skin);
+		TextButton backButton = new TextButton("back", game.skin);
 		backButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(new MainMenuScreen(game));
@@ -69,7 +71,7 @@ public class NewMapScreen implements Screen {
 		});
 		root.add(backButton);
 		
-		TextButton createButton = new TextButton("create & save", skin);
+		TextButton createButton = new TextButton("create & save", game.skin);
 		createButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty()) {

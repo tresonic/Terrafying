@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.net.TerrafyingServer;
@@ -16,7 +17,7 @@ import com.lufi.terrafying.world.World;
 
 public class GameScreen implements Screen {
 	public final static int viewPortWidth = 50 * Block.BLOCK_SIZE;
-	public final Game game;
+	public final Terrafying game;
 	
 	public TerrafyingClient client;
 	public World world;
@@ -33,7 +34,7 @@ public class GameScreen implements Screen {
 	
 	private float lastTime;
 	
-	public GameScreen(final Game g, String playerName, String serverAddress) {
+	public GameScreen(final Terrafying g, String playerName, String serverAddress) {
 		game = g;
 		name = playerName;
 		ip = serverAddress;
