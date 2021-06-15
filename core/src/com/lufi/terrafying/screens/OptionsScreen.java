@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -23,9 +24,12 @@ public class OptionsScreen implements Screen {
 	private Stage stage;	
 	private Table root;
 	
+	Label viewingrangeValue;
+	final Slider viewingrangeSlider;
 	
 	public OptionsScreen(final Terrafying nGame) {
 		game = nGame;
+		viewingrangeSlider = new Slider(0.5f, 1.5f, 0.05f, false, game.skin);
 	}
 	
 	@Override
@@ -37,8 +41,29 @@ public class OptionsScreen implements Screen {
 		
 		Label titleLabel = new Label("Options", game.skin);
 		titleLabel.setFontScale(2);
-		root.add(titleLabel).spaceBottom(20);
+		root.add(titleLabel).spaceBottom(20).colspan(3);
 		root.row();
+		
+
+		Label viewingrangeLabel = new Label("Zoom", game.skin);
+		root.add(viewingrangeLabel).padRight(5);
+		
+		//public Slider (float min, float max, float stepSize, boolean vertical, Skin skin)
+		
+		viewingrangeSlider.addListener(new ChangeListener() {
+			public void changed(ChangeEvent event, Actor actor) {
+				game.gameScreen.options.setViewingrange(viewingrangeSlider.getValue());
+				System.out.println(viewingrangeSlider.getValue());
+			}
+			
+		});
+		root.add(viewingrangeSlider);
+		
+		
+		viewingrangeValue = new Label(String.valueOf(Math.round((viewingrangeSlider.getValue() - 0.5) * 100)) + "%", game.skin);
+		root.add(viewingrangeValue).padLeft(5).width(20);
+		root.row();
+		
 		
 		TextButton backButton = new TextButton("back", game.skin);
 		backButton.addListener(new ChangeListener() {
@@ -46,7 +71,8 @@ public class OptionsScreen implements Screen {
 				game.setScreen(game.pauseScreen);			
 			}
 		});
-		root.add(backButton);
+		root.add(backButton).spaceTop(50).colspan(3);
+		
 		
 		
 		
@@ -58,6 +84,7 @@ public class OptionsScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
+		viewingrangeValue.setText(String.valueOf(Math.round((viewingrangeSlider.getValue() - 0.5) * 100)) + "%");
 		ScreenUtils.clear(0,0,0,1);
 		stage.act();
 		stage.draw();

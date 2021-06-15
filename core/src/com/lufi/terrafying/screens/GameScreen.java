@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
@@ -23,6 +24,7 @@ public class GameScreen implements Screen {
 	public OrthographicCamera camera;
 	public OrthographicCamera hudCamera;
 	public GuiManager guiManager;
+	public Options options;
 	
 	public SpriteBatch spriteBatch;
 	private ShapeRenderer shapeRenderer;
@@ -37,6 +39,7 @@ public class GameScreen implements Screen {
 		game = g;
 		name = playerName;
 		ip = serverAddress;
+		options = Options.loadOptions();
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setAutoShapeType(true);
 		world = new World(500, 500);
@@ -71,6 +74,8 @@ public class GameScreen implements Screen {
 		if(client.connected == false) {
 			game.setScreen(new MainMenuScreen(game));
 		}
+		
+		camera.zoom = options.getViewingrange();
 		
 		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
 		
@@ -129,7 +134,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-
+		Options.saveOptions(options);
 	}
 	
 	public boolean isConnected() {

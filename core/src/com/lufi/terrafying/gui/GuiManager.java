@@ -82,7 +82,7 @@ public class GuiManager implements InputProcessor {
 		} else if(keycode >= Keys.NUM_1 && keycode <= Keys.NUM_9) {
 			hotbar.keyDown(keycode);
 		} else if(keycode == Keys.ESCAPE) {
-			gameScreen.game.setScreen(new PauseScreen(gameScreen.game));
+			gameScreen.game.setScreen(gameScreen.game.pauseScreen);
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}
