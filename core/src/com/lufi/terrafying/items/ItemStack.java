@@ -1,6 +1,8 @@
 package com.lufi.terrafying.items;
 
-public class ItemStack {
+import java.io.Serializable;
+
+public class ItemStack implements Serializable {
 	public static final int STACK_MAX = 99;
 	public Item item;
 	public int count;
@@ -29,7 +31,7 @@ public class ItemStack {
 			newItem.count = 0;
 		}
 		// item doesn't match
-		else if(item.getName() != newItem.item.getName()) {}
+		else if(!item.getName().equals(newItem.item.getName())) {}
 		// new stack fits fully
 		else if(newItem.count <= getFreeSpace()) {
 			count += newItem.count;
@@ -95,5 +97,19 @@ public class ItemStack {
 		if(item != null)
 			return item.getId();
 		return 0;
+	}
+	
+	@Override
+	public String toString() {
+		String ret = new String();
+		ret += "[";
+		if(item != null)
+			ret += item.getName();
+		else
+			ret += "NULL";
+		ret += ":";
+		ret += count;
+		ret += "]";
+		return ret;
 	}
 }

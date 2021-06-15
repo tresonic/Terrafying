@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
+import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;
 
@@ -128,7 +129,8 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-
+		client.disconnect();
+		TerrafyingServer.the().stop();
 	}
 	
 	public boolean isConnected() {

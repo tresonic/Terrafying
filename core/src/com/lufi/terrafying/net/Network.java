@@ -1,5 +1,7 @@
 package com.lufi.terrafying.net;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
@@ -22,6 +24,7 @@ public class Network {
 	public static void register(Kryo k) {
 		register(k,
 				ConnectionRequestPacket.class,
+				ConnectionDeniedPacket.class,
 				ConnectionResponsePacket.class,
 				ServerClosedPacket.class,
 				ClientDisconnectPacket.class,
@@ -31,6 +34,11 @@ public class Network {
 				ChunkRequestPacket.class,
 				ChunkResponsePacket.class,
 				BlockUpdatePacket.class,
+				
+				InventoryUpdatePacket.class,
+				
+				MetaAddPacket.class,
+				MetaUpdatePacket.class,
 				
 				Player.class,
 				Entity.class,
@@ -45,6 +53,7 @@ public class Network {
 				Vector2.class,
 				Vector2i.class,
 				Array.class,
+				ArrayList.class,
 				Object[].class,
 				int[][].class,
 				int[].class
@@ -58,15 +67,20 @@ public class Network {
 		public String name;
 	}
 	
+	static public class ConnectionDeniedPacket {
+		public String reason;
+	}
+	
 	static public class ConnectionResponsePacket {
 		public ConnectionResponsePacket() {}
 		
 		public int id;
 		public String name;
-		public Array<Entity> entities;
+		public ArrayList<Entity> entities;
 		public Vector2i startChunkId;
 		public Chunk startChunk;
 		public Vector2 spawnpoint;
+		public Inventory inventory;
 	}
 	
 	static public class ChunkRequestPacket {
@@ -103,6 +117,18 @@ public class Network {
 		
 		public Vector2i pos;
 		public int blockId;
+	}
+	
+	static public class InventoryUpdatePacket {
+		public Inventory inv;
+	}
+	
+	static public class MetaAddPacket {
+		
+	}
+	
+	static public class MetaUpdatePacket {
+		
 	}
 	
 	static public class ServerClosedPacket {}

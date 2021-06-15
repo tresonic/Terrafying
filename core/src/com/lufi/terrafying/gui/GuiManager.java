@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
@@ -82,6 +83,7 @@ public class GuiManager implements InputProcessor {
 			hotbar.keyDown(keycode);
 		} else if(keycode == Keys.ESCAPE) {
 			gameScreen.client.disconnect();
+			TerrafyingServer.the().stop();
 		} else {
 			gameScreen.world.player.keyDown(keycode);
 		}

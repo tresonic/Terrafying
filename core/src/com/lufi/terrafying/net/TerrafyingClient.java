@@ -73,6 +73,7 @@ public class TerrafyingClient {
 	}
 	
 	public void disconnect() {
+		sendPlayerInv();
 		client.sendTCP(new ClientDisconnectPacket());
 		client.close();
 		connected = false;
@@ -109,20 +110,22 @@ public class TerrafyingClient {
 		client.sendTCP(p);
 	}
 	
+	public void sendPlayerInv() {
+		InventoryUpdatePacket p = new InventoryUpdatePacket();
+		p.inv = world.player.inventory;
+		client.sendTCP(p);
+	}
+	
 	public void packetReceived(Connection connection, Object object) {
 		if(object instanceof ConnectionResponsePacket) {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
 
-//			System.out.println("connected!");
-//			
-//			System.out.println("startchunk: " + p.startChunkId);
 			world.map.addChunk(p.startChunkId, p.startChunk);
 			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);
-//			System.out.println("joined server with entites: " + p.entities.size + " and entities is now " + world.entityManager.getEntities().size);
-//			System.out.println(p.entities);
+			world.player.inventory = p.inventory;
 			
 			connecting = false;
 			connected = true;
@@ -155,8 +158,20 @@ public class TerrafyingClient {
 			world.map.setBlock(p.pos.x, p.pos.y, p.blockId);
 		}
 		
+		if(object instanceof InventoryUpdatePacket) {
+			world.player.inventory = ((InventoryUpdatePacket)object).inv;
+		}
+		
 		if(object instanceof ServerClosedPacket) {
-			disconnect();
+			client.close();
+			connected = false;
+			connecting = false;
+		}
+		
+		if(object instanceof ConnectionDeniedPacket) {
+			client.close();
+			connected = false;
+			connecting = false;
 		}
 		
 	}
