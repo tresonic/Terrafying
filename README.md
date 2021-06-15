@@ -26,8 +26,7 @@ Join | Einem bestehenden Spiel beitreten. Dabei muss, sofern nicht automatisch v
 Host | Ein neues Spiel eröffnen. Hier können andere Spieler im lokalen Netz beitreten.
 Exit | Das Spiel verlassen.
 
-### Spiel
-![icon](https://github.com/Tresonic/Terrafying/blob/main/core/assets/Roboter-Animation.gif)  
+### Spiel ![icon](https://github.com/Tresonic/Terrafying/blob/main/core/assets/Roboter-Animation.gif)  
 
 Taste | Aktion
 --- | ---
@@ -43,4 +42,3 @@ Taste | Aktion
 Mit dem Argument `server` kann ein dedizierter Server gestartet werden:
 
 `java -jar Terrafying.jar server`  
-![icon](https://github.com/Tresonic/Terrafying/blob/main/core/assets/Ritter-Animation.gif)  
