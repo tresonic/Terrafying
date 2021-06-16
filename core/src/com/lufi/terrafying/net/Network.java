@@ -13,6 +13,7 @@ import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block.MineType;
 import com.lufi.terrafying.world.Chunk;
@@ -49,6 +50,7 @@ public class Network {
 				ItemStack[].class,
 				Item.class,
 				MineType.class,
+				Options.class,
 				
 				Vector2.class,
 				Vector2i.class,

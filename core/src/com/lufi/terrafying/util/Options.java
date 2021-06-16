@@ -19,7 +19,7 @@ public class Options implements Serializable {
 		keyJump = Keys.SPACE;
 		keyLeft = Keys.A;
 		keyRight = Keys.D;
-		keyUp = Keys.SPACE;
+		keyUp = Keys.W;
 		keyDown = Keys.S;
 		keyInv = Keys.E;
 	}
@@ -31,6 +31,56 @@ public class Options implements Serializable {
 
 	public float getViewingrange() {
 		return viewingrange;
+	}
+	
+	
+
+	public int getKeyJump() {
+		return keyJump;
+	}
+
+	public void setKeyJump(int nkeyJump) {
+		keyJump = nkeyJump;
+	}
+
+	public int getKeyLeft() {
+		return keyLeft;
+	}
+
+	public void setKeyLeft(int nkeyLeft) {
+		keyLeft = nkeyLeft;
+	}
+
+	public int getKeyRight() {
+		return keyRight;
+	}
+
+	public void setKeyRight(int nkeyRight) {
+		keyRight = nkeyRight;
+	}
+
+	public int getKeyUp() {
+		return keyUp;
+	}
+
+	public void setKeyUp(int nkeyUp) {
+		keyUp = nkeyUp;
+	}
+
+	public int getKeyDown() {
+		return keyDown;
+	}
+
+	public void setKeyDown(int nkeyDown) {
+		keyDown = nkeyDown;
+	}
+
+	public int getKeyInv() {
+		return keyInv;
+	}
+
+	public void setKeyInv(int nkeyInv) {
+		keyInv = nkeyInv;
 	}
 
 	public static Options loadOptions() {
@@ -58,4 +108,5 @@ public class Options implements Serializable {
 			e.printStackTrace();
 		}
 	}
+	
 }

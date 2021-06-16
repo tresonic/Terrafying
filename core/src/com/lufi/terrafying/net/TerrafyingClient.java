@@ -29,12 +29,15 @@ public class TerrafyingClient {
 	public boolean connected;
 	public boolean connecting;
 	
-	public TerrafyingClient(final World w) {
+	private Options options;
+	
+	public TerrafyingClient(final World w, Options nOptions) {
 		world = w;
 		connected = false;
 		connecting = false;
 		client = new Client(Network.port0, Network.port1);
 		Network.register(client.getKryo());
+		options = nOptions;
 	}
 	
 	public void connect(final String playerName, final String address) {		
@@ -85,7 +88,8 @@ public class TerrafyingClient {
 	
 	public void update(OrthographicCamera camera) {
 		EntityUpdatePacket p = new EntityUpdatePacket();
-		p.entity = world.player;
+		
+		p.entity = (Entity)world.player;
 		client.sendUDP(p);
 		
 		final int chunkDist = (int)(camera.viewportWidth * camera.zoom) / Block.BLOCK_SIZE / Chunk.CHUNK_SIZE + 2;
@@ -123,7 +127,7 @@ public class TerrafyingClient {
 			ConnectionResponsePacket p = (ConnectionResponsePacket)object;
 
 			world.map.addChunk(p.startChunkId, p.startChunk);
-			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name);
+			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name, options);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);

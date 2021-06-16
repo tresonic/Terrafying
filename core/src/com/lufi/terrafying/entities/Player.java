@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
@@ -19,153 +20,142 @@ public class Player extends Entity {
 	private final float JUMP_SPD = 120;
 	private final float GRAVITY = -300;
 	private final float FRICTION = -10;
-	
+
 	private final int INV_SIZE = 27;
-	
+
 	private Vector2i inputDir;
-	private boolean inputJump; 
-	
+	private boolean inputJump;
+
 	private int jumpsLeft;
-	private int jumpCount = 2;	
-	
+	private int jumpCount = 2;
+
 	public Inventory inventory;
+
+	private Options options;
 
 	public Player() {
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
 	}
-	
-	public Player(float x, float y, int id, String nName) {
+
+	public Player(float x, float y, int id, String nName, Options nOptions) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
-		inventory.addItem(new ItemStack(Item.getItemByName("stone"), 50));
-		inventory.addItem(new ItemStack(Item.getItemByName("grass"), 50));
-		inventory.addItem(new ItemStack(Item.getItemByName("testitem"), 5));
-		inventory.addItem(new ItemStack(Item.getItemByName("chest"), 5));
+		options = nOptions;
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
-		if(inputDir.x > 0)
+		if (inputDir.x > 0)
 			speedx += ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
-		else if(inputDir.x < 0)
+		else if (inputDir.x < 0)
 			speedx -= ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else {
-			if((jumpsLeft == jumpCount)) {
+			if ((jumpsLeft == jumpCount)) {
 				speedx += FRICTION * speedx * delta;
 				if (Math.abs(speedx) < 0.01f)
 					speedx = 0;
 			}
 		}
-		
-		if(speedx > MAX_SPD)
-			speedx = MAX_SPD;
-		else if(speedx < -MAX_SPD)
-			speedx = -MAX_SPD;
-			
 
-		if(jumpsLeft > 0 && inputJump) {
+		if (speedx > MAX_SPD)
+			speedx = MAX_SPD;
+		else if (speedx < -MAX_SPD)
+			speedx = -MAX_SPD;
+
+		if (jumpsLeft > 0 && inputJump) {
 			speedy = JUMP_SPD;
 			jumpsLeft--;
 			inputJump = false;
 		}
-		
+
 		speedy += GRAVITY * delta;
-		
+
 		float newposx = posx + speedx * delta;
 		float newposy = posy + speedy * delta;
-		
-		if(speedx > 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy)).getCollidable() 
-				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT / 2)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT)).getCollidable()) 
-			{
+
+		if (speedx > 0) {
+			if (Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT / 2))
+							.getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH + 1, posy + super.HEIGHT))
+							.getCollidable()) {
 				newposx = Math.round(posx);
 				speedx = 0;
 			}
 		}
-		
-		else if(speedx < 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT / 2)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT)).getCollidable()) 
-			{
+
+		else if (speedx < 0) {
+			if (Block.getBlockById(map.getBlockAt(newposx, posy)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT / 2)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx, posy + super.HEIGHT)).getCollidable()) {
 				newposx = Math.round(posx);
 				speedx = 0;
 			}
 		}
-		
-		if(speedy < 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable()
-				|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy)).getCollidable()) 
-			{
-				newposy = ((int)posy);
+
+		if (speedy < 0) {
+			if (Block.getBlockById(map.getBlockAt(newposx, newposy)).getCollidable()
+					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy)).getCollidable()) {
+				newposy = ((int) posy);
 				jumpsLeft = jumpCount;
 				speedy = 0;
 			}
-		}
-		else if(speedy > 0) {
-			if(Block.getBlockById(map.getBlockAt(newposx, newposy + super.HEIGHT)).getCollidable()
-					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy + super.HEIGHT)).getCollidable()) 
-			{
-				newposy = ((int)posy);
+		} else if (speedy > 0) {
+			if (Block.getBlockById(map.getBlockAt(newposx, newposy + super.HEIGHT)).getCollidable() || Block
+					.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy + super.HEIGHT)).getCollidable()) {
+				newposy = ((int) posy);
 				speedy = 0;
 			}
 		}
-		
-		
+
 		posx = newposx;
 		posy = newposy;
-		
-		if(speedx > 0)
+
+		if (speedx > 0)
 			lastMoveDir.x = 1;
-		else if(speedx < 0)
+		else if (speedx < 0)
 			lastMoveDir.x = -1;
-		
+
 		return new Vector2(speedx * delta, speedy * delta);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
 	public boolean keyDown(int keycode) {
-		switch(keycode) {
-		case Keys.W:
+		if (options.getKeyUp() == keycode) {
 			inputDir.y = 1;
-			break;
-		case Keys.S:
+		} else if (options.getKeyDown() == keycode) {
 			inputDir.y = -1;
-			break;
-		case Keys.A:
+		} else if (options.getKeyLeft() == keycode) {
 			inputDir.x = -1;
-			break;
-		case Keys.D:
+		} else if (options.getKeyRight() == keycode) {
 			inputDir.x = 1;
-			break;
-		case Keys.SPACE:
+		} else if (options.getKeyJump() == keycode) {
 			inputJump = true;
-			break;
 		}
+
 		return true;
 	}
 
 	public boolean keyUp(int keycode) {
-		switch(keycode) {
+		switch (keycode) {
 		case Keys.W:
-			if(inputDir.y == 1)
+			if (inputDir.y == 1)
 				inputDir.y = 0;
 			break;
 		case Keys.S:
-			if(inputDir.y == -1)
+			if (inputDir.y == -1)
 				inputDir.y = 0;
 			break;
 		case Keys.A:
-			if(inputDir.x == -1)
+			if (inputDir.x == -1)
 				inputDir.x = 0;
 			break;
 		case Keys.D:
-			if(inputDir.x == 1)
+			if (inputDir.x == 1)
 				inputDir.x = 0;
 			break;
 		case Keys.SPACE:
@@ -183,7 +173,6 @@ public class Player extends Entity {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	public boolean mouseMoved(int screenX, int screenY) {
 		// TODO Auto-generated method stub

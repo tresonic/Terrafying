@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setAutoShapeType(true);
 		world = new World(500, 500);
-		client = new TerrafyingClient(world);
+		client = new TerrafyingClient(world, game.options);
 		client.connect(name, ip);
 		// world.map.generate();
 		
