@@ -55,6 +55,26 @@ public class Item implements Serializable {
 	public static void registerItems() {
 		int start = getNumRegisteredItems();
 		registerItem(++start, MineType.DIRTLIKE, 0.3f, "testitem", false);
+		registerItem(++start, MineType.NONE, 1.0f, "stonesword", false);
+		registerItem(++start, MineType.STONELIKE, 0.9f, "stonepickaxe", false);
+		registerItem(++start, MineType.DIRTLIKE, 0.9f, "stoneshovel", false);
+		registerItem(++start, MineType.NONE, 1.0f, "stonehoe", false);
+		registerItem(++start, MineType.WOODLIKE, 0.9f, "stoneaxe", false);
+		registerItem(++start, MineType.NONE, 1.0f, "ironsword", false);
+		registerItem(++start, MineType.STONELIKE, 0.5f, "ironpickaxe", false);
+		registerItem(++start, MineType.DIRTLIKE, 0.5f, "ironshovel", false);
+		registerItem(++start, MineType.NONE, 1.0f, "ironhoe", false);
+		registerItem(++start, MineType.WOODLIKE, 0.5f, "ironaxe", false);
+		registerItem(++start, MineType.NONE, 1.0f, "diamondsword", false);
+		registerItem(++start, MineType.STONELIKE, 0.3f, "diamondpickaxe", false);
+		registerItem(++start, MineType.DIRTLIKE, 0.3f, "diamondshovel", false);
+		registerItem(++start, MineType.NONE, 1.0f, "diamondhoe", false);
+		registerItem(++start, MineType.WOODLIKE, 0.3f, "diamondaxe", false);
+		registerItem(++start, MineType.NONE, 1.0f, "bow", false);
+		registerItem(++start, MineType.NONE, 1.0f, "brush", false);
+		registerItem(++start, MineType.NONE, 1.0f, "jetpack", false);
+		
+		
 	}
 
 	public static void registerItem(int id, MineType nMineType, float nMineFactor, String nName, boolean nBlockItem) {
