@@ -121,7 +121,6 @@ public class InventoryGui extends BaseGui {
 			if(heldItemStack.count == 0)
 				heldItemStackOffset = itemStackGuis[idx].getClickOffset(x, y);
 			heldItemStack = inventory.changeItemStack(idx, heldItemStack);
-			System.out.println(heldItemStack);
 		}
 		else if(button == Input.Buttons.RIGHT) {
 			if(heldItemStack.count == 0) {

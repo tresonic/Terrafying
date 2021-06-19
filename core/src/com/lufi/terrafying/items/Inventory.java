@@ -41,7 +41,6 @@ public class Inventory implements Serializable {
 		for(int i=0; i<itemStacks.length; i++) {
 			if(itemStacks[i].getId() == item.getId()) {
 				if(itemStacks[i].count >= item.count) {
-					System.out.println("subtracted: " + item.count);
 					itemStacks[i].count -= item.count;
 					return;
 				}
