@@ -1,6 +1,7 @@
 package com.lufi.terrafying.net;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -40,6 +41,7 @@ public class Network {
 				
 				MetaAddPacket.class,
 				MetaUpdatePacket.class,
+				LockUpdatePacket.class,
 				
 				Player.class,
 				Entity.class,
@@ -56,6 +58,7 @@ public class Network {
 				Vector2i.class,
 				Array.class,
 				ArrayList.class,
+				HashMap.class,
 				Object[].class,
 				int[][].class,
 				int[].class
@@ -83,6 +86,8 @@ public class Network {
 		public Chunk startChunk;
 		public Vector2 spawnpoint;
 		public Inventory inventory;
+		public HashMap<Vector2i, Inventory> metadata;
+		public HashMap<Vector2i, Boolean> metaLock;
 	}
 	
 	static public class ChunkRequestPacket {
@@ -130,7 +135,13 @@ public class Network {
 	}
 	
 	static public class MetaUpdatePacket {
-		
+		public Vector2i pos;
+		public Inventory inv;
+	}
+	
+	static public class LockUpdatePacket {
+		public Vector2i pos;
+		public boolean lock;
 	}
 	
 	static public class ServerClosedPacket {}

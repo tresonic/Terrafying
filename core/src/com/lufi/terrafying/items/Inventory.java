@@ -36,6 +36,24 @@ public class Inventory implements Serializable {
 		}
 	}
 	
+	public void removeItem(ItemStack nitem) {
+		ItemStack item = nitem.clone();
+		for(int i=0; i<itemStacks.length; i++) {
+			if(itemStacks[i].getId() == item.getId()) {
+				if(itemStacks[i].count >= item.count) {
+					System.out.println("subtracted: " + item.count);
+					itemStacks[i].count -= item.count;
+					return;
+				}
+				else {
+					
+					item.count -= itemStacks[i].count;
+					itemStacks[i].count = 0;
+				}
+			}
+		}
+	}
+	
 	public ItemStack takeItem(int idx, int takeCount) {
 		if(idx >= 0 && idx >= itemStacks.length)
 			return new ItemStack();
@@ -61,6 +79,16 @@ public class Inventory implements Serializable {
 		ItemStack result = itemStacks[idx];
 		itemStacks[idx] = itemStack;
 		return result;
+	}
+	
+	public int getItemCount(Item item) {
+		int count = 0;
+		for(int i=0; i<itemStacks.length; i++) {
+			if(item.getId() == itemStacks[i].getId()) {
+				count += itemStacks[i].count;
+			}
+		}
+		return count;
 	}
 	
 	public int getSize() {

@@ -138,6 +138,8 @@ public class TerrafyingServer {
 				p.startChunkId = world.map.getChunkIdAt(oPlayer.pos);
 				p.spawnpoint = oPlayer.pos;
 				p.inventory = oPlayer.inv;
+				p.metadata = world.map.getMetadata();
+				p.metaLock = world.map.getMetaLockData();
 				p.name = ((ConnectionRequestPacket)object).name;
 				connection.sendTCP(p);
 			} else {	
@@ -149,6 +151,9 @@ public class TerrafyingServer {
 				p.name = ((ConnectionRequestPacket)object).name;
 				p.inventory = new Inventory(27);
 				p.inventory.addItem(new ItemStack(Item.getItemByName("stone"), 10));
+				p.inventory.addItem(new ItemStack(Item.getItemByName("chest"), 10));
+				p.metadata = world.map.getMetadata();
+				p.metaLock = world.map.getMetaLockData();
 				connection.sendTCP(p);
 			}
 			
@@ -186,6 +191,18 @@ public class TerrafyingServer {
 		if(object instanceof InventoryUpdatePacket) {
 			Entity e = world.entityManager.getEntity(connection.getID());
 			world.playerInvs.put(e.name, ((InventoryUpdatePacket)object).inv);
+		}
+		
+		if(object instanceof MetaUpdatePacket) {
+			MetaUpdatePacket p = (MetaUpdatePacket)object;
+			world.map.setMeta(p.pos, p.inv);
+			server.sendToAllExceptTCP(connection.getID(), p);
+		}
+		
+		if(object instanceof LockUpdatePacket) {
+			LockUpdatePacket p = (LockUpdatePacket)object;
+			world.map.setMetaLock(p.pos, p.lock);
+			server.sendToAllExceptTCP(connection.getID(), p);
 		}
 		
 		if(object instanceof ClientDisconnectPacket) {

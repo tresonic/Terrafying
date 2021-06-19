@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.lufi.terrafying.gui.InventoryGui.InvAction;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.screens.PauseScreen;
@@ -32,15 +33,19 @@ public class GuiManager implements InputProcessor {
 	public static final float HUD_SCALE = 3;
 	
 	private GameScreen gameScreen; 
-	private BaseGui currentGui;
+	BaseGui currentGui;
 	private Hotbar hotbar;
 	
 	private Vector2i spos; // screen position
 	private Vector2i mpos; // screen position, unprojected by hudCamera
 	private Vector2 wpos; // world position, unprojected by camera
 	
-	private boolean guiActive;
+	Vector2 currentMetaPos;
+	
+	boolean guiActive;
+	InventoryGui invGui;
 
+	
 	
 	public GuiManager(GameScreen nGameScreen) {
 		gameScreen = nGameScreen;
@@ -49,12 +54,14 @@ public class GuiManager implements InputProcessor {
 		mpos = new Vector2i();
 		spos = new Vector2i();
 		wpos = new Vector2();
+		currentMetaPos = new Vector2();
 		resolution = new Vector2(1280, 720);
+		invGui = new InventoryGui(gameScreen.world.player.inventory);
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
 		updateMouseWpos();
-		hotbar.update(wpos, gameScreen.world.map, gameScreen.client);
+		hotbar.update(wpos, this, gameScreen.world.map, gameScreen.client);
 				
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
@@ -73,10 +80,20 @@ public class GuiManager implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if(keycode == Keys.E) {
-			if(guiActive)
+			if(guiActive) {
 				currentGui = null;
-			else
-				currentGui = new InventoryGui(gameScreen.world.player.inventory);
+				invGui.invAction = InvAction.CRAFT;
+				if(invGui.metaDirty) {
+					gameScreen.client.sendMetaUpdate(currentMetaPos.x, currentMetaPos.y);
+					invGui.metaDirty = false;
+				}
+				gameScreen.world.map.setMetaLockAt(currentMetaPos, false);
+				gameScreen.client.sendMetaLock(currentMetaPos.x, currentMetaPos.y, false);
+			}
+			else {
+				currentGui = invGui;
+				invGui.updateCraftGui();
+			}
 			guiActive = !guiActive;
 		} else if(guiActive) {
 			currentGui.keyDown(keycode);

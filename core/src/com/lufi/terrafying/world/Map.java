@@ -18,6 +18,7 @@ public class Map implements Serializable {
 	private String name;
 	private HashMap<Vector2i, Chunk> chunks;
 	private HashMap<Vector2i, Inventory> metadata;
+	private HashMap<Vector2i, Boolean> metaLock;
 	
 	public Vector2 spawnpoint = new Vector2(250 * Block.BLOCK_SIZE, 150 * Block.BLOCK_SIZE);
 	
@@ -27,7 +28,10 @@ public class Map implements Serializable {
 		height = nHeight * Chunk.CHUNK_SIZE;
 		chunks = new HashMap<Vector2i, Chunk>();
 		metadata = new HashMap<Vector2i, Inventory>();
+		metaLock = new HashMap<Vector2i, Boolean>();
+		System.out.println("map constructed");
 	}
+	
 	
 	public void generate() {
 		MapGenerator.generate(this, width, height);
@@ -65,6 +69,14 @@ public class Map implements Serializable {
 		sb.end();
 	}
 	
+	public HashMap<Vector2i, Inventory> getMetadata() {
+		return metadata;
+	}
+	
+	public void setMetadata(HashMap<Vector2i, Inventory> nMetadata) {
+		metadata = nMetadata;
+	}
+	
 	public Inventory getMeta(int x, int y) {
 		return metadata.get(new Vector2i(x, y));
 	}
@@ -72,6 +84,72 @@ public class Map implements Serializable {
 	public Inventory getMeta(Vector2i pos) {
 		return metadata.get(pos);
 	}
+	
+	public Inventory getMetaAt(float x, float y) {
+		return getMeta((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE);
+	}
+	
+	public Inventory getMetaAt(Vector2 pos) {
+		return getMeta((int) pos.x / Block.BLOCK_SIZE, (int) pos.y / Block.BLOCK_SIZE);
+	}
+	
+	public Inventory setMeta(int x, int y, Inventory inv) {
+		return metadata.put(new Vector2i(x, y), inv);
+	}
+	
+	public Inventory setMeta(Vector2i pos, Inventory inv) {
+		return metadata.put(pos, inv);
+	}
+	
+	public Inventory setMetaAt(float x, float y, Inventory inv) {
+		return setMeta((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE, inv);
+	}
+	
+	public Inventory setMetaAt(Vector2 pos, Inventory inv) {
+		return setMeta((int) pos.x / Block.BLOCK_SIZE, (int) pos.y / Block.BLOCK_SIZE, inv);
+	}
+	
+	
+	public HashMap<Vector2i, Boolean> getMetaLockData() {
+		return metaLock;
+	}
+	
+	public void setMetaLockData(HashMap<Vector2i, Boolean> nMetaLockData) {
+		metaLock = nMetaLockData;
+	}
+	
+	public boolean getMetaLock(Vector2i pos) {
+		return metaLock.get(pos);
+	}
+	
+	public boolean getMetaLock(int x, int y) {
+		return getMetaLock(new Vector2i(x, y));
+	}
+	
+	public boolean getMetaLockAt(Vector2 pos) {
+		return getMetaLock((int) pos.x / Block.BLOCK_SIZE, (int) pos.y / Block.BLOCK_SIZE);
+	}
+	
+	public boolean getMetaLockAt(float x, float y) {
+		return getMetaLock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE);
+	}
+	
+	public void setMetaLock(Vector2i pos, boolean lock) {
+		metaLock.put(pos, lock);
+	}
+	
+	public void setMetaLock(int x, int y, boolean lock) {
+		metaLock.put(new Vector2i(x, y), lock);
+	}
+	
+	public void setMetaLockAt(Vector2 pos, boolean lock) {
+		setMetaLock((int) pos.x / Block.BLOCK_SIZE, (int) pos.y / Block.BLOCK_SIZE, lock);
+	}
+	
+	public void setMetaLockAt(float x, float y, boolean lock) {
+		setMetaLock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE, lock);
+	}
+	
 	
 	public int getBlock(int x, int y) {
 		if(x <= 0 || y <= 0)
@@ -89,16 +167,17 @@ public class Map implements Serializable {
 		return getBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE);
 	}
 	
-	public void setBlockAt(float x, float y, int block) {
-		setBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE, block);
+	public boolean setBlockAt(float x, float y, int block) {
+		return setBlock((int) x / Block.BLOCK_SIZE, (int) y / Block.BLOCK_SIZE, block);
 	}
 	
-	public void setBlock(int x, int y, int block) {
+	public boolean setBlock(int x, int y, int block) {
 		Vector2i chunkId = new Vector2i(x / Chunk.CHUNK_SIZE, y / Chunk.CHUNK_SIZE);
 		Chunk c = chunks.get(chunkId);
 		
 		Vector2i pos = new Vector2i(x, y);
 		if(Block.getBlockById(block).getHasMeta()) {
+			metaLock.put(pos, false);
 			if(metadata.get(pos) == null) {
 				metadata.put(pos, new Inventory(27));
 			} else {
@@ -106,22 +185,25 @@ public class Map implements Serializable {
 					metadata.remove(pos);
 					metadata.put(pos,  new Inventory(27));
 				} else {
-					return;
+					return false;
 				}
 			}
 		} else {
 			if(metadata.get(pos) != null) {
 				if(metadata.get(pos).isEmpty()) {
 					metadata.remove(pos);
+					metaLock.remove(pos);
 				} else {
-					return;
+					return false;
 				}
 			}
 		}
 		
 		if(c != null) {
 			c.setBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE, block);
+			return true;
 		} 
+		return false;
 	}
 	
 	public Vector2i getChunkIdAt(float x, float y) {

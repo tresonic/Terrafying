@@ -26,10 +26,12 @@ public class MapGenerator {
 		int dirtLayerHeight = height / 100;
 		float smoothingFactor = 0.5f;
 		
+		
+		int nextTree = 15;
 		// basic map gen with stone + dirt on top
 		for(int x=0; x<width; x++) {
 			int stoneHeight = (int) ((n1.getNoise(x, 0) * smoothingFactor + 1) * stoneLayerHeight);
-			int dirtHeight = (int) ((n2.getNoise(x, 0) + 1) * dirtLayerHeight);
+			int dirtHeight = (int) ((n2.getNoise(x, 0) + 1) * dirtLayerHeight);			
 			
 			//System.out.println("s: " +  stoneHeight + ", d: " + dirtHeight);
 			
@@ -42,10 +44,17 @@ public class MapGenerator {
 			}
 			
 			for(int y = stoneHeight + dirtHeight; y<height; y++) {
-				map.setBlock(x, y, Block.getBlockByName("air").getId());
+				if(map.getBlock(x, y) == 0)
+					map.setBlock(x, y, Block.getBlockByName("air").getId());
 			}
 			
 			map.setBlock(x, stoneHeight+dirtHeight, Block.getBlockByName("grass").getId());
+			
+			if(nextTree-- <= 0) {
+				map.setBlock(x, stoneHeight+dirtHeight, Block.getBlockByName("dirt").getId());
+				placeTree(map, x, stoneHeight+dirtHeight+1);
+				nextTree = ThreadLocalRandom.current().nextInt(3, 50);
+			}
 		}
 		
 		// add ores to mapgen
@@ -105,5 +114,23 @@ public class MapGenerator {
 			}
 		}
 		
+	}
+	
+	private static void placeTree(Map map, int posx, int posy) {
+		int trunkHeight = 4;
+		
+		for(int y = posy; y < posy + trunkHeight; y++) {
+			map.setBlock(posx, y, Block.getBlockByName("oakwood").getId());
+		}
+		
+		posy += trunkHeight;
+		
+		for(int x=-2; x<3; x++) {
+			for(int y=-1; y<3; y++) {
+				if(map.getBlock(posx + x, posy + y) !=  Block.getBlockByName("oakwood").getId()) {
+					map.setBlock(posx + x, posy + y, Block.getBlockByName("oakwoodleaves").getId());
+				}
+			}
+		}
 	}
 }

@@ -13,17 +13,32 @@ import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
+import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
 
 public class InventoryGui extends BaseGui {
-	private static final int ITEM_WIDTH = 9;
+	public static final int ITEM_WIDTH = 9;
+	
+	public static float WIDTH = (ITEM_WIDTH * Block.BLOCK_SIZE + ITEM_WIDTH * GuiManager.MARGIN * 2 + GuiManager.MARGIN) * GuiManager.HUD_SCALE;
+	public static float STARTX = GuiManager.WIDTH / 2 - WIDTH / 2;
+	float starty = GuiManager.HEIGHT - GuiManager.HEIGHT / 2 - GuiManager.HEIGHT / 3;
 	
 	private Inventory inventory;
 	private ItemStackGui itemStackGuis[];
 	
-	private ItemStack heldItemStack;
-	private Vector2 heldItemStackPos;
-	private Vector2 heldItemStackOffset;
+	ItemStack heldItemStack;
+	Vector2 heldItemStackPos;
+	Vector2 heldItemStackOffset;
+	
+	enum InvAction {
+		CRAFT, CHEST,
+	}
+	
+	InvAction invAction;
+	CraftGui craftGui;
+	ChestGui chestGui;
+	
+	boolean metaDirty;
 	
 	public InventoryGui(Inventory nInventory) {
 		inventory = nInventory;
@@ -31,14 +46,15 @@ public class InventoryGui extends BaseGui {
 		heldItemStackOffset = new Vector2();
 		heldItemStack = new ItemStack();
 		
+		craftGui = new CraftGui(inventory);
+		chestGui = new ChestGui();
+		metaDirty = false;
+		invAction = InvAction.CRAFT;
 		
-		float width = (ITEM_WIDTH * Block.BLOCK_SIZE + ITEM_WIDTH * GuiManager.MARGIN * 2 + GuiManager.MARGIN) * GuiManager.HUD_SCALE;
-		float startx = GuiManager.WIDTH / 2 - width / 2;
-		float starty = GuiManager.HEIGHT - GuiManager.HEIGHT / 2 - GuiManager.HEIGHT / 3;
 		itemStackGuis = new ItemStackGui[inventory.getSize()];
 		for(int x=0; x<ITEM_WIDTH; x++) {
 			for(int y=0; y<inventory.getSize()/ITEM_WIDTH; y++) {
-				itemStackGuis[x + y*ITEM_WIDTH] = new ItemStackGui(startx + x*ItemStackGui.SIZE, starty + y*ItemStackGui.SIZE);
+				itemStackGuis[x + y*ITEM_WIDTH] = new ItemStackGui(STARTX + x*ItemStackGui.SIZE, starty + y*ItemStackGui.SIZE);
 			}
 		}
 	}
@@ -51,6 +67,14 @@ public class InventoryGui extends BaseGui {
 			itemStackGuis[i].draw(sb, sr, inventory.getItemStack(i));
 		}
 		
+		
+		if(invAction == InvAction.CRAFT) {
+			craftGui.draw(sb, sr, delta);
+		}
+		else if(invAction == InvAction.CHEST) {
+			chestGui.draw(sb, sr, delta);
+		}
+		
 		sb.begin();
 		if(heldItemStack.count > 0) {
 			sb.draw(Item.getItemTexture(heldItemStack.getId()), heldItemStackPos.x - heldItemStackOffset.x, heldItemStackPos.y - heldItemStackOffset.y, 
@@ -60,8 +84,8 @@ public class InventoryGui extends BaseGui {
 					heldItemStackPos.y - heldItemStackOffset.y + GuiManager.MARGIN * GuiManager.HUD_SCALE + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY());
 			
 		}
+				
 		sb.end();
-		
 	}
 
 	@Override
@@ -84,12 +108,20 @@ public class InventoryGui extends BaseGui {
 	@Override
 	public void mouseDown(int x, int y, int button) {
 		int idx = getClickedItemStack(x, y);
-		if(idx == -1)
+		if(idx == -1) {
+			if(invAction == InvAction.CRAFT) {
+				craftGui.mouseDown(x, y, button);
+			}
+			else if(invAction == InvAction.CHEST) {
+				metaDirty = chestGui.mouseDown(x, y, button, this);
+			}
 			return;
+		}
 		if(button == Input.Buttons.LEFT) {
 			if(heldItemStack.count == 0)
 				heldItemStackOffset = itemStackGuis[idx].getClickOffset(x, y);
 			heldItemStack = inventory.changeItemStack(idx, heldItemStack);
+			System.out.println(heldItemStack);
 		}
 		else if(button == Input.Buttons.RIGHT) {
 			if(heldItemStack.count == 0) {
@@ -125,5 +157,9 @@ public class InventoryGui extends BaseGui {
 	public void scrolled(float amount) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void updateCraftGui() {
+		craftGui.updateCraftableItems();
 	}
 }

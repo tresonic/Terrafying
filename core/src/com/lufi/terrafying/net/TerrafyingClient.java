@@ -116,6 +116,20 @@ public class TerrafyingClient {
 		client.sendTCP(p);
 	}
 	
+	public void sendMetaUpdate(float x, float y) {
+		MetaUpdatePacket p = new MetaUpdatePacket();
+		p.pos = Map.getBlockPos(x, y);
+		p.inv = world.map.getMeta(p.pos);
+		client.sendTCP(p);
+	}
+	
+	public void sendMetaLock(float x, float y, boolean lock) {
+		LockUpdatePacket p = new LockUpdatePacket();
+		p.pos = Map.getBlockPos(x, y);
+		p.lock = lock;
+		client.sendTCP(p);
+	}
+	
 	public void sendPlayerInv() {
 		InventoryUpdatePacket p = new InventoryUpdatePacket();
 		p.inv = world.player.inventory;
@@ -132,6 +146,8 @@ public class TerrafyingClient {
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);
 			world.player.inventory = p.inventory;
+			world.map.setMetadata(p.metadata);
+			world.map.setMetaLockData(p.metaLock);
 			
 			connecting = false;
 			connected = true;
@@ -166,6 +182,16 @@ public class TerrafyingClient {
 		
 		if(object instanceof InventoryUpdatePacket) {
 			world.player.inventory = ((InventoryUpdatePacket)object).inv;
+		}
+		
+		if(object instanceof MetaUpdatePacket) {
+			MetaUpdatePacket p = (MetaUpdatePacket)object;
+			world.map.setMeta(p.pos, p.inv);
+		}
+		
+		if(object instanceof LockUpdatePacket) {
+			LockUpdatePacket p = (LockUpdatePacket)object;
+			world.map.setMetaLock(p.pos, p.lock);
 		}
 		
 		if(object instanceof ServerClosedPacket) {

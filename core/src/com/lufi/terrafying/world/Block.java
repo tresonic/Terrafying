@@ -89,7 +89,7 @@ public class Block {
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "stone");
 		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "dirt");
 		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "grass");
-		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, true, "chest");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, false, true, true, true, "chest");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "coal");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "iron");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "gold");
@@ -105,7 +105,8 @@ public class Block {
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "orangeclay");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "pinkclay");
 		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, true, true, true, false, "redclay");
-		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oakwood");
+		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, false, true, true, false, "oakwood");
+		registerBlock(c++, 1.0f, MineType.NONE, 0, false, true, true, false, "oakwoodleaves");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oakwoodplanks");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "craftingtable");
 		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "whitewool");

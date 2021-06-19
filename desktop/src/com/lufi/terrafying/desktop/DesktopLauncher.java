@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.esotericsoftware.minlog.Log;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.items.Item;
+import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.Block;
 
@@ -15,6 +16,7 @@ public class DesktopLauncher {
 		
 		Block.registerBlocks();
 		Item.registerItems();
+		Recipe.registerRecipes();
 		
 		if(arg.length > 0 && arg[0].contentEquals("server")) {
 			if(arg.length > 1)

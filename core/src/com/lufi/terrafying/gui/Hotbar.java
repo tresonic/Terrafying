@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.gui.InventoryGui.InvAction;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
@@ -67,7 +68,7 @@ public class Hotbar extends BaseGui {
 		sb.setProjectionMatrix(gameScreen.hudCamera.combined);
 	}
 
-	public void update(Vector2 wpos, Map map, TerrafyingClient client) {
+	public void update(Vector2 wpos, GuiManager guiManager, Map map, TerrafyingClient client) {
 		if (digPressed) {
 			int bId = map.getBlockAt(wpos.x, wpos.y);
 			if (!Block.getBlockById(bId).getMineable())
@@ -84,18 +85,33 @@ public class Hotbar extends BaseGui {
 				
 				digPos = newDigPos;
 			} else if(curDigTime >= digTime) {		
-					map.setBlockAt(wpos.x, wpos.y, Block.getBlockByName("air").getId());
-					Item i = Item.getItemById(bId);
-					inventory.addItem(new ItemStack(i, 1));
+					if(map.setBlockAt(wpos.x, wpos.y, Block.getBlockByName("air").getId())) {
+						Item i = Item.getItemById(bId);
+						inventory.addItem(new ItemStack(i, 1));
+						client.sendBlockUpdate(wpos.x, wpos.y);
+					}
 					
 					curDigTime = 0;
 					digging = false;
-					client.sendBlockUpdate(wpos.x, wpos.y);
+					
 			}
 		}
 
 		if (using) {
 			ItemStack wieldItem = inventory.getItemStack(selectedSlot);
+			
+			if(Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getHasMeta() && !map.getMetaLockAt(wpos)) {
+				using = false;
+				guiManager.invGui.invAction = InvAction.CHEST;
+				guiManager.invGui.chestGui.setChestInv(map.getMetaAt(wpos));
+				guiManager.guiActive = true;
+				guiManager.currentGui = guiManager.invGui;
+				guiManager.currentMetaPos.set(wpos);
+				map.setMetaLockAt(wpos, true);
+				client.sendMetaLock(wpos.x, wpos.y, true);
+				return;
+			}
+			
 			if (wieldItem.count != 0) {
 				if (wieldItem.item.getBlockItem()
 						&& Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getName() == "air") {
@@ -111,6 +127,8 @@ public class Hotbar extends BaseGui {
 
 					if (hasNeighbor) {
 						map.setBlockAt(wpos.x, wpos.y, wieldItem.item.getId());
+						if(Block.getBlockById(wieldItem.item.getId()).getHasMeta())
+							using = false;
 						wieldItem.count--;
 						client.sendBlockUpdate(wpos.x, wpos.y);
 					}

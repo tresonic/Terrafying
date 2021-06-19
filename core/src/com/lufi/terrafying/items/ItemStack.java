@@ -2,7 +2,7 @@ package com.lufi.terrafying.items;
 
 import java.io.Serializable;
 
-public class ItemStack implements Serializable {
+public class ItemStack implements Serializable, Cloneable {
 	public static final int STACK_MAX = 99;
 	public Item item;
 	public int count;
@@ -112,4 +112,9 @@ public class ItemStack implements Serializable {
 		ret += "]";
 		return ret;
 	}
+	
+    public ItemStack clone()
+    {
+        return new ItemStack(item, count);
+    }
 }
