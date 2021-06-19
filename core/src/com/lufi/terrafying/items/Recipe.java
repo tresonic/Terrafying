@@ -41,8 +41,6 @@ public class Recipe {
 	
 	public static void registerRecipes() {
 		int c = 0;
-		registerRecipe(c++, RecipeType.NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 3))), new ItemStack(Item.getItemByName("uranium"), 1));
-		registerRecipe(c++, RecipeType.NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 1))), new ItemStack(Item.getItemByName("copper"), 1));
 		registerRecipe(c++, RecipeType.NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwood"), 1))), new ItemStack(Item.getItemByName("oakwoodplanks"), 4));
 		//Items Stone
 		registerRecipe(c++, RecipeType.NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2))), new ItemStack(Item.getItemByName("stonesword"), 1));
