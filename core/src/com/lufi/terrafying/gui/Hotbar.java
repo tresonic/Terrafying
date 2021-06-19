@@ -68,11 +68,24 @@ public class Hotbar extends BaseGui {
 		sb.setProjectionMatrix(gameScreen.hudCamera.combined);
 	}
 
-	public void update(Vector2 wpos, GuiManager guiManager, Map map, TerrafyingClient client) {
+	public void update(Vector2 wpos, Vector2i mpos, GuiManager guiManager, Map map, TerrafyingClient client) {
+		int idx = getClickedItem(mpos);
+		
+		if(idx > -1) {
+			digging = false;
+			using = false;
+			if(digPressed)
+				selectedSlot = idx;
+			return;
+		}
+		
 		if (digPressed) {
 			int bId = map.getBlockAt(wpos.x, wpos.y);
-			if (!Block.getBlockById(bId).getMineable())
+			if (!Block.getBlockById(bId).getMineable()) {
+				digging = false;
+				curDigTime = 0;
 				return;
+			}
 			digging = true;
 			Vector2i newDigPos = Map.getBlockPos(wpos.x, wpos.y);
 			
@@ -135,6 +148,15 @@ public class Hotbar extends BaseGui {
 				}
 			}
 		}
+	}
+	
+	public int getClickedItem(Vector2i mpos) {
+		for(int i=0; i<itemStackGuis.length; i++) {
+			if(itemStackGuis[i].contains(mpos.x, mpos.y)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override

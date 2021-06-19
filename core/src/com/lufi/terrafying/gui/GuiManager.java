@@ -61,7 +61,7 @@ public class GuiManager implements InputProcessor {
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
 		updateMouseWpos();
-		hotbar.update(wpos, this, gameScreen.world.map, gameScreen.client);
+		hotbar.update(wpos, mpos, this, gameScreen.world.map, gameScreen.client);
 				
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
@@ -79,7 +79,7 @@ public class GuiManager implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(keycode == Keys.E) {
+		if(keycode == gameScreen.game.options.getKeyInv()) {
 			if(guiActive) {
 				currentGui = null;
 				invGui.invAction = InvAction.CRAFT;

@@ -127,7 +127,7 @@ public class MapGenerator {
 		
 		for(int x=-2; x<3; x++) {
 			for(int y=-1; y<3; y++) {
-				if(map.getBlock(posx + x, posy + y) !=  Block.getBlockByName("oakwood").getId()) {
+				if(map.getBlock(posx + x, posy + y) !=  Block.getBlockByName("oakwood").getId() && !(y == 2 && (x == -2 || x == 2))) {
 					map.setBlock(posx + x, posy + y, Block.getBlockByName("oakwoodleaves").getId());
 				}
 			}

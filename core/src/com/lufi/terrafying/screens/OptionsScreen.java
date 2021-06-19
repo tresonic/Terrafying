@@ -65,7 +65,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.row();
 		
 
-		Label viewingrangeLabel = new Label("Zoom", game.skin);
+		Label viewingrangeLabel = new Label("FOV", game.skin);
 		root.add(viewingrangeLabel).padRight(5);
 		
 		//public Slider (float min, float max, float stepSize, boolean vertical, Skin skin)
@@ -155,7 +155,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.add(invLabel).spaceBottom(10);
 		
 		
-		invButton = new TextButton(Input.Keys.toString(game.options.getKeyRight()), game.skin);
+		invButton = new TextButton(Input.Keys.toString(game.options.getKeyInv()), game.skin);
 		invButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Inv;	
@@ -167,7 +167,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 		
 		
 		
-		TextButton saveButton = new TextButton("save options", game.skin);
+		TextButton saveButton = new TextButton("save & back", game.skin);
 		saveButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Options.saveOptions(game.options);	
@@ -176,16 +176,6 @@ public class OptionsScreen implements Screen, InputProcessor {
 		});
 		root.add(saveButton).spaceTop(50).colspan(3);
 		root.row();
-		
-		
-		
-		TextButton backButton = new TextButton("back", game.skin);
-		backButton.addListener(new ChangeListener() {
-			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(game.pauseScreen);			
-			}
-		});
-		root.add(backButton).spaceTop(5).colspan(3);
 		
 		
 		
@@ -241,27 +231,33 @@ public class OptionsScreen implements Screen, InputProcessor {
 		if(currentAction == ACTIONS.Left) {
 			game.options.setKeyLeft(keycode);
 			leftButton.setText(Input.Keys.toString(game.options.getKeyLeft()));
+			currentAction = ACTIONS.None;
 			return true;
 		}
 		if(currentAction == ACTIONS.Right) {
 			game.options.setKeyRight(keycode);
 			rightButton.setText(Input.Keys.toString(game.options.getKeyRight()));
+			currentAction = ACTIONS.None;
 			return true;
 		}if(currentAction == ACTIONS.Jump) {
 			game.options.setKeyJump(keycode);
 			jumpButton.setText(Input.Keys.toString(game.options.getKeyJump()));
+			currentAction = ACTIONS.None;
 			return true;
 		}if(currentAction == ACTIONS.Down) {
 			game.options.setKeyDown(keycode);
 			downButton.setText(Input.Keys.toString(game.options.getKeyDown()));
+			currentAction = ACTIONS.None;
 			return true;
 		}if(currentAction == ACTIONS.Up) {
 			game.options.setKeyUp(keycode);
 			upButton.setText(Input.Keys.toString(game.options.getKeyUp()));
+			currentAction = ACTIONS.None;
 			return true;
 		}if(currentAction == ACTIONS.Inv) {
 			game.options.setKeyInv(keycode);
 			invButton.setText(Input.Keys.toString(game.options.getKeyInv()));
+			currentAction = ACTIONS.None;
 			return true;
 		}
 		return false;
