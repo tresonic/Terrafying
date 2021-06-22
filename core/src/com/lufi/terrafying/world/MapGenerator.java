@@ -80,7 +80,7 @@ public class MapGenerator {
 		int spawnX = ThreadLocalRandom.current().nextInt(width / 10, width - width/10);
 		int spawnY = height;
 		for(int i=height; i>0; i--) {
-			if(map.getBlock(spawnX, spawnY - 1) != Block.getBlockByName("air").getId())
+			if(Block.getBlockById(map.getBlock(spawnX, spawnY - 1)).getCollidable())
 				break;
 			spawnY--;
 		}

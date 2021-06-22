@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.entities.Entity;
@@ -16,6 +18,7 @@ public class World {
 	public Map map;
 	public EntityManager entityManager;
 	public Player player;
+
 	
 	public World(int nWidth, int nHeight){
 		map = new Map("client", nWidth, nHeight);
@@ -29,7 +32,9 @@ public class World {
 		cam.position.y = player.posy;
 		player.updateAndGetTranslation(0.02f, map);
 		
+		
 		map.render(cam, sb);
+		
 		
 		sb.begin();
 		for(Entity e : entityManager.getEntities()) {	

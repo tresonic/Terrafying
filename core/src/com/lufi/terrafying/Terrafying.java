@@ -53,7 +53,7 @@ public class Terrafying extends Game {
 		Block.loadBlockTextures(assetManager);
 		Item.loadItemTextures(assetManager);
 		assetManager.load("TerrafyingMensch.png", Texture.class);
-		assetManager.load("TestMensch.png", Texture.class);
+		assetManager.load("background7.png", Texture.class);
 		assetManager.load("wizard.png", Texture.class);
 		assetManager.load("crack.png", Texture.class);
 		assetManager.load("heart1.png", Texture.class);
