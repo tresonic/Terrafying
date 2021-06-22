@@ -106,7 +106,7 @@ public class Block {
 		registerBlock(c++, 1.5f, MineType.STONELIKE, 0, true, true, true, false, "pinkclay");
 		registerBlock(c++, 1.5f, MineType.STONELIKE, 0, true, true, true, false, "redclay");
 		registerBlock(c++, 2.0f, MineType.WOODLIKE, 0, false, true, true, false, "oakwood");
-		registerBlock(c++, 0.5f, MineType.NONE, 0, true, true, true, false, "oakwoodleaves");
+		registerBlock(c++, 0.5f, MineType.NONE, 0, false, true, true, false, "oakwoodleaves");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oakwoodplanks");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "craftingtable");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "whitewool");

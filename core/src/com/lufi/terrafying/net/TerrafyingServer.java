@@ -151,7 +151,8 @@ public class TerrafyingServer {
 				p.name = ((ConnectionRequestPacket)object).name;
 				p.inventory = new Inventory(27);
 				p.inventory.addItem(new ItemStack(Item.getItemByName("stone"), 10));
-				p.inventory.addItem(new ItemStack(Item.getItemByName("chest"), 10));
+				p.inventory.addItem(new ItemStack(Item.getItemByName("admintool"), 1));
+				
 				p.metadata = world.map.getMetadata();
 				p.metaLock = world.map.getMetaLockData();
 				connection.sendTCP(p);

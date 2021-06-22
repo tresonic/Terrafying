@@ -142,6 +142,7 @@ public class TerrafyingClient {
 
 			world.map.addChunk(p.startChunkId, p.startChunk);
 			world.player = new Player(p.spawnpoint.x, p.spawnpoint.y, p.id, p.name, options);
+			world.map.spawnpoint.set(p.spawnpoint);
 			world.player.isPlayer = true;
 			world.entityManager.addEntity(world.player);
 			world.entityManager.addEntities(p.entities);

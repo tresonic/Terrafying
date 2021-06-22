@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.gui.GuiManager;
@@ -78,7 +79,9 @@ public class GameScreen implements Screen {
 		
 		camera.zoom = game.options.getViewingrange();
 		
-		ScreenUtils.clear(104 / 255.0f, 205 / 255.0f, 1, 1);
+		float brightnessFactor = MathUtils.clamp(world.player.posy / (world.map.getHeight() / 5), 0, 1);
+		
+		ScreenUtils.clear(104 / 255.0f * brightnessFactor, 205 / 255.0f * brightnessFactor, 1 * brightnessFactor, 1);
 		
 		spriteBatch.setShader(lightShader);
 		camera.update();

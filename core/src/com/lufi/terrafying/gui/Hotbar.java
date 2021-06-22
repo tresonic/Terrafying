@@ -74,16 +74,21 @@ public class Hotbar extends BaseGui {
 		int healthWidth = Terrafying.assetManager.get("heart1.png", Texture.class).getWidth();
 		int healthHeight = Terrafying.assetManager.get("heart1.png", Texture.class).getHeight();
 		sb.begin();
-		for (int i = 0; i <= 10; i++) {			
+		for (int i = 0; i < 10; i++) {			
 			if (i <= healthPoints)
-				sb.draw(Terrafying.assetManager.get("heart1.png", Texture.class), GuiManager.WIDTH - i* healthWidth * GuiManager.HUD_SCALE, 0, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
+				sb.draw(Terrafying.assetManager.get("heart1.png", Texture.class), GuiManager.WIDTH - (i + 1) * healthWidth * GuiManager.HUD_SCALE - (i + 1) * 3, GuiManager.SCALED_MARGIN, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
 			else 
-				sb.draw(Terrafying.assetManager.get("heart0.png", Texture.class), GuiManager.WIDTH - i* healthWidth * GuiManager.HUD_SCALE, 0, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
+				sb.draw(Terrafying.assetManager.get("heart0.png", Texture.class), GuiManager.WIDTH - (i + 1) * healthWidth * GuiManager.HUD_SCALE - (i + 1) * 3, GuiManager.SCALED_MARGIN, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
 		}
 		sb.end();
 		
 		if (healthPoints <= 0) 
 			gameScreen.game.setScreen(new DeathScreen(gameScreen.game));
+		
+		
+		
+		
+		
 			
 		
 	}

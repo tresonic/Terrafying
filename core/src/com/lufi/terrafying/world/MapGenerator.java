@@ -103,13 +103,13 @@ public class MapGenerator {
 						map.setBlock(x, y, Block.getBlockByName("iron").getId());
 					if(copperNoise.getNoise(x, y) > 0.17)
 						map.setBlock(x, y, Block.getBlockByName("copper").getId());
-					if(goldNoise.getNoise(x, y) > 0.20)
+					if(goldNoise.getNoise(x, y) > 0.20 && y <= 0.2 * height)
 						map.setBlock(x, y, Block.getBlockByName("gold").getId());
-					if(rubyNoise.getNoise(x, y) > 0.23)
+					if(rubyNoise.getNoise(x, y) > 0.23 && y <= 0.2 * height)
 						map.setBlock(x, y, Block.getBlockByName("ruby").getId());
-					if(uraniumNoise.getNoise(x, y) > 0.22)
+					if(uraniumNoise.getNoise(x, y) > 0.22 && y <= 0.1 * height)
 						map.setBlock(x, y, Block.getBlockByName("uranium").getId());
-					if(diamondNoise.getNoise(x, y) > 0.24)
+					if(diamondNoise.getNoise(x, y) > 0.24 && y <= 0.1 * height)
 						map.setBlock(x, y, Block.getBlockByName("diamond").getId());
 					if(coalNoise.getNoise(x, y) > 0.15)
 						map.setBlock(x, y, Block.getBlockByName("coal").getId());

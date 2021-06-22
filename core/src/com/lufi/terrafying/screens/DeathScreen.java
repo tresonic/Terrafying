@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.LoaderSaver;
 
@@ -45,20 +46,18 @@ public class DeathScreen implements Screen {
 		TextButton resumeButton = new TextButton("respawn", game.skin);
 		resumeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(game.gameScreen);			
+				game.gameScreen.world.player.setHealth(Player.MAX_HEALTH);
+				game.gameScreen.world.player.posx = game.gameScreen.world.map.spawnpoint.x;
+				game.gameScreen.world.player.posy = game.gameScreen.world.map.spawnpoint.y;
+				game.gameScreen.world.player.inventory.clear();
+				game.setScreen(game.gameScreen);	
+				
+				
 			}
 		});
 		root.add(resumeButton).padBottom(10);
 		root.row();
 		
-		TextButton optionsButton = new TextButton("maybe mainMenu", game.skin);
-		optionsButton.addListener(new ChangeListener() {
-			public void changed(ChangeEvent event, Actor actor) {
-				game.setScreen(game.optionsScreen);			
-			}
-		});
-		root.add(optionsButton).padBottom(30);
-		root.row();
 		
 		TextButton exitButton = new TextButton("exit game", game.skin);
 		exitButton.addListener(new ChangeListener() {

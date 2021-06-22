@@ -7,7 +7,7 @@ import com.lufi.terrafying.world.Block;
 
 public class Entity implements Serializable {
 	public final float WIDTH = Block.BLOCK_SIZE - 2;
-	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 2;
+	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 6;
 	
 	public float posx;
 	public float posy;

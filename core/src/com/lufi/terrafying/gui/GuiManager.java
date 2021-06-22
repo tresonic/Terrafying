@@ -28,9 +28,10 @@ public class GuiManager implements InputProcessor {
 	public static Color backColor = Color.GRAY;
 	public static Color frontColor = Color.LIGHT_GRAY;
 	public static Color selectColor = Color.RED;
-	public static final int MARGIN = 3;
 	
 	public static final float HUD_SCALE = 3;
+	public static final int MARGIN = 3;
+	public static final float SCALED_MARGIN = MARGIN * HUD_SCALE;
 	
 	private GameScreen gameScreen; 
 	BaseGui currentGui;

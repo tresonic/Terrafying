@@ -16,11 +16,13 @@ public class Map implements Serializable {
 	private int width;
 	private int height;
 	private String name;
+	public Vector2 spawnpoint;
+	
 	private HashMap<Vector2i, Chunk> chunks;
 	private HashMap<Vector2i, Inventory> metadata;
 	private HashMap<Vector2i, Boolean> metaLock;
 	
-	public Vector2 spawnpoint = new Vector2(250 * Block.BLOCK_SIZE, 150 * Block.BLOCK_SIZE);
+	
 	
 	public Map(String nName, int nWidth, int nHeight) {
 		name = nName;
@@ -30,6 +32,7 @@ public class Map implements Serializable {
 		metadata = new HashMap<Vector2i, Inventory>();
 		metaLock = new HashMap<Vector2i, Boolean>();
 		System.out.println("map constructed");
+		spawnpoint = new Vector2();
 	}
 	
 	
@@ -245,5 +248,13 @@ public class Map implements Serializable {
 	
 	public int getNumChunks() {
 		return chunks.size();
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
 	}
 }

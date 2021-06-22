@@ -21,6 +21,10 @@ public class Player extends Entity {
 	private final float GRAVITY = -300;
 	private final float FRICTION = -10;
 
+	public final static int MAX_HEALTH = 10;
+	public final static float REGEN_TIME = 7.5f;
+	
+	
 	private final int INV_SIZE = 27;
 
 	private Vector2i inputDir;
@@ -33,11 +37,17 @@ public class Player extends Entity {
 
 	private Options options;
 
+	int health = 10;
+	private float regTime;
+	
+	
 	public Player() {
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
 	}
-	int health = 10;
+	
+	
+	
 	public Player(float x, float y, int id, String nName, Options nOptions) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
@@ -47,6 +57,14 @@ public class Player extends Entity {
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
+		
+		regTime += delta;
+		if (regTime >= REGEN_TIME && health < MAX_HEALTH) {
+			health++;
+			regTime = 0;
+		}
+		
+		
 		if (inputDir.x > 0)
 			speedx += ((jumpsLeft == jumpCount) ? ACCEL_GROUND : ACCEL_AIR) * delta;
 		else if (inputDir.x < 0)
@@ -100,18 +118,14 @@ public class Player extends Entity {
 					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy)).getCollidable()) {
 				newposy = ((int) posy);
 				jumpsLeft = jumpCount;
-//				if (speedy != -6.0) {
-//				System.out.println(speedy);
-//				}
 				//fall damage (ab 5 blöcke)
 				if(speedy <= -222) {
 					speedy += 222;
 					int healthPointsReduce = (int) speedy;
 					healthPointsReduce /= 21.6;
 					
-					health = health + healthPointsReduce;
-					System.out.println(healthPointsReduce);
-					System.out.println(health);
+					takeDamage(Math.abs(healthPointsReduce));
+
 				}
 				speedy = 0;
 			}
@@ -182,6 +196,18 @@ public class Player extends Entity {
 	public int getHealth() {
 		return health;
 	}
+	
+	public void setHealth(int nHealth) {
+		health = nHealth;
+	}
+	
+	
+	public void takeDamage(int amount) {
+		regTime = 0;
+		health -= amount;
+		
+	}
+
 	
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		return false;

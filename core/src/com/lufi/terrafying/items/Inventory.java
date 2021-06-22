@@ -102,6 +102,13 @@ public class Inventory implements Serializable {
 		return true;
 	}
 	
+	public void clear() {
+		for(int i=0; i<itemStacks.length; i++) {
+			itemStacks[i] = new ItemStack();
+		}
+	}
+	
+	
 	@Override
 	public String toString() {
 		String ret = new String();
