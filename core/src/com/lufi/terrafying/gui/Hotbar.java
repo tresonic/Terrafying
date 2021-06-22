@@ -82,10 +82,11 @@ public class Hotbar extends BaseGui {
 		}
 		sb.end();
 		
-		if (healthPoints <= 0) 
+		if (healthPoints <= 0) {
+			gameScreen.world.map.updateSpawnPoint();
 			gameScreen.game.setScreen(new DeathScreen(gameScreen.game));
 		
-		
+		}
 		
 		
 		
@@ -115,7 +116,7 @@ public class Hotbar extends BaseGui {
 			Vector2i newDigPos = Map.getBlockPos(wpos.x, wpos.y);
 			
 			if(!digPos.equals(newDigPos)) {
-				if(inventory.getItemStack(selectedSlot).item != null && Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType())
+				if(inventory.getItemStack(selectedSlot).item != null && (Block.getBlockById(bId).getMineType() == inventory.getItemStack(selectedSlot).item.getMineType() || inventory.getItemStack(selectedSlot).item.getMineType() == Block.MineType.NONE))
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime() * inventory.getItemStack(selectedSlot).item.getMineFactor();
 				else
 					digTime = Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getMineTime();

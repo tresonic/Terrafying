@@ -84,6 +84,8 @@ public class Network {
 		public ArrayList<Entity> entities;
 		public Vector2i startChunkId;
 		public Chunk startChunk;
+		public int width;
+		public int height;
 		public Vector2 spawnpoint;
 		public Inventory inventory;
 		public HashMap<Vector2i, Inventory> metadata;

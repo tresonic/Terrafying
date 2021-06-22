@@ -136,6 +136,8 @@ public class TerrafyingServer {
 				p.entities = world.entityManager.getEntities();
 				p.startChunk = world.map.getChunkAt(oPlayer.pos);
 				p.startChunkId = world.map.getChunkIdAt(oPlayer.pos);
+				p.width = world.map.getWidth();
+				p.height = world.map.getHeight();
 				p.spawnpoint = oPlayer.pos;
 				p.inventory = oPlayer.inv;
 				p.metadata = world.map.getMetadata();
@@ -148,10 +150,12 @@ public class TerrafyingServer {
 				p.startChunk = world.map.getChunkAt(world.map.spawnpoint);
 				p.startChunkId = world.map.getChunkIdAt(world.map.spawnpoint);
 				p.spawnpoint = world.map.spawnpoint;
+				p.width = world.map.getWidth();
+				p.height = world.map.getHeight();
 				p.name = ((ConnectionRequestPacket)object).name;
 				p.inventory = new Inventory(27);
 				p.inventory.addItem(new ItemStack(Item.getItemByName("stone"), 10));
-				p.inventory.addItem(new ItemStack(Item.getItemByName("admintool"), 1));
+				p.inventory.addItem(new ItemStack(Item.getItemByName("admintool."), 1));
 				
 				p.metadata = world.map.getMetadata();
 				p.metaLock = world.map.getMetaLockData();
