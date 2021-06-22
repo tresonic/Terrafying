@@ -16,6 +16,7 @@ import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.net.TerrafyingClient;
+import com.lufi.terrafying.screens.DeathScreen;
 import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
@@ -49,7 +50,9 @@ public class Hotbar extends BaseGui {
 		selectedSlot = 0;
 	}
 
-
+	
+	
+	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, GameScreen gameScreen, float delta) {
 		sb.setProjectionMatrix(gameScreen.camera.combined);
 		sb.begin();
@@ -78,6 +81,11 @@ public class Hotbar extends BaseGui {
 				sb.draw(Terrafying.assetManager.get("heart0.png", Texture.class), GuiManager.WIDTH - i* healthWidth * GuiManager.HUD_SCALE, 0, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
 		}
 		sb.end();
+		
+		if (healthPoints <= 0) 
+			gameScreen.game.setScreen(new DeathScreen(gameScreen.game));
+			
+		
 	}
 
 	public void update(Vector2 wpos, Vector2i mpos, GuiManager guiManager, Map map, TerrafyingClient client) {
