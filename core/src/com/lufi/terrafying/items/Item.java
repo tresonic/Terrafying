@@ -56,10 +56,10 @@ public class Item implements Serializable {
 		int start = getNumRegisteredItems();
 		registerItem(++start, MineType.DIRTLIKE, 0.3f, "testitem", false);
 		registerItem(++start, MineType.NONE, 1.0f, "stonesword", false);
-		registerItem(++start, MineType.STONELIKE, 0.9f, "stonepickaxe", false);
-		registerItem(++start, MineType.DIRTLIKE, 0.9f, "stoneshovel", false);
+		registerItem(++start, MineType.STONELIKE, 0.75f, "stonepickaxe", false);
+		registerItem(++start, MineType.DIRTLIKE, 0.75f, "stoneshovel", false);
 		registerItem(++start, MineType.NONE, 1.0f, "stonehoe", false);
-		registerItem(++start, MineType.WOODLIKE, 0.9f, "stoneaxe", false);
+		registerItem(++start, MineType.WOODLIKE, 0.75f, "stoneaxe", false);
 		registerItem(++start, MineType.NONE, 1.0f, "ironsword", false);
 		registerItem(++start, MineType.STONELIKE, 0.5f, "ironpickaxe", false);
 		registerItem(++start, MineType.DIRTLIKE, 0.5f, "ironshovel", false);

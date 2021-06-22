@@ -37,12 +37,13 @@ public class Player extends Entity {
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
 	}
-
+	int health = 10;
 	public Player(float x, float y, int id, String nName, Options nOptions) {
 		super(x, y, id, nName);
 		inputDir = new Vector2i();
 		inventory = new Inventory(INV_SIZE);
 		options = nOptions;
+		
 	}
 
 	public Vector2 updateAndGetTranslation(float delta, Map map) {
@@ -99,6 +100,19 @@ public class Player extends Entity {
 					|| Block.getBlockById(map.getBlockAt(newposx + super.WIDTH, newposy)).getCollidable()) {
 				newposy = ((int) posy);
 				jumpsLeft = jumpCount;
+//				if (speedy != -6.0) {
+//				System.out.println(speedy);
+//				}
+				//fall damage (ab 5 blöcke)
+				if(speedy <= -222) {
+					speedy += 222;
+					int healthPointsReduce = (int) speedy;
+					healthPointsReduce /= 21.6;
+					
+					health = health + healthPointsReduce;
+					System.out.println(healthPointsReduce);
+					System.out.println(health);
+				}
 				speedy = 0;
 			}
 		} else if (speedy > 0) {
@@ -164,7 +178,11 @@ public class Player extends Entity {
 		}
 		return true;
 	}
-
+	
+	public int getHealth() {
+		return health;
+	}
+	
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		return false;
 	}

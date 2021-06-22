@@ -51,11 +51,6 @@ public class Hotbar extends BaseGui {
 
 
 	public void draw(SpriteBatch sb, ShapeRenderer sr, GameScreen gameScreen, float delta) {
-		for (int i = 0; i < itemStackGuis.length; i++) {
-			itemStackGuis[i].selected = i == selectedSlot;
-			itemStackGuis[i].draw(sb, sr, inventory.getItemStack(i));
-		}
-		
 		sb.setProjectionMatrix(gameScreen.camera.combined);
 		sb.begin();
 		if(digging) {
@@ -66,6 +61,23 @@ public class Hotbar extends BaseGui {
 		}
 		sb.end();
 		sb.setProjectionMatrix(gameScreen.hudCamera.combined);
+
+		for (int i = 0; i < itemStackGuis.length; i++) {
+			itemStackGuis[i].selected = i == selectedSlot;
+			itemStackGuis[i].draw(sb, sr, inventory.getItemStack(i));
+		}
+		
+		int healthPoints = gameScreen.world.player.getHealth();
+		int healthWidth = Terrafying.assetManager.get("heart1.png", Texture.class).getWidth();
+		int healthHeight = Terrafying.assetManager.get("heart1.png", Texture.class).getHeight();
+		sb.begin();
+		for (int i = 0; i <= 10; i++) {			
+			if (i <= healthPoints)
+				sb.draw(Terrafying.assetManager.get("heart1.png", Texture.class), GuiManager.WIDTH - i* healthWidth * GuiManager.HUD_SCALE, 0, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
+			else 
+				sb.draw(Terrafying.assetManager.get("heart0.png", Texture.class), GuiManager.WIDTH - i* healthWidth * GuiManager.HUD_SCALE, 0, healthWidth * GuiManager.HUD_SCALE, healthHeight * GuiManager.HUD_SCALE);
+		}
+		sb.end();
 	}
 
 	public void update(Vector2 wpos, Vector2i mpos, GuiManager guiManager, Map map, TerrafyingClient client) {

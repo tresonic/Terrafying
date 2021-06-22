@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
+import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
 
 public class ItemStackGui {
@@ -40,9 +41,35 @@ public class ItemStackGui {
 					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
 //			Terrafying.guifont.draw(sb, is.getName(), pos.x + SIZE / 2, 
 //					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
+
 			sb.end();
 		}
 	}
+//	
+//	public void drawCrafting(SpriteBatch sb, ShapeRenderer sr, ItemStack is) {
+//		craftResult = Recipe.getRecipe(is);
+//		sr.begin();
+//		sr.set(ShapeType.Filled);
+//		sr.setColor(selected ? Color.RED : GuiManager.backColor);
+//		sr.rect(pos.x, pos.y, SIZE, SIZE);
+//		sr.setColor(GuiManager.frontColor);
+//		sr.rect(pos.x + GuiManager.MARGIN*GuiManager.HUD_SCALE, pos.y + GuiManager.MARGIN*GuiManager.HUD_SCALE,
+//				SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE, SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE);
+//		sr.end();
+//		
+//		if(is.count > 0) {
+//			sb.begin();
+//			sb.draw(Item.getItemTexture(is.getId()), pos.x + GuiManager.MARGIN * GuiManager.HUD_SCALE, pos.y + GuiManager.MARGIN * GuiManager.HUD_SCALE,
+//					SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE, SIZE - GuiManager.MARGIN*2*GuiManager.HUD_SCALE);
+//			Terrafying.guifont.draw(sb, String.valueOf("x" craftResult), pos.x + 30 + GuiManager.MARGIN * GuiManager.HUD_SCALE, 
+//					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
+////			Terrafying.guifont.draw(sb, is.getName(), pos.x + SIZE / 2, 
+////					pos.y + Terrafying.guifont.getCapHeight() * Terrafying.guifont.getScaleY() + 2 * GuiManager.MARGIN * GuiManager.HUD_SCALE);
+//
+//			sb.end();
+//		}
+//	}
+
 	
 	public boolean contains(float x, float y) {
 		return (pos.x <= x && x <= pos.x + SIZE && pos.y <= y && y <= pos.y + SIZE);

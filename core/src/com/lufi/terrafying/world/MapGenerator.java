@@ -94,6 +94,7 @@ public class MapGenerator {
 		SimplexNoise rubyNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
 		SimplexNoise uraniumNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
 		SimplexNoise diamondNoise = new SimplexNoise(8, 0.4f, ThreadLocalRandom.current().nextInt());
+		SimplexNoise coalNoise = new SimplexNoise(14, 0.4f, ThreadLocalRandom.current().nextInt());
 		
 		for(int x=0; x<width; x++) {
 			for(int y=0; y<height; y++) {
@@ -110,6 +111,8 @@ public class MapGenerator {
 						map.setBlock(x, y, Block.getBlockByName("uranium").getId());
 					if(diamondNoise.getNoise(x, y) > 0.24)
 						map.setBlock(x, y, Block.getBlockByName("diamond").getId());
+					if(coalNoise.getNoise(x, y) > 0.15)
+						map.setBlock(x, y, Block.getBlockByName("coal").getId());
 				}
 			}
 		}
