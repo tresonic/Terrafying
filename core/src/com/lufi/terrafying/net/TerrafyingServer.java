@@ -162,6 +162,11 @@ public class TerrafyingServer {
 					p.inventory.addItem(new ItemStack(Item.getItemByName("admintool"), 1));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("jetpack"), 1));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("computer"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("bricks"), 4));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("window"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("door-open"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("chest"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("oakwoodplanks"), 20));
 				}
 				p.metadata = world.map.getMetadata();
 				p.metaLock = world.map.getMetaLockData();
