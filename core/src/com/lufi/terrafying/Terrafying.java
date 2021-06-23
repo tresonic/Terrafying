@@ -7,6 +7,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.Glyph;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lufi.terrafying.items.Item;
@@ -20,6 +22,7 @@ public class Terrafying extends Game {
 	public static AssetManager assetManager;
 	public Options options;
 	public static BitmapFont font;
+	public static GlyphLayout fontLayout;
 	public static Texture fontTex;
 	public static BitmapFont guifont;
 	public static Texture guifontTex;
@@ -43,6 +46,7 @@ public class Terrafying extends Game {
 		font = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(fontTex), false);
 		font.getData().setScale(0.3f);
 		font.setUseIntegerPositions(false);
+		fontLayout = new GlyphLayout();
 		
 		guifontTex = new Texture(Gdx.files.internal("arial32.png"), true);
 		guifont = new BitmapFont(Gdx.files.internal("arial32.fnt"), new TextureRegion(guifontTex), false);

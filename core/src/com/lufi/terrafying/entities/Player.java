@@ -3,6 +3,7 @@ package com.lufi.terrafying.entities;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
@@ -146,6 +147,11 @@ public class Player extends Entity {
 			lastMoveDir.x = -1;
 
 		return new Vector2(speedx * delta, speedy * delta);
+	}
+	
+	public void fly() {
+		speedy += 20;
+		speedy = MathUtils.clamp(speedy, -10000, 200);
 	}
 
 	public String getName() {

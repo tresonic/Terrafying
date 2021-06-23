@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.entities.EntityManager;
+import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.gui.InventoryGui.InvAction;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
@@ -96,9 +97,9 @@ public class Hotbar extends BaseGui {
 	}
 
 	public void update(Vector2 wpos, Vector2i mpos, GuiManager guiManager, EntityManager entityManager, Map map,
-			TerrafyingClient client) {
+			TerrafyingClient client, Player player) {
 		int idx = getClickedItem(mpos);
-
+		
 		if (idx > -1) {
 			digging = false;
 			using = false;
@@ -106,10 +107,11 @@ public class Hotbar extends BaseGui {
 				selectedSlot = idx;
 			return;
 		}
-
+		
+		float distance = wpos.dst(player.posx + player.WIDTH /2, player.posy + player.HEIGHT/2); 
 		if (digPressed) {
 			int bId = map.getBlockAt(wpos.x, wpos.y);
-			if (!Block.getBlockById(bId).getMineable()) {
+			if (!Block.getBlockById(bId).getMineable() || (distance > 160 && !inventory.getItemStack(selectedSlot).item.getName().equals("admintool"))) {
 				digging = false;
 				curDigTime = 0;
 				return;
@@ -143,7 +145,10 @@ public class Hotbar extends BaseGui {
 
 		if (using) {
 			ItemStack wieldItem = inventory.getItemStack(selectedSlot);
-
+			if (wieldItem.item.getName().contentEquals("jetpack"))
+				player.fly();
+			if (distance > 160)
+				return;
 			if (Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getHasMeta() && !map.getMetaLockAt(wpos)) {
 				using = false;
 				guiManager.invGui.invAction = InvAction.CHEST;

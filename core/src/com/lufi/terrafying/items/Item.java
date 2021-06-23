@@ -73,7 +73,7 @@ public class Item implements Serializable {
 		registerItem(++start, MineType.NONE, 1.0f, "bow", false);
 		registerItem(++start, MineType.NONE, 1.0f, "brush", false);
 		registerItem(++start, MineType.NONE, 1.0f, "jetpack", false);
-		registerItem(++start, MineType.NONE, 0f, "admintool.", false);
+		registerItem(++start, MineType.NONE, 0f, "admintool", false);
 		
 		
 	}
