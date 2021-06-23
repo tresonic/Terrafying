@@ -77,6 +77,8 @@ public class TerrafyingServer {
 			Log.serverLog("starting with NULL map");
 			nWorld.map = new Map(mapname, 50, 15);
 			nWorld.playerInvs = new HashMap<String, Inventory>();
+			nWorld.entityManager = new EntityManager();
+			nWorld.offlinePlayers = new OfflinePlayers();
 			long beg = System.nanoTime();
 			nWorld.map.generate();
 			long end = System.nanoTime();
