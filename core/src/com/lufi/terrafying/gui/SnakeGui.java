@@ -49,6 +49,7 @@ public class SnakeGui extends BaseGui {
 	public void placeFood() {
 		boolean foodInSnake = false;
 		do {
+			foodInSnake = false;
 			food.set(random.nextInt(0, WIDTH), random.nextInt(0, HEIGHT));
 			for (int i = 0; i < snake.size() - 1; i++) {
 				if (food.equals(snake.get(i))) {
@@ -64,7 +65,7 @@ public class SnakeGui extends BaseGui {
 		Vector2i head = snake.get(0);
 
 		if (head.equals(food)) {
-			snake.add(snake.get(snake.size() - 1));
+			snake.add(snake.get(snake.size() - 1).clone());
 			placeFood();
 		}
 
