@@ -20,6 +20,7 @@ import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.net.TerrafyingClient;
 import com.lufi.terrafying.screens.DeathScreen;
 import com.lufi.terrafying.screens.GameScreen;
+import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
@@ -38,6 +39,7 @@ public class Hotbar extends BaseGui {
 	private float digTime;
 
 	private boolean using;
+
 
 	public Hotbar(Inventory nInventory, int nNumSlots) {
 		inventory = nInventory;
@@ -97,7 +99,7 @@ public class Hotbar extends BaseGui {
 	}
 
 	public void update(Vector2 wpos, Vector2i mpos, GuiManager guiManager, EntityManager entityManager, Map map,
-			TerrafyingClient client, Player player) {
+			TerrafyingClient client, Player player, Options options) {
 		int idx = getClickedItem(mpos);
 		
 		if (idx > -1) {
@@ -160,7 +162,12 @@ public class Hotbar extends BaseGui {
 				client.sendMetaLock(wpos.x, wpos.y, true);
 				return;
 			}
-
+			if (Block.getBlockById(map.getBlockAt(wpos.x, wpos.y)).getName().contentEquals("computer")) {
+				using = false;
+				guiManager.guiActive = true;
+				guiManager.currentGui = new SnakeGui(options);
+				return;
+			}
 			if (wieldItem.count != 0) {
 				Vector2i pos = Map.getBlockPos(wpos.x, wpos.y);
 				if (wieldItem.item.getBlockItem()
@@ -177,7 +184,7 @@ public class Hotbar extends BaseGui {
 
 					if (hasNeighbor) {
 						map.setBlockAt(wpos.x, wpos.y, wieldItem.item.getId());
-						if (Block.getBlockById(wieldItem.item.getId()).getHasMeta())
+						if (Block.getBlockById(wieldItem.item.getId()).getHasMeta() || Block.getBlockById(wieldItem.item.getId()).getName().equals("computer"))
 							using = false;
 						wieldItem.count--;
 						client.sendBlockUpdate(wpos.x, wpos.y);

@@ -122,6 +122,7 @@ public class Block {
 		registerBlock(c++, 1.0f, MineType.DIRTLIKE, 0, true, true, true, false, "gravel");
 		registerBlock(c++, 0.5f, MineType.NONE, 0, false, true, true, false, "grassplant");
 		registerBlock(c++, 0.5f, MineType.NONE, 0, false, true, true, false, "door-open");
+		registerBlock(c++, 0.5f, MineType.NONE, 0, false, true, true, false, "computer");
 	}
 
 	public static void registerBlock(int id, float nMineTime, MineType nMineType, float nEmission, boolean nCollidable,

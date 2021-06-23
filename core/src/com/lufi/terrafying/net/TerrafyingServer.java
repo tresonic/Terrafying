@@ -157,10 +157,11 @@ public class TerrafyingServer {
 				p.height = world.map.getHeight();
 				p.name = ((ConnectionRequestPacket) object).name;
 				p.inventory = new Inventory(27);
-				if (clientName.contains("4dm1n")) {
+				if (clientName.contains("4dm1n") || true) {
 					p.inventory.addItem(new ItemStack(Item.getItemByName("stone"), 10));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("admintool"), 1));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("jetpack"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("computer"), 1));
 				}
 				p.metadata = world.map.getMetadata();
 				p.metaLock = world.map.getMetaLockData();

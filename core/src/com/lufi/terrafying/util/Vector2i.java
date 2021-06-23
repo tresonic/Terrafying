@@ -52,6 +52,10 @@ public class Vector2i implements Serializable {
     	this.y += y;
     	return this;
     }
+    
+    public Vector2i clone() {
+    	return new Vector2i(x, y);
+    }
        
     @Override
     public boolean equals(Object other) {

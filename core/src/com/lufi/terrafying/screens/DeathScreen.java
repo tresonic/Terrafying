@@ -38,7 +38,7 @@ public class DeathScreen implements Screen {
 		root = new Table(game.skin);
 		
 		
-		Label titleLabel = new Label("Game over", game.skin);
+		Label titleLabel = new Label("You died", game.skin);
 		titleLabel.setFontScale(2);
 		root.add(titleLabel).spaceBottom(20);
 		root.row();
