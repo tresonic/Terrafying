@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.util.Vector2i;
 
@@ -85,6 +86,17 @@ public class Map implements Serializable {
 
 		}
 
+	}
+
+	public static boolean entityInBlock(Entity e, int bx, int by) {
+		float x = bx * Block.BLOCK_SIZE, y = by * Block.BLOCK_SIZE;
+		float endx = x + Block.BLOCK_SIZE, endy = y + Block.BLOCK_SIZE;
+		
+		if (((e.posx > x && e.posx < endx) || (e.posx + e.WIDTH > x && e.posx + e.WIDTH < endx))
+			&& ((e.posy >= y && e.posy < endy) || (e.posy + e.HEIGHT > y && e.posy + e.HEIGHT < endy)))
+				return true;
+
+		return false;
 	}
 
 	public HashMap<Vector2i, Inventory> getMetadata() {

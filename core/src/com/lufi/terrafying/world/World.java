@@ -26,15 +26,11 @@ public class World {
 	}
 	
 	public void render(float delta, OrthographicCamera cam, ShapeRenderer sh, SpriteBatch sb) {
-		// System.out.println(delta);
-		
 		cam.position.x = player.posx;
 		cam.position.y = player.posy;
-		player.updateAndGetTranslation(0.02f, map);
-		
+		player.updateAndGetTranslation(0.02f, map);		
 		
 		map.render(cam, sb);
-		
 		
 		sb.begin();
 		for(Entity e : entityManager.getEntities()) {	
@@ -43,6 +39,12 @@ public class World {
 				boolean flip = e.getLastMoveDirX() < 0;
 				sb.draw(t, flip ? e.posx + t.getWidth() : e.posx, e.posy, flip ? -t.getWidth() : t.getWidth(), t.getHeight());
 				Terrafying.font.draw(sb, e.name, e.posx, e.posy);
+//				sh.begin();
+//				sh.setProjectionMatrix(cam.combined);
+//				sh.setColor(Color.RED);
+//				sh.circle(e.posx, e.posy + Block.BLOCK_SIZE, 3);
+//				sh.end();
+				
 			} else {				
 				
 				
@@ -50,5 +52,6 @@ public class World {
 		}
 			
 		sb.end();
+
 	}
 }

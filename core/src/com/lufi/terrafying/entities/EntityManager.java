@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.utils.Array;
+import com.lufi.terrafying.world.Map;
 
 public class EntityManager implements Serializable {
 
@@ -63,5 +64,13 @@ public class EntityManager implements Serializable {
 				return entities.get(i);
 		}
 		return null;
+	}
+	
+	public boolean isEntityInBlock(int x, int y) {
+		for(int i=0; i<entities.size(); i++) {
+			if(Map.entityInBlock(entities.get(i), x, y))
+				return true;
+		}
+		return false;
 	}
 }

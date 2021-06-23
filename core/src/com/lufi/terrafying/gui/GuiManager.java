@@ -62,7 +62,7 @@ public class GuiManager implements InputProcessor {
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	
 		updateMouseWpos();
-		hotbar.update(wpos, mpos, this, gameScreen.world.map, gameScreen.client);
+		hotbar.update(wpos, mpos, this, gameScreen.world.entityManager, gameScreen.world.map, gameScreen.client);
 				
 		if(guiActive && currentGui != null)
 			currentGui.draw(sb, sr, delta);
