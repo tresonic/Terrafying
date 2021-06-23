@@ -111,9 +111,11 @@ public class Hotbar extends BaseGui {
 		}
 		
 		float distance = wpos.dst(player.posx + player.WIDTH /2, player.posy + player.HEIGHT/2); 
+		ItemStack wieldItem = inventory.getItemStack(selectedSlot);
+		
 		if (digPressed) {
 			int bId = map.getBlockAt(wpos.x, wpos.y);
-			if (!Block.getBlockById(bId).getMineable() || (distance > 160 && !inventory.getItemStack(selectedSlot).item.getName().equals("admintool"))) {
+			if (!Block.getBlockById(bId).getMineable() || (distance > 160 && (wieldItem.item != null ? !wieldItem.item.getName().equals("admintool") : true))) {
 				digging = false;
 				curDigTime = 0;
 				return;
@@ -146,8 +148,7 @@ public class Hotbar extends BaseGui {
 		}
 
 		if (using) {
-			ItemStack wieldItem = inventory.getItemStack(selectedSlot);
-			if (wieldItem.item.getName().contentEquals("jetpack"))
+			if (wieldItem.item != null && wieldItem.item.getName().contentEquals("jetpack"))
 				player.fly();
 			if (distance > 160)
 				return;
