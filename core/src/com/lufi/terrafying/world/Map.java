@@ -98,6 +98,20 @@ public class Map implements Serializable {
 
 		return false;
 	}
+	
+	public boolean isBlockInRangeAt(int blockId, float posx, float posy, int blockRange) {
+		int bx = (int) (posx / Block.BLOCK_SIZE);
+		int by = (int) (posy / Block.BLOCK_SIZE);
+		
+		for(int x = bx-blockRange; x<bx+blockRange; x++) {
+			for(int y = by-blockRange; y<by+blockRange; y++) {
+				if(getBlock(x, y) == blockId)
+					return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public HashMap<Vector2i, Inventory> getMetadata() {
 		return metadata;

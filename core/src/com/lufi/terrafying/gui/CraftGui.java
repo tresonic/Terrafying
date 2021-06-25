@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
+import com.lufi.terrafying.world.Map;
 
 public class CraftGui extends BaseGui {
 	private static float starty = GuiManager.HEIGHT / 2;
@@ -16,15 +18,28 @@ public class CraftGui extends BaseGui {
 	private ArrayList<ItemStack> craftableItems;
 	private ArrayList<ItemStackGui> craftableItemGuis;
 	
-	public CraftGui(Inventory nInventory) {
+	private Player player;
+	private Map map;
+	
+	public CraftGui(Inventory nInventory, Player nPlayer, Map nMap) {
 		inventory = nInventory;		
 		craftableItemGuis = new ArrayList<ItemStackGui>();
 		craftableItems = new ArrayList<ItemStack>();
+		map = nMap;
+		player = nPlayer;
 		updateCraftableItems();
 	}
 	
 	public void updateCraftableItems() {
-		craftableItems = Recipe.getCraftableItemStacks(inventory);
+		int rType = Recipe.TYPE_NORMAL;
+		
+		if(map.isBlockInRangeAt(Block.getBlockByName("craftingtable").getId(), player.posx + player.WIDTH/2, player.posy + player.HEIGHT/2, 2)) {
+			System.out.println("craftingtable in range");
+			rType |= Recipe.TYPE_CRAFTING;
+		}
+
+		
+		craftableItems = Recipe.getCraftableItemStacks(inventory, rType);
 		craftableItemGuis.clear();
 		for(int i=0; i<craftableItems.size(); i++) {
 			craftableItemGuis.add(new ItemStackGui(InventoryGui.STARTX + i%InventoryGui.ITEM_WIDTH * ItemStackGui.SIZE, starty + i/InventoryGui.ITEM_WIDTH * ItemStackGui.SIZE));

@@ -57,7 +57,7 @@ public class GuiManager implements InputProcessor {
 		wpos = new Vector2();
 		currentMetaPos = new Vector2();
 		resolution = new Vector2(1280, 720);
-		invGui = new InventoryGui(gameScreen.world.player.inventory);
+		invGui = new InventoryGui(gameScreen.world.player.inventory, gameScreen.world.player, gameScreen.world.map);
 	}
 	
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float delta) {	

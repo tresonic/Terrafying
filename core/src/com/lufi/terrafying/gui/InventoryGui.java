@@ -10,11 +10,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
+import com.lufi.terrafying.world.Map;
 
 public class InventoryGui extends BaseGui {
 	public static final int ITEM_WIDTH = 9;
@@ -40,13 +42,13 @@ public class InventoryGui extends BaseGui {
 	
 	boolean metaDirty;
 	
-	public InventoryGui(Inventory nInventory) {
+	public InventoryGui(Inventory nInventory, Player nPlayer, Map nMap) {
 		inventory = nInventory;
 		heldItemStackPos = new Vector2();
 		heldItemStackOffset = new Vector2();
 		heldItemStack = new ItemStack();
 		
-		craftGui = new CraftGui(inventory);
+		craftGui = new CraftGui(inventory, nPlayer, nMap);
 		chestGui = new ChestGui();
 		metaDirty = false;
 		invAction = InvAction.CRAFT;

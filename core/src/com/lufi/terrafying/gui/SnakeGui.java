@@ -22,6 +22,8 @@ public class SnakeGui extends BaseGui {
 	private Options options;
 	private float tickTime;
 	private final float tickSpeed = 0.2f;
+	
+	private boolean dirChange;
 
 	ThreadLocalRandom random = ThreadLocalRandom.current();
 
@@ -30,7 +32,7 @@ public class SnakeGui extends BaseGui {
 	public final float SIZE = InventoryGui.WIDTH / WIDTH;
 
 	public SnakeGui(Options nOptions) {
-
+		dirChange = false;
 		options = nOptions;
 		snake = new ArrayList<Vector2i>();
 		food = new Vector2i();
@@ -60,6 +62,7 @@ public class SnakeGui extends BaseGui {
 	}
 
 	private void tick() {
+		dirChange = false;
 		snake.add(0, snake.get(0).clone().add(direction));
 		snake.remove(snake.size() - 1);
 		Vector2i head = snake.get(0);
@@ -109,25 +112,29 @@ public class SnakeGui extends BaseGui {
 
 	@Override
 	public void keyDown(int keycode) {
-		if (options.getKeyUp() == keycode) {
+		if (options.getKeyUp() == keycode && !dirChange) {
 			if (direction.y != -1) {
 				direction.y = 1;
 				direction.x = 0;
+				dirChange = true;
 			}
-		} else if (options.getKeyDown() == keycode) {
+		} else if (options.getKeyDown() == keycode && !dirChange) {
 			if (direction.y != 1) {
 				direction.y = -1;
 				direction.x = 0;
+				dirChange = true;
 			}
-		} else if (options.getKeyLeft() == keycode) {
+		} else if (options.getKeyLeft() == keycode && !dirChange) {
 			if (direction.x != 1) {
 				direction.x = -1;
 				direction.y = 0;
+				dirChange = true;
 			}
-		} else if (options.getKeyRight() == keycode) {
+		} else if (options.getKeyRight() == keycode && !dirChange) {
 			if (direction.x != -1) {
 				direction.x = 1;
 				direction.y = 0;
+				dirChange = true;
 			}
 		}
 	}
