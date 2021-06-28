@@ -115,6 +115,7 @@ public class Block {
 		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "yellowwool");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "greenwool");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "violetwool");
+		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "orangewool");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "redwool");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "window");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "glass");
