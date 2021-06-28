@@ -116,7 +116,7 @@ public class Hotbar extends BaseGui {
 		
 		if (digPressed) {
 			Entity e = entityManager.getEntityAtPos(wpos.x, wpos.y);
-			if(e != null && wieldItem != null && wieldItem.item.getDamage() > 0) {
+			if(e != null && wieldItem != null && wieldItem.item != null && wieldItem.item.getDamage() > 0) {
 				e.takeDamage(wieldItem.item.getDamage());
 				entityManager.updateEntity(e);
 				client.sendHealthUpdate(e.name, wieldItem.item.getDamage());
