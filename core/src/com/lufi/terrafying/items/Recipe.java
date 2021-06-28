@@ -46,6 +46,7 @@ public class Recipe {
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 1))), new ItemStack(Item.getItemByName("cobble"), 4));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("sand"), 3))), new ItemStack(Item.getItemByName("window"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("sand"), 3))), new ItemStack(Item.getItemByName("glass"), 1));
+		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("dirt"), 1), new ItemStack(Item.getItemByName("grassplant"), 1))), new ItemStack(Item.getItemByName("grass"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwoodleaves"), 1))), new ItemStack(Item.getItemByName("whitewool"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwoodleaves"), 1))), new ItemStack(Item.getItemByName("bluewool"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwoodleaves"), 1))), new ItemStack(Item.getItemByName("yellowwool"), 1));
@@ -80,6 +81,7 @@ public class Recipe {
 		//other Items
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("wool"), 1), new ItemStack(Item.getItemByName("oakwoodplanks"), 2))), new ItemStack(Item.getItemByName("brush"), 1));
 		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 20), new ItemStack(Item.getItemByName("coal"), 50), new ItemStack(Item.getItemByName("uranium"), 5))), new ItemStack(Item.getItemByName("jetpack"), 1));
+		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 10), new ItemStack(Item.getItemByName("copper"), 5), new ItemStack(Item.getItemByName("gold"), 5))), new ItemStack(Item.getItemByName("jetpack"), 1));
 	}
 	
 	public static void registerRecipe(int nId, int nType, ArrayList<ItemStack> nIngredients, ItemStack nResult) {
