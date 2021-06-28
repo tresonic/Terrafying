@@ -33,6 +33,7 @@ public class Network {
 				EntityAddPacket.class,
 				EntityRemovePacket.class,
 				EntityUpdatePacket.class,
+				HealthUpdatePacket.class,
 				ChunkRequestPacket.class,
 				ChunkResponsePacket.class,
 				BlockUpdatePacket.class,
@@ -119,6 +120,13 @@ public class Network {
 		public EntityUpdatePacket() {}
 		
 		public Entity entity;
+	}
+	
+	static public class HealthUpdatePacket {
+		public HealthUpdatePacket() {}
+		
+		public int damage;
+		public String name;
 	}
 	
 	static public class BlockUpdatePacket {

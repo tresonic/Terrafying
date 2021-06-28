@@ -40,6 +40,7 @@ public class Recipe {
 	public static void registerRecipes() {
 		int c = 0;
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwoodplanks"), 4))), new ItemStack(Item.getItemByName("craftingtable"), 1));
+		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 10))), new ItemStack(Item.getItemByName("oven"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwood"), 1))), new ItemStack(Item.getItemByName("oakwoodplanks"), 4));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("oakwoodplanks"), 10))), new ItemStack(Item.getItemByName("chest"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 1))), new ItemStack(Item.getItemByName("cobble"), 4));
@@ -67,10 +68,10 @@ public class Recipe {
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2))), new ItemStack(Item.getItemByName("stonepickaxe"), 1));
 		registerRecipe(c++, TYPE_NORMAL, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("stone"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2))), new ItemStack(Item.getItemByName("stoneaxe"), 1));
 		//Items Iron	
-		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("ironsword"), 1));
-		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("ironhoe"), 1));
-		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 3))), new ItemStack(Item.getItemByName("ironpickaxe"), 1));
-		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 3))), new ItemStack(Item.getItemByName("ironaxe"), 1));
+		registerRecipe(c++, TYPE_CRAFTING | TYPE_OVEN, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("ironsword"), 1));
+		registerRecipe(c++, TYPE_CRAFTING | TYPE_OVEN, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("ironhoe"), 1));
+		registerRecipe(c++, TYPE_CRAFTING | TYPE_OVEN, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 3))), new ItemStack(Item.getItemByName("ironpickaxe"), 1));
+		registerRecipe(c++, TYPE_CRAFTING | TYPE_OVEN, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("iron"), 3), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 3))), new ItemStack(Item.getItemByName("ironaxe"), 1));
 		//Items Diamond
 		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("diamond"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("diamondsword"), 1));
 		registerRecipe(c++, TYPE_CRAFTING, new ArrayList<ItemStack>(Arrays.asList(new ItemStack(Item.getItemByName("diamond"), 2), new ItemStack(Item.getItemByName("oakwoodplanks"), 2), new ItemStack(Item.getItemByName("coal"), 2))), new ItemStack(Item.getItemByName("diamondhoe"), 1));

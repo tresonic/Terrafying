@@ -9,6 +9,9 @@ public class Entity implements Serializable {
 	public final float WIDTH = Block.BLOCK_SIZE - 2;
 	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 6;
 	
+	public final static int MAX_HEALTH = 10;
+	public final static float REGEN_TIME = 7.5f;
+	
 	public float posx;
 	public float posy;
 	public transient float speedx;
@@ -21,6 +24,9 @@ public class Entity implements Serializable {
 	protected Vector2i lastMoveDir;
 	
 	public boolean isPlayer;
+	
+	protected int health = 10;
+	protected float regTime;
 	
 	public Entity() {
 		isPlayer = false;
@@ -52,6 +58,20 @@ public class Entity implements Serializable {
 
 	public boolean isPlayer() {
 		return isPlayer;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int nHealth) {
+		health = nHealth;
+	}
+	
+	
+	public void takeDamage(int amount) {
+		regTime = 0;
+		health -= amount;		
 	}
 	
 	@Override

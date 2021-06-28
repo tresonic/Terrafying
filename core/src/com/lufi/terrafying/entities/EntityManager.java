@@ -66,11 +66,26 @@ public class EntityManager implements Serializable {
 		return null;
 	}
 	
+	public Entity getEntityByName(String name) {
+		for(Entity e : entities)
+			if(e.name.equals(name))
+				return e;
+		return null;
+	}
+	
 	public boolean isEntityInBlock(int x, int y) {
 		for(int i=0; i<entities.size(); i++) {
 			if(Map.entityInBlock(entities.get(i), x, y))
 				return true;
 		}
 		return false;
+	}
+	
+	public Entity getEntityAtPos(float x, float y) {
+		for(Entity e : entities) {
+			if(x > e.posx && x < e.posx + e.WIDTH && y > e.posy && y < e.posy + e.HEIGHT)
+				return e;
+		}
+		return null;
 	}
 }

@@ -157,10 +157,11 @@ public class TerrafyingServer {
 				p.height = world.map.getHeight();
 				p.name = ((ConnectionRequestPacket) object).name;
 				p.inventory = new Inventory(27);
-				if (clientName.contains("4dm1n")) {
+				if (clientName.contains("4dm1n") || true) {
 					p.inventory.addItem(new ItemStack(Item.getItemByName("stone"), 10));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("admintool"), 1));
-					p.inventory.addItem(new ItemStack(Item.getItemByName("jetpack"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("stonesword"), 1));
+					p.inventory.addItem(new ItemStack(Item.getItemByName("ironsword"), 1));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("computer"), 1));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("bricks"), 4));
 					p.inventory.addItem(new ItemStack(Item.getItemByName("window"), 1));
@@ -188,6 +189,11 @@ public class TerrafyingServer {
 			// System.out.println("server received EntityUpdate");
 			world.entityManager.updateEntity(((EntityUpdatePacket) object).entity);
 			server.sendToAllExceptUDP(connection.getID(), object);
+		}
+		
+		if (object instanceof HealthUpdatePacket) {
+			Entity e = world.entityManager.getEntityByName(((HealthUpdatePacket)object).name);
+			server.sendToTCP(e.id, object);
 		}
 
 		if (object instanceof ChunkRequestPacket) {

@@ -110,7 +110,7 @@ public class Block {
 		registerBlock(c++, 0.5f, MineType.NONE, 0, false, true, true, false, "oakwoodleaves");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, true, true, true, false, "oakwoodplanks");
 		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, false, true, true, false, "craftingtable");
-		registerBlock(c++, 1.0f, MineType.WOODLIKE, 0, false, true, true, false, "oven");
+		registerBlock(c++, 1.0f, MineType.STONELIKE, 0, false, true, true, false, "oven");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "whitewool");
 		registerBlock(c++, 0.8f, MineType.NONE, 0, true, true, true, false, "bluewool");
 		registerBlock(c++, 1.0f, MineType.NONE, 0, true, true, true, false, "yellowwool");
@@ -131,7 +131,7 @@ public class Block {
 			boolean nDrawable, boolean nMineable, boolean nHasMeta, String nName) {
 		blockMap.put(id,
 				new Block(id, nMineTime, nMineType, nEmission, nCollidable, nDrawable, nMineable, nHasMeta, nName));
-		Item.registerItem(id, MineType.NONE, 1.0f, nName, true);
+		Item.registerItem(id, 0, MineType.NONE, 1.0f, nName, true);
 	}
 
 	public static int getNumRegisteredBlocks() {

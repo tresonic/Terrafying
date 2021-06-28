@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
+import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.gui.InventoryGui.InvAction;
@@ -114,6 +115,18 @@ public class Hotbar extends BaseGui {
 		ItemStack wieldItem = inventory.getItemStack(selectedSlot);
 		
 		if (digPressed) {
+			Entity e = entityManager.getEntityAtPos(wpos.x, wpos.y);
+			if(e != null && wieldItem != null && wieldItem.item.getDamage() > 0) {
+				e.takeDamage(wieldItem.item.getDamage());
+				entityManager.updateEntity(e);
+				client.sendHealthUpdate(e.name, wieldItem.item.getDamage());
+				digging = false;
+				digPressed = false;
+				curDigTime = 0;
+				return;
+			}
+			
+			
 			int bId = map.getBlockAt(wpos.x, wpos.y);
 			if (!Block.getBlockById(bId).getMineable() || (distance > 160 && (wieldItem.item != null ? !wieldItem.item.getName().equals("admintool") : true))) {
 				digging = false;

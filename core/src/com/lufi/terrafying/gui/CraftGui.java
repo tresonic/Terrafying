@@ -37,6 +37,10 @@ public class CraftGui extends BaseGui {
 			System.out.println("craftingtable in range");
 			rType |= Recipe.TYPE_CRAFTING;
 		}
+		if(map.isBlockInRangeAt(Block.getBlockByName("oven").getId(), player.posx + player.WIDTH/2, player.posy + player.HEIGHT/2, 2)) {
+			System.out.println("oven in range");
+			rType |= Recipe.TYPE_OVEN;
+		}
 
 		
 		craftableItems = Recipe.getCraftableItemStacks(inventory, rType);

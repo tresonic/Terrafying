@@ -116,6 +116,13 @@ public class TerrafyingClient {
 		client.sendTCP(p);
 	}
 	
+	public void sendHealthUpdate(String name, int damage) {
+		HealthUpdatePacket p = new HealthUpdatePacket();
+		p.name = name;
+		p.damage = damage;
+		client.sendTCP(p);
+	}
+	
 	public void sendMetaUpdate(float x, float y) {
 		MetaUpdatePacket p = new MetaUpdatePacket();
 		p.pos = Map.getBlockPos(x, y);
@@ -171,6 +178,10 @@ public class TerrafyingClient {
 		if(object instanceof EntityUpdatePacket) {
 			//System.out.println("client: received EntityUpdate " + ((EntityUpdatePacket)object).entity.id);
 			world.entityManager.updateEntity(((EntityUpdatePacket)object).entity);
+		}
+		
+		if(object instanceof HealthUpdatePacket) {
+			world.player.takeDamage(((HealthUpdatePacket)object).damage);
 		}
 		
 		if(object instanceof ChunkResponsePacket) {

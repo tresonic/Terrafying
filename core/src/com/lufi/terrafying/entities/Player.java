@@ -20,11 +20,7 @@ public class Player extends Entity {
 	private final float MAX_SPD = 80;
 	private final float JUMP_SPD = 120;
 	private final float GRAVITY = -300;
-	private final float FRICTION = -10;
-
-	public final static int MAX_HEALTH = 10;
-	public final static float REGEN_TIME = 7.5f;
-	
+	private final float FRICTION = -10;	
 	
 	private final int INV_SIZE = 27;
 
@@ -37,9 +33,6 @@ public class Player extends Entity {
 	public Inventory inventory;
 
 	private Options options;
-
-	int health = 10;
-	private float regTime;
 	
 	
 	public Player() {
@@ -197,21 +190,6 @@ public class Player extends Entity {
 			break;
 		}
 		return true;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-	
-	public void setHealth(int nHealth) {
-		health = nHealth;
-	}
-	
-	
-	public void takeDamage(int amount) {
-		regTime = 0;
-		health -= amount;
-		
 	}
 
 	
