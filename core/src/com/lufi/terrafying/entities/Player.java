@@ -1,20 +1,16 @@
 package com.lufi.terrafying.entities;
 
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.items.Inventory;
-import com.lufi.terrafying.items.Item;
-import com.lufi.terrafying.items.ItemStack;
 import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
-import com.lufi.terrafying.net.TerrafyingClient;
 
 public class Player extends Entity {
+	private static final long serialVersionUID = 1L;
 	private final float ACCEL_GROUND = 150;
 	private final float ACCEL_AIR = 70;
 	private final float MAX_SPD = 80;

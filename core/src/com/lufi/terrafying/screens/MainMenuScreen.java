@@ -5,17 +5,13 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -35,10 +31,8 @@ public class MainMenuScreen implements Screen {
 	private Table root;
 	
 	private Image logoImage;
-	private Label titleLabel;
 	private Label nameLabel;
 	private TextField nameField;
-	private Label spaceLabel;	
 	private TextButton joinButton;
 	private TextField joinIpField;
 	private SelectBox<String> mapSelectBox;
@@ -68,22 +62,22 @@ public class MainMenuScreen implements Screen {
 		root.add(logoImage).colspan(2).width(75 * 9).height(25 * 9).spaceBottom(50);
 		root.row();
 		
-		nameLabel = new Label("Enter Player Name:", game.skin);
+		nameLabel = new Label("Enter Player Name:", Terrafying.skin);
 		root.add(nameLabel).colspan(2);
 		root.row();
-		nameField = new TextField("", game.skin);
+		nameField = new TextField("", Terrafying.skin);
 		nameField.setText(String.valueOf((char)ThreadLocalRandom.current().nextInt(65, 91)));
 		root.add(nameField).colspan(2).spaceBottom(20);
 		root.row();
 		
-		joinButton = new TextButton("Join", game.skin);
+		joinButton = new TextButton("Join", Terrafying.skin);
 		joinButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty())
 					game.setScreen(new LoadingScreen(game, nameField.getText(), joinIpField.getText()));
 			}
 		});
-		joinIpField = new TextField("", game.skin);
+		joinIpField = new TextField("", Terrafying.skin);
 		root.add(joinIpField).align(Align.right);
 		root.add(joinButton).align(Align.left);
 		root.row();
@@ -104,7 +98,7 @@ public class MainMenuScreen implements Screen {
 		root.add(new Actor()).spaceBottom(4);
 		root.row();
 
-		mapSelectBox = new SelectBox<String>(game.skin);
+		mapSelectBox = new SelectBox<String>(Terrafying.skin);
 		String maps[] = LoaderSaver.getAvailableMaps();
 
 		if(maps.length != 0)
@@ -113,7 +107,7 @@ public class MainMenuScreen implements Screen {
 			mapSelectBox.setItems("no maps found...");
 		root.add(mapSelectBox).align(Align.right);
 		
-		hostButton = new TextButton("Host", game.skin);
+		hostButton = new TextButton("Host", Terrafying.skin);
 		hostButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				if(!nameField.getText().isEmpty() && mapSelectBox.getSelected() != "no maps found...") {
@@ -126,7 +120,7 @@ public class MainMenuScreen implements Screen {
 		root.add(hostButton).align(Align.left);
 		root.row();
 		
-		TextButton testButton = new TextButton("Test", game.skin);
+		TextButton testButton = new TextButton("Test", Terrafying.skin);
 		testButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				TerrafyingServer.the().startTest();
@@ -139,7 +133,7 @@ public class MainMenuScreen implements Screen {
 		root.add(new Actor()).spaceBottom(20);
 		root.row();
 		
-		newMapButton = new TextButton("Create New Map", game.skin);
+		newMapButton = new TextButton("Create New Map", Terrafying.skin);
 		newMapButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.newMapScreen);
@@ -148,7 +142,7 @@ public class MainMenuScreen implements Screen {
 		root.add(newMapButton).colspan(2).spaceBottom(4);
 		root.row();
 		
-		exitButton = new TextButton("Exit", game.skin);
+		exitButton = new TextButton("Exit", Terrafying.skin);
 		exitButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Gdx.app.exit();

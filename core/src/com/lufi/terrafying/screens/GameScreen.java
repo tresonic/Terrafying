@@ -1,6 +1,5 @@
 package com.lufi.terrafying.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.gui.GuiManager;
 import com.lufi.terrafying.net.TerrafyingClient;
-import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.World;

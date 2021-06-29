@@ -1,6 +1,5 @@
 package com.lufi.terrafying.gui;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
-import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
 
 public class ItemStackGui {

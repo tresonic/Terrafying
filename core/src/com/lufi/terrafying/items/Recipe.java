@@ -3,7 +3,6 @@ package com.lufi.terrafying.items;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class Recipe {
 	public static int TYPE_NORMAL = 	0b1;
@@ -32,6 +31,10 @@ public class Recipe {
 	
 	public ItemStack getResult() {
 		return result;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	

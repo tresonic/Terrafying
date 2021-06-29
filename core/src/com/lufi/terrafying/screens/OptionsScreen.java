@@ -1,6 +1,5 @@
 package com.lufi.terrafying.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -9,16 +8,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.util.Options;
-import com.lufi.terrafying.world.LoaderSaver;
 
 public class OptionsScreen implements Screen, InputProcessor {
 
@@ -47,7 +43,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 	
 	public OptionsScreen(final Terrafying nGame) {
 		game = nGame;
-		viewingrangeSlider = new Slider(0.5f, 1.5f, 0.05f, false, game.skin);
+		viewingrangeSlider = new Slider(0.5f, 1.5f, 0.05f, false, Terrafying.skin);
 		currentAction = ACTIONS.None;
 		multiplexer = new InputMultiplexer();
 	}
@@ -56,16 +52,16 @@ public class OptionsScreen implements Screen, InputProcessor {
 	public void show() {
 		
 		stage = new Stage();
-		root = new Table(game.skin);
+		root = new Table(Terrafying.skin);
 		
 		
-		Label titleLabel = new Label("Options", game.skin);
+		Label titleLabel = new Label("Options", Terrafying.skin);
 		titleLabel.setFontScale(2);
 		root.add(titleLabel).spaceBottom(20).colspan(3);
 		root.row();
 		
 
-		Label viewingrangeLabel = new Label("FOV", game.skin);
+		Label viewingrangeLabel = new Label("FOV", Terrafying.skin);
 		root.add(viewingrangeLabel).padRight(5);
 		
 		//public Slider (float min, float max, float stepSize, boolean vertical, Skin skin)
@@ -79,22 +75,22 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.add(viewingrangeSlider);
 		
 		
-		viewingrangeValue = new Label(String.valueOf(Math.round((viewingrangeSlider.getValue() - 0.5) * 100)) + "%", game.skin);
+		viewingrangeValue = new Label(String.valueOf(Math.round((viewingrangeSlider.getValue() - 0.5) * 100)) + "%", Terrafying.skin);
 		root.add(viewingrangeValue).padLeft(5).width(20);
 		root.row();
 		
 		
-		Label controlsLabel = new Label("Controls", game.skin);
+		Label controlsLabel = new Label("Controls", Terrafying.skin);
 		controlsLabel.setFontScale(2);
 		root.add(controlsLabel).spaceBottom(10).colspan(3);
 		root.row();
 		
-		Label leftLabel = new Label("Move left", game.skin);
+		Label leftLabel = new Label("Move left", Terrafying.skin);
 		
 		root.add(leftLabel).spaceBottom(10);
 		
 		
-		leftButton = new TextButton(Input.Keys.toString(game.options.getKeyLeft()), game.skin);
+		leftButton = new TextButton(Input.Keys.toString(game.options.getKeyLeft()), Terrafying.skin);
 		leftButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Left;	
@@ -104,12 +100,12 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.add(leftButton).spaceBottom(10);
 		root.row();
 		
-		Label rightLabel = new Label("Move right", game.skin);
+		Label rightLabel = new Label("Move right", Terrafying.skin);
 		
 		root.add(rightLabel).spaceBottom(10);
 		
 		
-		rightButton = new TextButton(Input.Keys.toString(game.options.getKeyRight()), game.skin);
+		rightButton = new TextButton(Input.Keys.toString(game.options.getKeyRight()), Terrafying.skin);
 		rightButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Right;	
@@ -119,12 +115,12 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.add(rightButton).spaceBottom(10);
 		root.row();
 		
-		Label jumpLabel = new Label("Jump", game.skin);
+		Label jumpLabel = new Label("Jump", Terrafying.skin);
 		
 		root.add(jumpLabel).spaceBottom(10);
 		
 		
-		jumpButton = new TextButton(Input.Keys.toString(game.options.getKeyJump()), game.skin);
+		jumpButton = new TextButton(Input.Keys.toString(game.options.getKeyJump()), Terrafying.skin);
 		jumpButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Jump;	
@@ -134,12 +130,12 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.add(jumpButton).spaceBottom(10);
 		root.row();
 		
-		Label downLabel = new Label("Down", game.skin);
+		Label downLabel = new Label("Down", Terrafying.skin);
 		
 		root.add(downLabel).spaceBottom(10);
 		
 		
-		downButton = new TextButton(Input.Keys.toString(game.options.getKeyDown()), game.skin);
+		downButton = new TextButton(Input.Keys.toString(game.options.getKeyDown()), Terrafying.skin);
 		downButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Down;	
@@ -150,12 +146,12 @@ public class OptionsScreen implements Screen, InputProcessor {
 		root.row();
 		
 		
-		Label invLabel = new Label("Open Inventory", game.skin);
+		Label invLabel = new Label("Open Inventory", Terrafying.skin);
 		
 		root.add(invLabel).spaceBottom(10);
 		
 		
-		invButton = new TextButton(Input.Keys.toString(game.options.getKeyInv()), game.skin);
+		invButton = new TextButton(Input.Keys.toString(game.options.getKeyInv()), Terrafying.skin);
 		invButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				currentAction = ACTIONS.Inv;	
@@ -167,7 +163,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 		
 		
 		
-		TextButton saveButton = new TextButton("save & back", game.skin);
+		TextButton saveButton = new TextButton("save & back", Terrafying.skin);
 		saveButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				Options.saveOptions(game.options);	

@@ -1,10 +1,6 @@
 package com.lufi.terrafying.net;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.List;
-
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -13,7 +9,6 @@ import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.Network.*;
-import com.lufi.terrafying.screens.GameScreen;
 import com.lufi.terrafying.util.Log;
 import com.lufi.terrafying.util.Options;
 import com.lufi.terrafying.world.Block;

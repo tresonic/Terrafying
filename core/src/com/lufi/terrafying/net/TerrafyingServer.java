@@ -5,7 +5,6 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Listener.ThreadedListener;
 import com.lufi.terrafying.entities.Entity;
 import com.lufi.terrafying.entities.EntityManager;
-import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
@@ -18,8 +17,6 @@ import com.lufi.terrafying.world.Map;
 import com.lufi.terrafying.world.ServerWorld;
 
 import java.util.HashMap;
-
-import com.badlogic.gdx.utils.Array;
 
 public class TerrafyingServer {
 	private static TerrafyingServer instance;

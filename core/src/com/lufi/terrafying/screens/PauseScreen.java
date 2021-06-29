@@ -1,21 +1,16 @@
 package com.lufi.terrafying.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.net.TerrafyingServer;
-import com.lufi.terrafying.world.LoaderSaver;
 
 public class PauseScreen implements Screen {
 
@@ -34,15 +29,15 @@ public class PauseScreen implements Screen {
 	public void show() {
 		
 		stage = new Stage();
-		root = new Table(game.skin);
+		root = new Table(Terrafying.skin);
 		
 		
-		Label titleLabel = new Label("Pause", game.skin);
+		Label titleLabel = new Label("Pause", Terrafying.skin);
 		titleLabel.setFontScale(2);
 		root.add(titleLabel).spaceBottom(20);
 		root.row();
 		
-		TextButton resumeButton = new TextButton("resume", game.skin);
+		TextButton resumeButton = new TextButton("resume", Terrafying.skin);
 		resumeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.gameScreen);			
@@ -51,7 +46,7 @@ public class PauseScreen implements Screen {
 		root.add(resumeButton).padBottom(10);
 		root.row();
 		
-		TextButton optionsButton = new TextButton("options", game.skin);
+		TextButton optionsButton = new TextButton("options", Terrafying.skin);
 		optionsButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.setScreen(game.optionsScreen);			
@@ -60,7 +55,7 @@ public class PauseScreen implements Screen {
 		root.add(optionsButton).padBottom(30);
 		root.row();
 		
-		TextButton exitButton = new TextButton("exit game", game.skin);
+		TextButton exitButton = new TextButton("exit game", Terrafying.skin);
 		exitButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.gameScreen.client.disconnect();

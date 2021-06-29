@@ -13,7 +13,7 @@ import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.util.Vector2i;
 
 public class Map implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	private int width;
 	private int height;
 	private String name;

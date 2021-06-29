@@ -3,6 +3,7 @@ package com.lufi.terrafying.items;
 import java.io.Serializable;
 
 public class Inventory implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private ItemStack itemStacks[];
 	
 	public Inventory() {}

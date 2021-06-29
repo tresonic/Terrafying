@@ -3,11 +3,10 @@ package com.lufi.terrafying.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.badlogic.gdx.utils.Array;
 import com.lufi.terrafying.world.Map;
 
 public class EntityManager implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Entity> entities;
 	
 	public EntityManager() {

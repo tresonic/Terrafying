@@ -3,6 +3,7 @@ package com.lufi.terrafying.items;
 import java.io.Serializable;
 
 public class ItemStack implements Serializable, Cloneable {
+	private static final long serialVersionUID = 1L;
 	public static final int STACK_MAX = 99;
 	public Item item;
 	public int count;

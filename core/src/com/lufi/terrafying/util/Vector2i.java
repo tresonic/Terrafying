@@ -3,6 +3,7 @@ package com.lufi.terrafying.util;
 import java.io.Serializable;
 
 public class Vector2i implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public int x;
 	public int y;
 	

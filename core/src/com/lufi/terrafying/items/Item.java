@@ -10,7 +10,7 @@ import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Block.MineType;
 
 public class Item implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private boolean blockItem;

@@ -1,7 +1,6 @@
 package com.lufi.terrafying.gui;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.Color;

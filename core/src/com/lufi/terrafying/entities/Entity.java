@@ -6,6 +6,7 @@ import com.lufi.terrafying.util.Vector2i;
 import com.lufi.terrafying.world.Block;
 
 public class Entity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public final float WIDTH = Block.BLOCK_SIZE - 2;
 	public final float HEIGHT = Block.BLOCK_SIZE * 2 - 6;
 	

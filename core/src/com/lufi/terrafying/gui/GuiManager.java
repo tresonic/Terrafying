@@ -1,23 +1,15 @@
 package com.lufi.terrafying.gui;
 
-import java.util.LinkedList;
-
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.gui.InventoryGui.InvAction;
-import com.lufi.terrafying.net.TerrafyingServer;
 import com.lufi.terrafying.screens.GameScreen;
-import com.lufi.terrafying.screens.PauseScreen;
 import com.lufi.terrafying.util.Vector2i;
-import com.lufi.terrafying.world.Block;
 
 public class GuiManager implements InputProcessor {
 	public static final int WIDTH = 1280;

@@ -1,20 +1,14 @@
 package com.lufi.terrafying.gui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.items.Item;
 import com.lufi.terrafying.items.ItemStack;
-import com.lufi.terrafying.items.Recipe;
 import com.lufi.terrafying.world.Block;
 import com.lufi.terrafying.world.Map;
 

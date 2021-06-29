@@ -8,6 +8,7 @@ import com.lufi.terrafying.items.Inventory;
 import com.lufi.terrafying.net.OfflinePlayers;
 
 public class ServerWorld implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public Map map;
 	public transient HashMap<String, Inventory> playerInvs;
 	public transient EntityManager entityManager;

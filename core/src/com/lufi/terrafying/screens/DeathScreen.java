@@ -1,22 +1,17 @@
 package com.lufi.terrafying.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.lufi.terrafying.Terrafying;
 import com.lufi.terrafying.entities.Player;
 import com.lufi.terrafying.net.TerrafyingServer;
-import com.lufi.terrafying.world.LoaderSaver;
 
 public class DeathScreen implements Screen {
 
@@ -35,15 +30,15 @@ public class DeathScreen implements Screen {
 	public void show() {
 		
 		stage = new Stage();
-		root = new Table(game.skin);
+		root = new Table(Terrafying.skin);
 		
 		
-		Label titleLabel = new Label("You died", game.skin);
+		Label titleLabel = new Label("You died", Terrafying.skin);
 		titleLabel.setFontScale(2);
 		root.add(titleLabel).spaceBottom(20);
 		root.row();
 		
-		TextButton resumeButton = new TextButton("respawn", game.skin);
+		TextButton resumeButton = new TextButton("respawn", Terrafying.skin);
 		resumeButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.gameScreen.world.player.setHealth(Player.MAX_HEALTH);
@@ -59,7 +54,7 @@ public class DeathScreen implements Screen {
 		root.row();
 		
 		
-		TextButton exitButton = new TextButton("exit game", game.skin);
+		TextButton exitButton = new TextButton("exit game", Terrafying.skin);
 		exitButton.addListener(new ChangeListener() {
 			public void changed(ChangeEvent event, Actor actor) {
 				game.gameScreen.client.disconnect();

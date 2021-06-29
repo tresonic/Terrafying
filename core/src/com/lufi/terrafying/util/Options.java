@@ -7,10 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import com.badlogic.gdx.Input.Keys;
-import com.lufi.terrafying.world.Map;
 
 public class Options implements Serializable {
-
+	private static final long serialVersionUID = 1L;
 	float viewingrange;
 	int keyJump, keyLeft, keyRight, keyUp, keyDown, keyInv;
 
